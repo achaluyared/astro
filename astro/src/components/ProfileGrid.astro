@@ -1,0 +1,107 @@
+---
+import ProfileCard from './ProfileCard.astro';
+import { searchCityOptions } from '../lib/search';
+import type { Profile } from '../lib/data';
+
+interface Props {
+  profiles: Profile[];
+  filters?: boolean;
+  eager?: number;
+  shuffle?: boolean;
+  /** Randomize order inside each tier (Popular, Featured, Homepage, rest). */
+  shuffleTiers?: boolean;
+}
+const { profiles, filters = true, eager = 4, shuffle = false, shuffleTiers = false } = Astro.props;
+const ages = profiles.map((p) => p.age).filter((a): a is number => a != null);
+const minAge = ages.length ? Math.min(...ages) : 18;
+const maxAge = ages.length ? Math.max(...ages) : 60;
+const cities = searchCityOptions(profiles);
+---
+
+{
+  filters && (
+    <>
+      <form
+        class="filters my-4 mb-6 flex flex-wrap items-end gap-3 rounded-vip border border-vip-line bg-vip-panel p-4 md:gap-4"
+        id="filters"
+        role="search"
+        onsubmit="return false"
+      >
+        <label>
+          Name
+          <input type="search" name="q" placeholder="Search by name" autocomplete="off" />
+        </label>
+        {
+          cities.length > 0 && (
+            <label>
+              City
+              <select name="city">
+                <option value="">All cities</option>
+                {cities.map((c) => (
+                  <option value={c.key}>
+                    {c.label} ({c.count})
+                  </option>
+                ))}
+              </select>
+            </label>
+          )
+        }
+        <label>
+          Age from
+          <input type="number" name="min" min={minAge} max={maxAge} placeholder={String(minAge)} />
+        </label>
+        <label>
+          Age to
+          <input type="number" name="max" min={minAge} max={maxAge} placeholder={String(maxAge)} />
+        </label>
+        <label class="check"><input type="checkbox" name="verified" /> Verified</label>
+        <label class="check"><input type="checkbox" name="featured" /> Featured</label>
+        <label class="check"><input type="checkbox" name="sponsored" /> Popular</label>
+        <label class="check"><input type="checkbox" name="new" /> New</label>
+        <span class="muted" id="result-count" aria-live="polite">{profiles.length} profiles</span>
+      </form>
+    </>
+  )
+}
+
+<div class="grid profile-grid" id="grid">
+  {profiles.map((p, i) => <ProfileCard profile={p} eager={i < eager} />)}
+</div>
+<div class="empty" id="empty" hidden>
+  <p>No profiles match your filters.</p>
+  <p><a href="/search/">Clear filters</a> or <a href="/">browse the home page</a>.</p>
+</div>
+
+{
+  shuffle && (
+    <script is:inline>
+      (function () {
+        var g = document.getElementById('grid');
+        if (!g) return;
+        var c = Array.prototype.slice.call(g.children);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          for (var i = c.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = c[i];
+            c[i] = c[j];
+            c[j] = t;
+          }
+          c.forEach(function (n) {
+            g.appendChild(n);
+          });
+        }
+      })();
+    </script>
+  )
+}
+
+{
+  shuffleTiers && (
+    <script>
+      import { initListingTierShuffle } from '../scripts/shuffle-listing-tiers.ts';
+      initListingTierShuffle('grid');
+    </script>
+  )
+}
+
+{filters && <script>import '../scripts/search-filters.ts';</script>}

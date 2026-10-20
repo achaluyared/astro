@@ -1,0 +1,9 @@
+.env
+.env.server
+cpanel-node-environment.txt
+wp-config-snippet.php
+data/
+uploads/
+dist/
+_redirects
+addis-vip-cpanel.zip

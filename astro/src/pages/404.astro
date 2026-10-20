@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import ProfileGrid from '../components/ProfileGrid.astro';
+import { brand } from '../brand';
+import { sortedProfiles } from '../lib/data';
+import { pageTitle } from '../lib/seo';
+
+const description = `This page is not on ${brand.siteName}. Search profiles or return to the home page.`;
+---
+
+<Base title={pageTitle('Page not found')} description={description} path="/404/" noindex>
+  <h1>Page not found</h1>
+  <p class="muted">This profile or page may have been removed or the link is outdated.</p>
+  <p>
+    <a href="/search/">Search all profiles</a> · <a href="/">Back to home</a>
+  </p>
+  <ProfileGrid profiles={sortedProfiles} filters={false} />
+</Base>

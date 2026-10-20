@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import { brand } from '../brand';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+
+const path = '/testimonials/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Testimonials', path },
+];
+
+const description =
+  brand.id === 'massage'
+    ? 'What clients say about booking massage providers through Massage In Addis Ababa.'
+    : `Read client testimonials about booking verified escorts through ${brand.siteName}. Discretion, quality, and real experiences in Addis Ababa.`;
+---
+
+<Base title={pageTitle('Testimonials')} description={description} path={path} jsonLd={[breadcrumbLd(Astro.site!, crumbs)]}>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a> › <span>Testimonials</span>
+  </nav>
+
+  <h1>Testimonials</h1>
+  <p class="sub">Representative feedback from clients who use our directory (not live WordPress reviews).</p>
+
+  {
+    brand.id === 'massage' ? (
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>Found a therapist in Bole within minutes. Profile matched the photos and she was professional and on time for outcall.</p>
+          <footer>— Client, Bole</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>Direct WhatsApp booking without an agency fee. Rates were exactly as listed on the profile.</p>
+          <footer>— Client, Kazanchis</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>Search filters by service type saved time. I could see who offers deep tissue before messaging anyone.</p>
+          <footer>— Client, CMC</footer>
+        </blockquote>
+      </div>
+    ) : (
+      <div class="panel" style="max-width:600px;margin:2rem 0">
+        <p class="muted" style="margin:0">
+          We're updating this page. Client reviews will appear here soon. In the meantime, browse our verified profiles and see
+          for yourself.
+        </p>
+      </div>
+    )
+  }
+
+  <div class="cta">
+    <a class="btn primary" href="/search/">Browse profiles</a>
+  </div>
+</Base>
+
+<style>
+  .quotes {
+    display: grid;
+    gap: 1rem;
+    max-width: 42rem;
+    margin: 2rem 0;
+  }
+  .quote {
+    margin: 0;
+    padding: 1.25rem 1.35rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .quote p {
+    margin: 0 0 0.75rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .quote footer {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+</style>

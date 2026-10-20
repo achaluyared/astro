@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import ProfileGrid from '../components/ProfileGrid.astro';
+import { brand } from '../brand';
+import { sortedProfiles, isFeatured, isSponsored } from '../lib/data';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+
+const top = sortedProfiles.filter((p) => isFeatured(p) || isSponsored(p));
+---
+
+<Base
+  title={pageTitle('Top Listings')}
+  description={`Featured and sponsored listings on ${brand.siteName}.`}
+  path="/top-listings/"
+  jsonLd={[breadcrumbLd(Astro.site!, [{ name: 'Home', path: '/' }, { name: 'Top Listings', path: '/top-listings/' }])]}
+>
+  <h1>Top Listings</h1>
+  <ProfileGrid profiles={top} filters={false} />
+</Base>

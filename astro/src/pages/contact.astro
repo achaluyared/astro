@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { brand } from '../brand';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+
+const path = '/contact/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Contact', path },
+];
+
+const { whatsapp: WHATSAPP, telegram: TELEGRAM, email, phoneDisplay } = brand.contact;
+const EMAIL = `mailto:${email}`;
+---
+
+<Base
+  title={pageTitle('Contact')}
+  description={`Contact ${brand.siteName} via WhatsApp, Telegram, or email. We respond within 24 hours.`}
+  path={path}
+  jsonLd={[breadcrumbLd(Astro.site!, crumbs)]}
+>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a> › <span>Contact</span>
+  </nav>
+
+  <h1>Contact Us</h1>
+  <p class="sub">Got questions? We've got answers. Our team is ready to assist you with any enquiries you may have.</p>
+
+  <div class="prose">
+    <p>We're here to help, so don't hesitate to reach out anytime. We respond within 24 hours.</p>
+  </div>
+
+  <div class="contact-cards">
+    <a class="contact-card" href={WHATSAPP} rel="noopener" target="_blank">
+      <span class="label">WhatsApp</span>
+      <span class="value">{phoneDisplay}</span>
+    </a>
+    <a class="contact-card" href={TELEGRAM} rel="noopener" target="_blank">
+      <span class="label">Telegram</span>
+      <span class="value">{phoneDisplay}</span>
+    </a>
+    <a class="contact-card" href={EMAIL}>
+      <span class="label">Email</span>
+      <span class="value">{email}</span>
+    </a>
+  </div>
+</Base>
+
+<style>
+  .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 800px; }
+  .contact-card { display: grid; gap: .3rem; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.3rem; text-align: center; color: var(--text); }
+  .contact-card:hover { text-decoration: none; border-color: var(--gold); }
+  .contact-card .label { color: var(--gold-2); font-size: .9rem; }
+  .contact-card .value { font-weight: 600; }
+</style>

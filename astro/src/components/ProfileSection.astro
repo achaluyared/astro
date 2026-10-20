@@ -1,0 +1,49 @@
+---
+import ProfileCard from './ProfileCard.astro';
+import type { Profile } from '../lib/data';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  profiles: Profile[];
+  /** VIP home section card tint. */
+  homeSection?: 'sponsored' | 'featured' | 'homepage';
+}
+const { title, subtitle, description, profiles, homeSection } = Astro.props;
+---
+
+{
+  profiles.length > 0 && (
+    <section class="my-9">
+      <header class="mb-4">
+        <h2 class="mb-1 mt-0 font-serif text-2xl font-semibold text-vip-text">{title}</h2>
+        {subtitle && <p class="home-section-subtitle">{subtitle}</p>}
+        {description && <p class="muted mt-2 max-w-[62ch]">{description}</p>}
+      </header>
+      <div class="grid profile-grid" data-shuffle>
+        {profiles.map((p) => (
+          <ProfileCard profile={p} homeSection={homeSection} />
+        ))}
+      </div>
+      <script is:inline>
+        (function () {
+          var g = document.currentScript.previousElementSibling;
+          if (!g) return;
+          var c = Array.prototype.slice.call(g.children);
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            for (var i = c.length - 1; i > 0; i--) {
+              var j = Math.floor(Math.random() * (i + 1));
+              var t = c[i];
+              c[i] = c[j];
+              c[j] = t;
+            }
+            c.forEach(function (n) {
+              g.appendChild(n);
+            });
+          }
+        })();
+      </script>
+    </section>
+  )
+}

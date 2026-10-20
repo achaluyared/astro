@@ -1,0 +1,178 @@
+/* addisvipgirls.com — champagne silk on charcoal (bg unchanged) */
+:root {
+  --bg: #0f0d10;
+  --panel: #1c1816;
+  --panel-2: #171412;
+  --panel-deep: #0b090c;
+  --line: #3a322c;
+  --text: #f2ebe6;
+  --muted: #a89890;
+  --gold: #d4a574;
+  --gold-2: #ecd0b0;
+  --brand-gold: #e8c4a0;
+  --accent-wa: #25d366;
+  --radius: 14px;
+  --max: 1180px;
+}
+
+.home-split-visual .visual-panel {
+  background: linear-gradient(145deg, #352922 0%, var(--panel-2) 55%, var(--panel) 100%);
+}
+
+/* Listing cards — cinematic overlay (option 1) */
+.card-cinematic .card-cinematic-ph {
+  transition: box-shadow 0.25s ease, outline-color 0.25s ease;
+  outline: 1px solid transparent;
+  outline-offset: 0;
+}
+.card-cinematic:hover .card-cinematic-ph {
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.5);
+  outline-color: rgba(212, 165, 116, 0.42);
+}
+.card-cinematic-img {
+  transition: transform 0.55s ease;
+  will-change: transform;
+}
+.card-cinematic:hover .card-cinematic-img {
+  transform: scale(1.05);
+}
+.card-cinematic-grad {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(8, 6, 10, 0.92) 0%,
+    rgba(8, 6, 10, 0.38) 40%,
+    transparent 64%
+  );
+}
+.card-cinematic-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 0.85rem 0.75rem 1rem;
+}
+.card-cinematic-caption .meta {
+  color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-cinematic-img,
+  .card-cinematic:hover .card-cinematic-img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Home section card tints (VIP home only) */
+.card-cinematic--sponsored .card-cinematic-ph {
+  box-shadow: inset 0 0 0 2px rgba(232, 196, 160, 0.55);
+}
+.card-cinematic--sponsored:hover .card-cinematic-ph {
+  outline-color: rgba(232, 196, 160, 0.65);
+}
+.card-cinematic--featured .card-cinematic-ph {
+  box-shadow: inset 0 0 0 2px rgba(212, 165, 116, 0.72);
+}
+.card-cinematic--featured:hover .card-cinematic-ph {
+  outline-color: rgba(212, 165, 116, 0.85);
+}
+.card-cinematic--homepage .card-cinematic-ph {
+  box-shadow: inset 0 0 0 2px rgba(122, 158, 196, 0.45);
+}
+.card-cinematic--homepage:hover .card-cinematic-ph {
+  outline-color: rgba(122, 158, 196, 0.6);
+}
+.card-cinematic--sponsored .card-cinematic-grad {
+  background: linear-gradient(
+    to top,
+    rgba(28, 18, 10, 0.94) 0%,
+    rgba(28, 18, 10, 0.4) 42%,
+    transparent 64%
+  );
+}
+.card-cinematic--featured .card-cinematic-grad {
+  background: linear-gradient(
+    to top,
+    rgba(24, 16, 8, 0.94) 0%,
+    rgba(24, 16, 8, 0.38) 42%,
+    transparent 64%
+  );
+}
+.card-cinematic--homepage .card-cinematic-grad {
+  background: linear-gradient(
+    to top,
+    rgba(10, 14, 24, 0.92) 0%,
+    rgba(10, 14, 24, 0.36) 42%,
+    transparent 64%
+  );
+}
+
+/* Main nav — editorial underline (no outline pill on Contact) */
+.nav-editorial-link {
+  position: relative;
+  padding: 0.35rem 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-editorial-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s ease;
+}
+.nav-editorial-link:hover {
+  color: var(--gold-2);
+  text-decoration: none;
+}
+.nav-editorial-link:hover::after,
+.nav-editorial-link.is-active::after {
+  transform: scaleX(1);
+}
+.nav-editorial-link.is-active {
+  color: var(--gold-2);
+}
+
+.nav-drawer--editorial {
+  padding: 0.35rem 0 0.85rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+.nav-editorial-drawer-link {
+  display: block;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  border-top: 1px solid var(--line);
+}
+.nav-editorial-drawer-link:hover {
+  color: var(--gold);
+  background: rgba(212, 165, 116, 0.07);
+  text-decoration: none;
+}
+.nav-editorial-drawer-link.is-active {
+  color: var(--gold-2);
+  box-shadow: inset 3px 0 0 var(--gold);
+  background: rgba(212, 165, 116, 0.09);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-editorial-link::after {
+    transition: none;
+  }
+}

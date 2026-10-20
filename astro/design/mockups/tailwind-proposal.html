@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f0d10" />
+  <title>Mockup · Tailwind CSS proposal · Addis VIP Escorts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vip: {
+              bg: '#0f0d10',
+              panel: '#1a171c',
+              'panel-deep': '#0b090c',
+              line: '#2b262e',
+              text: '#ece8ee',
+              muted: '#a69fab',
+              gold: '#c9a45c',
+              'gold-light': '#e5c885',
+              brand: '#f0b429',
+              join: '#1d2a22',
+            },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Times New Roman', 'serif'],
+          },
+          maxWidth: {
+            site: '1180px',
+          },
+          borderRadius: {
+            vip: '14px',
+          },
+          boxShadow: {
+            card: '0 12px 40px rgba(0,0,0,.45)',
+            glow: '0 0 0 1px rgba(201,164,92,.25)',
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-balance { text-wrap: balance; }
+    }
+  </style>
+</head>
+<body class="bg-vip-bg text-vip-text antialiased pb-24 md:pb-8">
+
+  <!-- Proposal banner (not production) -->
+  <div class="border-b border-vip-gold bg-[#2a2418] px-4 py-2 text-center text-xs text-vip-gold-light">
+    <strong class="text-white">Design mockup only</strong> — Tailwind CSS proposal. Production site still uses plain CSS.
+    <a href="/" class="ml-2 underline decoration-vip-gold/50 hover:text-white">Live home</a>
+    ·
+    <a href="/mockups/tailwind-proposal-profile.html" class="underline decoration-vip-gold/50 hover:text-white">Profile mockup</a>
+    ·
+    <a href="/mockups/daisyui-proposal.html" class="underline decoration-vip-gold/50 hover:text-white">DaisyUI mockup</a>
+    ·
+    <a href="/mockups/samira-proposal-a.html" class="underline decoration-vip-gold/50 hover:text-white">CSS profile mockup</a>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-vip-line bg-vip-panel-deep/95 backdrop-blur-md">
+    <div class="mx-auto flex max-w-site items-center justify-between gap-3 px-4 py-3 md:min-h-16 md:px-4">
+      <a href="#" class="group flex items-center gap-2 no-underline">
+        <span class="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-vip-gold/40 bg-vip-panel text-sm font-bold text-vip-brand md:flex">VIP</span>
+        <span class="font-serif text-lg leading-tight text-white md:text-xl">
+          Addis <span class="text-vip-brand">VIP</span> Escorts
+        </span>
+      </a>
+      <nav class="hidden items-center gap-5 text-sm text-vip-text md:flex">
+        <a href="#" class="hover:text-vip-gold-light no-underline">Home</a>
+        <a href="#" class="hover:text-vip-gold-light no-underline">Categories</a>
+        <a href="#" class="hover:text-vip-gold-light no-underline">Search</a>
+        <a href="#" class="rounded-full border border-vip-gold px-3 py-1.5 text-vip-gold-light hover:bg-vip-gold/10 no-underline">Contact</a>
+      </nav>
+      <button type="button" class="flex h-11 w-11 items-center justify-center rounded-lg border border-vip-line md:hidden" aria-label="Menu">
+        <span class="flex flex-col gap-1.5">
+          <span class="block h-0.5 w-5 bg-vip-text"></span>
+          <span class="block h-0.5 w-5 bg-vip-text"></span>
+          <span class="block h-0.5 w-5 bg-vip-text"></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-site px-4 pt-6">
+    <!-- Search CTA -->
+    <p class="mb-8 text-right text-sm">
+      <a href="/search/" class="text-vip-gold-light hover:underline no-underline">Search all profiles by name, age, verified →</a>
+    </p>
+
+    <!-- Section: Popular -->
+    <section class="mb-12">
+      <header class="mb-5">
+        <h2 class="font-serif text-2xl font-semibold text-white md:text-3xl">Popular Escorts</h2>
+        <p class="mt-1 text-vip-gold-light">Most viewed and highly requested escorts in Addis Ababa.</p>
+      </header>
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <!-- Card 1 -->
+        <article class="group overflow-hidden rounded-vip border border-vip-line bg-vip-panel shadow-card transition hover:border-vip-gold/40 hover:shadow-glow">
+          <a href="#" class="block no-underline">
+            <div class="relative aspect-[3/4] bg-[#231f26]">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=533&fit=crop" alt="" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy" />
+              <span class="absolute left-2 top-2 rounded-full bg-vip-gold px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#1b1305]">Featured</span>
+            </div>
+            <div class="p-3">
+              <h3 class="truncate font-serif text-base font-semibold text-white">Samira</h3>
+              <p class="mt-0.5 text-xs text-vip-muted">24 yrs · Bole</p>
+            </div>
+          </a>
+        </article>
+        <!-- Card 2 -->
+        <article class="group overflow-hidden rounded-vip border border-vip-line bg-vip-panel shadow-card transition hover:border-vip-gold/40">
+          <a href="#" class="block no-underline">
+            <div class="relative aspect-[3/4] bg-[#231f26]">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=533&fit=crop" alt="" class="h-full w-full object-cover group-hover:scale-[1.03] transition duration-500" loading="lazy" />
+              <span class="absolute right-2 top-2 rounded-full border border-emerald-500/50 bg-emerald-950/80 px-2 py-0.5 text-[10px] font-medium text-emerald-300">Verified</span>
+            </div>
+            <div class="p-3">
+              <h3 class="truncate font-serif text-base font-semibold text-white">Liya</h3>
+              <p class="mt-0.5 text-xs text-vip-muted">22 yrs · Kazanchis</p>
+            </div>
+          </a>
+        </article>
+        <!-- Card 3–4 placeholders -->
+        <article class="group overflow-hidden rounded-vip border border-vip-line bg-vip-panel md:block">
+          <div class="aspect-[3/4] bg-gradient-to-b from-vip-panel to-[#231f26]"></div>
+          <div class="p-3"><h3 class="font-serif text-base text-white">…</h3><p class="text-xs text-vip-muted">Same card component</p></div>
+        </article>
+        <article class="group hidden overflow-hidden rounded-vip border border-vip-line bg-vip-panel lg:block">
+          <div class="aspect-[3/4] bg-gradient-to-b from-vip-panel to-[#231f26]"></div>
+          <div class="p-3"><h3 class="font-serif text-base text-white">…</h3></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Join band -->
+    <section class="mb-12 flex flex-col gap-4 rounded-vip border border-vip-line bg-vip-join p-5 md:flex-row md:items-center md:justify-between md:p-6">
+      <h2 class="max-w-xl font-serif text-lg font-semibold text-balance text-white md:text-xl">
+        Are you an Escort in Addis Ababa or Ethiopia? Join our platform and add your profile.
+      </h2>
+      <div class="flex flex-wrap gap-3">
+        <a href="#" class="inline-flex min-h-11 items-center justify-center rounded-full border border-[#075E54] bg-[#075E54] px-5 text-sm font-semibold text-white no-underline hover:brightness-110">WhatsApp</a>
+        <a href="#" class="inline-flex min-h-11 items-center justify-center rounded-full border border-[#0088CC] bg-[#0088CC] px-5 text-sm font-semibold text-white no-underline hover:brightness-110">Telegram</a>
+      </div>
+    </section>
+
+    <!-- Tailwind “why” panel -->
+    <section class="mb-16 grid gap-6 rounded-vip border border-vip-line bg-vip-panel p-6 md:grid-cols-2">
+      <div>
+        <h2 class="font-serif text-xl font-semibold text-vip-gold-light">What Tailwind would change</h2>
+        <ul class="mt-4 space-y-2 text-sm text-vip-muted">
+          <li class="flex gap-2"><span class="text-vip-gold">✓</span> Same VIP palette via <code class="rounded bg-vip-bg px-1 text-vip-text">theme.extend.colors.vip</code></li>
+          <li class="flex gap-2"><span class="text-vip-gold">✓</span> Responsive grids: <code class="rounded bg-vip-bg px-1">grid-cols-2 md:grid-cols-3 lg:grid-cols-4</code></li>
+          <li class="flex gap-2"><span class="text-vip-gold">✓</span> Faster UI tweaks in components (no new CSS file per page)</li>
+          <li class="flex gap-2"><span class="text-vip-gold">✓</span> Purged CSS in production — only classes you use</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-serif text-xl font-semibold text-vip-gold-light">What stays the same</h2>
+        <ul class="mt-4 space-y-2 text-sm text-vip-muted">
+          <li class="flex gap-2"><span class="text-vip-gold">→</span> Astro static build, WordPress sync, URLs, SEO</li>
+          <li class="flex gap-2"><span class="text-vip-gold">→</span> Georgia serif headings + dark VIP look</li>
+          <li class="flex gap-2"><span class="text-vip-gold">→</span> Optional: keep <code class="rounded bg-vip-bg px-1">profile.css</code> for complex profile layout</li>
+        </ul>
+        <p class="mt-4 text-xs text-vip-muted">Migration would be gradual: install @astrojs/tailwind, convert Base + cards first, then profile page.</p>
+      </div>
+    </section>
+
+    <!-- Mini profile strip (mobile-first hint) -->
+    <section class="mb-12 overflow-hidden rounded-vip border border-vip-line bg-vip-panel">
+      <div class="border-b border-vip-line px-4 py-3">
+        <p class="text-xs uppercase tracking-wider text-vip-muted">Profile page · Tailwind tabs (preview)</p>
+      </div>
+      <div class="flex gap-1 overflow-x-auto border-b border-vip-line px-2 py-2 text-sm">
+        <button type="button" class="shrink-0 rounded-full bg-vip-gold px-4 py-2 font-medium text-[#1b1305]">About</button>
+        <button type="button" class="shrink-0 rounded-full px-4 py-2 text-vip-muted hover:bg-vip-line/50">Details</button>
+        <button type="button" class="shrink-0 rounded-full px-4 py-2 text-vip-muted hover:bg-vip-line/50">Services</button>
+        <button type="button" class="shrink-0 rounded-full px-4 py-2 text-vip-muted hover:bg-vip-line/50">Categories</button>
+      </div>
+      <div class="grid gap-4 p-4 md:grid-cols-[1fr_280px]">
+        <p class="text-sm leading-relaxed text-vip-muted">
+          Prose and gallery would use utilities like <span class="text-vip-text">max-w-none md:grid-cols-2</span> — same content width you have today, with sticky contact bar on mobile via <span class="text-vip-text">fixed bottom-0 inset-x-0 md:static</span>.
+        </p>
+        <div class="flex flex-col gap-2">
+          <a href="#" class="flex min-h-12 items-center justify-center rounded-xl bg-vip-gold font-semibold text-[#1b1305] no-underline">Call</a>
+          <a href="#" class="flex min-h-12 items-center justify-center rounded-xl border border-[#25D366] bg-[#075E54]/30 text-emerald-300 no-underline">WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-vip-line bg-vip-panel-deep py-8 text-center text-sm text-vip-muted">
+    <p>Adults only (21+) · <a href="/terms/" class="text-vip-gold-light">Terms</a> · <a href="/privacy/" class="text-vip-gold-light">Privacy</a></p>
+    <p class="mt-2 text-xs">Mockup file: <code class="text-vip-text">/mockups/tailwind-proposal.html</code></p>
+  </footer>
+
+  <!-- Mobile sticky CTA (Tailwind pattern) -->
+  <div class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-vip-line bg-vip-panel-deep/95 p-3 backdrop-blur-md md:hidden">
+    <a href="#" class="flex flex-1 items-center justify-center rounded-xl bg-vip-gold py-3 text-sm font-bold text-[#1b1305] no-underline">Call</a>
+    <a href="#" class="flex flex-1 items-center justify-center rounded-xl border border-vip-line py-3 text-sm text-vip-text no-underline">WhatsApp</a>
+    <button type="button" class="rounded-xl border border-vip-line px-4 text-sm text-vip-muted">More</button>
+  </div>
+
+</body>
+</html>

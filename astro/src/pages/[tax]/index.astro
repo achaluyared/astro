@@ -1,0 +1,15 @@
+---
+// Taxonomy base archives (WordPress taxonomy root URLs): /dadrink/, /features/, /escort-category/, /agency/, …
+import TaxonomyHub from '../../components/TaxonomyHub.astro';
+import { allTaxonomyKeys, taxonomies } from '../../lib/data';
+
+export function getStaticPaths() {
+  return allTaxonomyKeys().map((taxKey) => ({
+    params: { tax: taxonomies[taxKey].basePath },
+    props: { taxKey },
+  }));
+}
+const { taxKey } = Astro.props as { taxKey: string };
+---
+
+<TaxonomyHub taxKey={taxKey} />

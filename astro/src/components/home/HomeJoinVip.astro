@@ -1,0 +1,31 @@
+---
+import { brand } from '../../brand';
+
+const { whatsapp: WHATSAPP, telegram: TELEGRAM } = brand.contact;
+---
+
+<aside class="home-join-vip my-10" aria-label="List your profile">
+  <div class="home-join-vip-photo">
+    <img
+      src="/images/home/join-listing.jpg"
+      alt=""
+      width="800"
+      height="600"
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover object-[center_20%]"
+    />
+  </div>
+  <div class="home-join-vip-copy">
+    <p class="home-join-vip-kicker">List your profile</p>
+    <p class="home-join-vip-title">Are you an escort in Addis Ababa or Ethiopia?</p>
+    <p class="home-join-vip-text">
+      Join Addis VIP Escorts — Ethiopia's trusted directory for independent companions. Get verified, reach serious
+      clients, and grow with featured and premium options.
+    </p>
+    <div class="home-join-vip-btns">
+      <a class="home-join-vip-wa" href={WHATSAPP} rel="noopener noreferrer" target="_blank">WhatsApp us</a>
+      <a class="home-join-vip-tg" href={TELEGRAM} rel="noopener noreferrer" target="_blank">Telegram</a>
+    </div>
+  </div>
+</aside>

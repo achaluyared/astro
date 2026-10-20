@@ -1,0 +1,114 @@
+---
+import LucideIcon from './LucideIcon.astro';
+import { brand } from '../brand';
+import { menus, menuHref } from '../lib/data';
+
+const isVip = brand.id === 'vip';
+const main = (menus['mainmenu_en_US']?.items ?? []).map((i) => ({ ...i, ...menuHref(i.url) }));
+
+const pathNorm = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+function navIsActive(href: string): boolean {
+  const h = href.replace(/\/$/, '') || '/';
+  if (h === '/') return pathNorm === '/';
+  return pathNorm === h || pathNorm.startsWith(`${h}/`);
+}
+---
+
+<div class="site-nav flex shrink-0 items-center gap-2">
+  {
+    isVip ? (
+      <nav class="nav-editorial hidden items-center gap-5 lg:gap-6 md:flex" aria-label="Main">
+        {main.map((i) => (
+          <a
+            class:list={['nav-editorial-link', navIsActive(i.href) && 'is-active']}
+            href={i.href}
+            target={i.target ?? undefined}
+            rel={i.external ? 'noopener' : undefined}
+            aria-current={navIsActive(i.href) ? 'page' : undefined}
+          >
+            {i.title}
+          </a>
+        ))}
+      </nav>
+    ) : (
+      <nav class="hidden items-center gap-5 md:flex" aria-label="Main">
+        {main.map((i) => (
+          <a
+            class="text-vip-text no-underline hover:text-vip-gold-light"
+            href={i.href}
+            target={i.target ?? undefined}
+            rel={i.external ? 'noopener' : undefined}
+          >
+            {i.title}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+
+  <button
+    type="button"
+    class="nav-toggle relative z-[1] flex h-11 w-11 shrink-0 cursor-pointer touch-manipulation items-center justify-center border-0 bg-transparent md:hidden"
+    id="nav-toggle"
+    aria-expanded="false"
+    aria-controls="nav-drawer"
+  >
+    <LucideIcon name="menu" size={22} class="nav-toggle-icon pointer-events-none text-vip-text" />
+    <span class="sr-only">Menu</span>
+  </button>
+</div>
+
+<nav
+  class:list={['nav-drawer', isVip && 'nav-drawer--editorial']}
+  id="nav-drawer"
+  aria-label="Main menu"
+  hidden
+>
+  {
+    main.map((i) => (
+      <a
+        class:list={[
+          isVip ? 'nav-editorial-drawer-link' : 'block border-t border-vip-line px-5 py-3.5 text-base font-medium text-vip-text no-underline hover:text-vip-gold-light',
+          isVip && navIsActive(i.href) && 'is-active',
+        ]}
+        href={i.href}
+        target={i.target ?? undefined}
+        rel={i.external ? 'noopener' : undefined}
+        aria-current={isVip && navIsActive(i.href) ? 'page' : undefined}
+      >
+        {i.title}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .nav-drawer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: #0b090c;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+  .nav-drawer[hidden] {
+    display: none !important;
+  }
+  body.nav-open {
+    overflow: hidden;
+  }
+</style>

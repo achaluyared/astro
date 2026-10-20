@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { brand } from '../brand';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+
+const path = '/faq/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'FAQ', path },
+];
+
+const faqs = brand.faqs;
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const description =
+  brand.id === 'massage'
+    ? 'FAQ for Massage In Addis Ababa: verification, areas, massage types, discretion, payments, and joining as a provider.'
+    : 'Frequently asked questions about Addis VIP Escorts: verification, coverage areas, languages, discretion, payments, travel, bookings, and cancellations.';
+---
+
+<Base
+  title={pageTitle('FAQ')}
+  description={description}
+  path={path}
+  jsonLd={[breadcrumbLd(Astro.site!, crumbs), faqLd]}
+>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a> › <span>FAQ</span>
+  </nav>
+
+  <h1>Frequently Asked Questions</h1>
+  <p class="sub">Contact us if you need any more help.</p>
+
+  <div class="faq-list">
+    {
+      faqs.map((f) => (
+        <details class="faq-item">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .faq-list { max-width: 75ch; margin-top: 1.5rem; }
+  .faq-item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin-bottom: .6rem; overflow: hidden; }
+  .faq-item summary { padding: .9rem 1.1rem; cursor: pointer; font-weight: 600; list-style: none; position: relative; padding-right: 2.5rem; }
+  .faq-item summary::after { content: '+'; position: absolute; right: 1rem; color: var(--gold-2); font-size: 1.3rem; }
+  .faq-item[open] summary::after { content: '–'; }
+  .faq-item p { padding: 0 1.1rem 1rem; margin: 0; color: var(--muted); }
+</style>

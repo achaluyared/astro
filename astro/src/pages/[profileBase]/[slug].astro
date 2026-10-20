@@ -1,0 +1,460 @@
+---
+import '../../styles/profile.css';
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import ProfileCard from '../../components/ProfileCard.astro';
+import ProfileStatusBadges from '../../components/ProfileStatusBadges.astro';
+import TrustNotice from '../../components/TrustNotice.astro';
+import { profiles, taxonomies, termName, recommendedProfiles, type Profile } from '../../lib/data';
+import { availableImages, loadImage } from '../../lib/images';
+import { profileTitle, profileDescription, breadcrumbLd, profilePersonLd } from '../../lib/seo';
+import ContactIcon from '../../components/ContactIcon.astro';
+import { whatsappProfileHref, contactLinks } from '../../lib/contact';
+import { getImage } from 'astro:assets';
+
+export function getStaticPaths() {
+  return profiles.map((profile) => {
+    const [, base, slug] = profile.path.split('/');
+    return { params: { profileBase: base, slug }, props: { profile } };
+  });
+}
+const { profile: p } = Astro.props as { profile: Profile };
+
+const LIST_PREVIEW = 6;
+const DAY_ABBR = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+const imgs = availableImages(p);
+const alt = (i: number) => `${p.title} - photo ${i + 1}`;
+
+const gallery = await Promise.all(
+  imgs.map(async (im) => {
+    const src = (await loadImage(im.file))!;
+    const [grid, thumb, full] = await Promise.all([
+      getImage({ src, width: 720, height: 900, fit: 'cover', format: 'webp', quality: 78 }),
+      getImage({ src, width: 136, height: 136, fit: 'cover', format: 'webp', quality: 78 }),
+      getImage({ src, width: 1280, format: 'webp', quality: 78 }),
+    ]);
+    return {
+      grid: grid.src,
+      thumb: thumb.src,
+      full: full.src,
+      width: full.attributes.width ?? 1600,
+      height: full.attributes.height ?? 2000,
+    };
+  }),
+);
+const ogImage = gallery[0]?.full;
+const gallerySlides = gallery.map((g, i) => ({
+  src: g.full,
+  preview: g.grid,
+  width: g.width,
+  height: g.height,
+  alt: alt(i),
+}));
+
+const rateRows = Array.from(new Set([...Object.keys(p.rates.incall), ...Object.keys(p.rates.outcall)]));
+const RATE_ORDER = ['15min', '30min', '45min', '1h', '2h', '3h', '4h', '6h', '12h', '24h', '48h', 'overnight'];
+rateRows.sort((a, b) => RATE_ORDER.indexOf(a) - RATE_ORDER.indexOf(b));
+const RATE_LABEL: Record<string, string> = {
+  '15min': '15 mins', '30min': '30 mins', '45min': '45 mins', '1h': '1 hour', '2h': '2 hours', '3h': '3 hours',
+  '4h': '4 hours', '6h': '6 hours', '12h': '12 hours', '24h': '24 hours', '48h': '48 hours', overnight: 'Overnight',
+};
+
+const waNumber = (p.contact.whatsapp ?? p.contact.phone ?? '').replace(/\D/g, '');
+const waHref = waNumber ? whatsappProfileHref(waNumber, p.title) : null;
+const phoneDisplay = p.contact.phoneRaw ?? p.contact.phone ?? '';
+const links = contactLinks(p);
+const sheetLinks = links.filter((l) => l.type !== 'telegram');
+const telegramLink = links.find((l) => l.type === 'telegram');
+const relFor = (l: { nofollow?: boolean }) => (l.nofollow ? 'noopener nofollow' : 'noopener');
+const defaultTab = p.description ? 'about' : 'details';
+
+function attr(tax: string) {
+  const slug = p.taxonomies[tax]?.[0];
+  if (!slug || !taxonomies[tax]) return null;
+  return { slug, name: termName(tax, slug), base: taxonomies[tax].basePath };
+}
+const gender = attr('dagender');
+const ethnicityAttr = attr('dathnicity');
+const ethnicity = ethnicityAttr?.name ?? null;
+const sexuality = attr('dasexuality');
+const eyes = attr('daeyes');
+const hair = attr('dahair');
+const body = attr('dabody');
+const drink = attr('dadrink');
+const smoke = attr('dasmoke');
+
+const services = (p.taxonomies.features ?? []).map((s) => ({ slug: s, name: termName('features', s) }));
+const categories = (p.taxonomies.listing ?? []).map((s) => ({ slug: s, name: termName('listing', s) }));
+
+const recommended = recommendedProfiles(p);
+
+const metaParts = [
+  p.age ? `${p.age} yrs` : null,
+  p.heightCm ? `${p.heightCm} cm` : null,
+  p.location.city ?? p.location.state,
+  ethnicity,
+].filter(Boolean);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  ...(p.taxonomies.country?.includes('addis-ababa') ? [{ name: 'Addis Ababa', path: '/country/addis-ababa/' }] : []),
+  { name: p.title, path: p.path },
+];
+---
+
+<Base
+  title={profileTitle(p)}
+  description={profileDescription(p)}
+  path={p.path}
+  ogImage={ogImage}
+  ogType="article"
+  jsonLd={[breadcrumbLd(Astro.site!, crumbs), profilePersonLd(Astro.site!, p, ogImage)]}
+>
+  <div
+    class="profile-page"
+    data-profile-slug={p.slug}
+    data-profile-title={p.title}
+    data-profile-path={p.path}
+  >
+    <nav class="crumbs" aria-label="Breadcrumb">
+      {crumbs.map((c, i) => (
+        <>
+          {i > 0 && ' › '}
+          {i < crumbs.length - 1 ? <a href={c.path}>{c.name}</a> : <span>{c.name}</span>}
+        </>
+      ))}
+    </nav>
+
+    <div class="profile-shell">
+      <div class="gallery-zone">
+        {gallery.length > 0 ? (
+          <>
+            <div class="gallery-main" id="hero" data-index="0" data-pswp-data-id="pswp-data">
+              <img
+                src={gallery[0].grid}
+                alt={alt(0)}
+                id="hero-img"
+                class="hero-gallery-img"
+                width="720"
+                height="900"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
+              <button type="button" class="open-lightbox" id="hero-open-lightbox" aria-label="Open full screen gallery"></button>
+              {gallery.length > 1 && (
+                <>
+                  <button type="button" class="gallery-nav gallery-nav-prev" id="hero-prev" aria-label="Previous photo">‹</button>
+                  <button type="button" class="gallery-nav gallery-nav-next" id="hero-next" aria-label="Next photo">›</button>
+                </>
+              )}
+              <span class="gallery-counter" id="gallery-counter">1 / {gallery.length}</span>
+            </div>
+            {gallery.length > 1 && (
+              <div class="thumbs-scroll" id="thumbs">
+                {gallery.map((g, i) => (
+                  <button
+                    type="button"
+                    class:list={[i === 0 && 'active']}
+                    data-index={i}
+                    aria-label={`Photo ${i + 1} of ${gallery.length}`}
+                  >
+                    <img src={g.thumb} alt="" width="68" height="68" loading={i < 5 ? 'eager' : 'lazy'} decoding="async" aria-hidden="true" />
+                  </button>
+                ))}
+              </div>
+            )}
+            <script type="application/json" id="pswp-data" set:html={JSON.stringify(gallerySlides)} />
+          </>
+        ) : (
+          imgs[0] && (
+            <div class="gallery-main">
+              <Photo file={imgs[0].file} alt={alt(0)} widths={[720, 960, 1200]} sizes="100vw" loading="eager" />
+            </div>
+          )
+        )}
+      </div>
+
+      <aside class="sidebar-panel">
+        <h1>{p.title}</h1>
+        <ProfileStatusBadges profile={p} />
+        {metaParts.length > 0 && (
+          <p class="meta-line">
+            {metaParts.map((m) => <span>{m}</span>)}
+          </p>
+        )}
+        <TrustNotice />
+        <div class="cta-stack">
+          {p.contact.phone && (
+            <button type="button" class="btn primary" id="phone-btn" data-tel={p.contact.phone} data-display={phoneDisplay}>
+              Show number
+            </button>
+          )}
+          {waHref && <a class="btn wa" href={waHref} rel="noopener" target="_blank">WhatsApp</a>}
+          {links.map((l) => (
+            <a class={`btn ${l.type}`} href={l.url} rel={relFor(l)} target="_blank">
+              <ContactIcon type={l.type} size={18} />{l.type === 'website' ? 'Visit website' : l.label}
+            </a>
+          ))}
+        </div>
+        {rateRows.length > 0 && (
+          <div class="sidebar-section">
+            <h3>My rates in $</h3>
+            <table class="sidebar-rates">
+              <thead>
+                <tr><th>Duration</th><th>Incall</th><th>Out call</th></tr>
+              </thead>
+              <tbody>
+                {rateRows.map((r) => (
+                  <tr>
+                    <td>{RATE_LABEL[r] ?? r}</td>
+                    <td>{p.rates.incall[r] ?? '–'}</td>
+                    <td>{p.rates.outcall[r] ?? '–'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {p.businessHours.length > 0 && (
+          <div class="sidebar-section">
+            <h3>Availability</h3>
+            <div class="week" aria-label="Weekly availability">
+              {p.businessHours.map((h) => (
+                <div>
+                  <div class="day">{DAY_ABBR[h.day]}</div>
+                  <div class:list={['pill', h.active && h.open && h.close ? 'open' : 'busy']}></div>
+                </div>
+              ))}
+            </div>
+            <p class="hours-note">
+              {p.businessHours.filter((h) => h.active && h.open).length === 7
+                ? `Every day, ${p.businessHours[0].open} – ${p.businessHours[0].close}`
+                : 'See weekly schedule above'}
+            </p>
+          </div>
+        )}
+      </aside>
+
+      <div class="mobile-cta-stack profile-mobile-only">
+        {p.contact.phone && (
+          <button type="button" class="btn primary" id="phone-btn-mobile-inline" data-tel={p.contact.phone} data-display={phoneDisplay}>
+            Show number
+          </button>
+        )}
+        {waHref && (
+          <a class="btn wa" href={waHref} rel="noopener" target="_blank">
+            <ContactIcon type="whatsapp" size={18} /> WhatsApp
+          </a>
+        )}
+        {links.map((l) => (
+          <a class={`btn ${l.type}`} href={l.url} rel={relFor(l)} target="_blank">
+            <ContactIcon type={l.type} size={18} />
+            {l.type === 'website' ? 'Visit website' : l.label}
+          </a>
+        ))}
+      </div>
+
+      {rateRows.length > 0 && (
+        <div class="card-block rates-mobile profile-mobile-only">
+          <h2>My rates in $</h2>
+          <div class="rates-scroll">
+            {rateRows.map((r) => (
+              <div class="rate-card">
+                <div class="label">{RATE_LABEL[r] ?? r}</div>
+                <div class="row"><span>Incall</span><strong>{p.rates.incall[r] ?? '–'}</strong></div>
+                <div class="row"><span>Out call</span><strong>{p.rates.outcall[r] ?? '–'}</strong></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {p.businessHours.length > 0 && (
+        <div class="card-block avail-mobile profile-mobile-only">
+          <h2>My availability</h2>
+          <div class="week">
+            {p.businessHours.map((h) => (
+              <div>
+                <div class="day">{DAY_ABBR[h.day]}</div>
+                <div class:list={['pill', h.active && h.open && h.close ? 'open' : 'busy']}></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="main-content" id="main-content">
+        <div class="profile-mobile-only" id="profile-tabs" role="tablist" aria-label="Profile sections" hidden>
+          {p.description && (
+            <button
+              type="button"
+              role="tab"
+              class:list={['profile-tab', defaultTab === 'about' && 'active']}
+              data-tab="about"
+            >
+              About
+            </button>
+          )}
+          <button
+            type="button"
+            role="tab"
+            class:list={['profile-tab', defaultTab === 'details' && 'active']}
+            data-tab="details"
+          >
+            Details
+          </button>
+          {services.length > 0 && (
+            <button type="button" role="tab" class="profile-tab" data-tab="services">
+              Services
+            </button>
+          )}
+          {categories.length > 0 && (
+            <button type="button" role="tab" class="profile-tab" data-tab="categories">
+              Categories
+            </button>
+          )}
+        </div>
+
+        {p.description && (
+          <section class:list={['card-block', defaultTab === 'about' && 'tab-active']} data-panel="about">
+            <h2>About me</h2>
+            <div class="prose" set:html={p.descriptionHtml} />
+          </section>
+        )}
+
+        <section class:list={['card-block', defaultTab === 'details' && 'tab-active']} data-panel="details">
+          <h2>Details</h2>
+          <dl class="def-grid">
+            {gender && <div><dt>Gender</dt><dd><a href={`/${gender.base}/${gender.slug}/`}>{gender.name}</a></dd></div>}
+            {p.age && <div><dt>Age</dt><dd>{p.age}</dd></div>}
+            {ethnicityAttr && (
+              <div><dt>Ethnicity</dt><dd><a href={`/${ethnicityAttr.base}/${ethnicityAttr.slug}/`}>{ethnicityAttr.name}</a></dd></div>
+            )}
+            {sexuality && <div><dt>Sexuality</dt><dd><a href={`/${sexuality.base}/${sexuality.slug}/`}>{sexuality.name}</a></dd></div>}
+            {eyes && <div><dt>Eyes</dt><dd><a href={`/${eyes.base}/${eyes.slug}/`}>{eyes.name}</a></dd></div>}
+            {hair && <div><dt>Hair</dt><dd><a href={`/${hair.base}/${hair.slug}/`}>{hair.name}</a></dd></div>}
+            {body && <div><dt>Body</dt><dd><a href={`/${body.base}/${body.slug}/`}>{body.name}</a></dd></div>}
+            {p.heightCm && <div><dt>Height</dt><dd>{p.heightCm} cm</dd></div>}
+            {drink && <div><dt>Drinking</dt><dd><a href={`/${drink.base}/${drink.slug}/`}>{drink.name}</a></dd></div>}
+            {smoke && <div><dt>Smoking</dt><dd><a href={`/${smoke.base}/${smoke.slug}/`}>{smoke.name}</a></dd></div>}
+            {(p.location.city || p.location.country) && (
+              <div><dt>Location</dt><dd>{[p.location.city, p.location.country].filter(Boolean).join(', ')}</dd></div>
+            )}
+          </dl>
+        </section>
+
+        {services.length > 0 && (
+          <section class="card-block" data-panel="services">
+            <h2>Services</h2>
+            <div class="tax-pill-row" id="svc-list">
+              {services.map((s) => (
+                <a class="tax-pill" href={`/features/${s.slug}/`}>{s.name}</a>
+              ))}
+              {services.length > LIST_PREVIEW && (
+                <button
+                  type="button"
+                  class="tax-pill tax-pill-more"
+                  id="svc-more"
+                  data-preview={LIST_PREVIEW}
+                  data-total={services.length}
+                  data-label-more="ALL SERVICES +"
+                  data-label-less="SHOW LESS"
+                >
+                  ALL SERVICES +
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+
+        {categories.length > 0 && (
+          <section class="card-block" data-panel="categories">
+            <h2>Categories</h2>
+            <div class="tax-pill-row" id="cat-row">
+              {categories.map((c) => (
+                <a class="tax-pill" href={`/escort-category/${c.slug}/`}>{c.name}</a>
+              ))}
+              {categories.length > LIST_PREVIEW && (
+                <button
+                  type="button"
+                  class="tax-pill tax-pill-more"
+                  id="cat-more"
+                  data-preview={LIST_PREVIEW}
+                  data-total={categories.length}
+                  data-label-more="ALL CATEGORIES +"
+                  data-label-less="SHOW LESS"
+                >
+                  ALL CATEGORIES +
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+      </div>
+
+      {recommended.length > 0 && (
+        <section class="profile-rec">
+          <h2>Recommended for you</h2>
+          <div class="rec-scroll" id="recommended-grid">
+            {recommended.map((r) => <ProfileCard profile={r} />)}
+          </div>
+        </section>
+      )}
+
+      <section id="recent-section" hidden>
+        <h2 class="section-title">Recently viewed</h2>
+        <ul id="recent-list" class="recent-links"></ul>
+      </section>
+    </div>
+  </div>
+
+  <nav class="profile-mobile-dock profile-mobile-only" aria-label="Contact">
+    {p.contact.phone && (
+      <button type="button" class="call-tab" id="phone-btn-dock" data-tel={p.contact.phone} data-display={phoneDisplay}>
+        <ContactIcon type="phone" size={20} />Call
+      </button>
+    )}
+    {waHref && (
+      <a class="wa-tab" href={waHref} rel="noopener" target="_blank">
+        <ContactIcon type="whatsapp" size={20} />WhatsApp
+      </a>
+    )}
+    {telegramLink ? (
+      <a class="tg-tab" href={telegramLink.url} rel={relFor(telegramLink)} target="_blank">
+        <ContactIcon type="telegram" size={20} />Telegram
+      </a>
+    ) : (
+      <span aria-hidden="true"></span>
+    )}
+    {sheetLinks.length > 0 && (
+      <button type="button" id="contact-more" aria-haspopup="dialog">
+        <ContactIcon type="more" size={20} />More
+      </button>
+    )}
+  </nav>
+
+  <dialog class="contact-sheet" id="contact-sheet" aria-label="More contact options">
+    <div class="sheet-body">
+      <div class="sheet-head">
+        <strong>Contact &amp; social</strong>
+        <button type="button" id="contact-sheet-close" aria-label="Close">×</button>
+      </div>
+      <ul class="sheet-list">
+        {sheetLinks.map((l) => (
+          <li>
+            <a href={l.url} rel={relFor(l)} target="_blank">
+              <ContactIcon type={l.type} size={22} />
+              {l.type === 'website' ? 'Visit website' : l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </dialog>
+
+  <script>
+    import '../../scripts/profile-client.ts';
+  </script>
+</Base>

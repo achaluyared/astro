@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f0d10" />
+  <title>Homepage proposal · Featured slider + Premium + Homepage · Addis VIP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vip: {
+              bg: '#0f0d10',
+              panel: '#1c1816',
+              line: '#3a322c',
+              text: '#f2ebe6',
+              muted: '#a89890',
+              gold: '#d4a574',
+              brand: '#e8c4a0',
+            },
+          },
+          fontFamily: { serif: ['Georgia', 'Times New Roman', 'serif'] },
+          borderRadius: { vip: '14px' },
+          maxWidth: { site: '1180px' },
+        },
+      },
+    };
+  </script>
+  <style>
+    .outline-tag {
+      display: inline-block;
+      font: 600 10px/1 system-ui, sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    .tag-h1 { background: #5c3d28; color: #ffd4a8; }
+    .tag-h2 { background: #2a3d5c; color: #b8d4ff; }
+    .tag-h3 { background: #3d2a5c; color: #ddb8ff; font-size: 9px; }
+    .tag-note { background: #2a2a2a; color: #ccc; }
+
+    .nav-link {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f2ebe6;
+      text-decoration: none;
+      position: relative;
+      padding: 0.35rem 0;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: #d4a574;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.22s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+    .nav-link:hover { color: #ecd0b0; }
+
+    /* Hero split */
+    .hero-split {
+      display: grid;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .hero-split { grid-template-columns: 1fr 1fr; }
+    }
+    .hero-visual {
+      position: relative;
+      min-height: 220px;
+      border-radius: 14px;
+      border: 1px solid #3a322c;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      aspect-ratio: 4 / 3;
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 13, 16, 0.15) 0%, rgba(53, 41, 34, 0.45) 100%);
+      pointer-events: none;
+    }
+    .hero-copy h1 {
+      font-size: clamp(1.85rem, 4.5vw, 2.55rem);
+      margin: 0 0 1rem;
+      padding-left: 0.65rem;
+      border-left: 3px solid #d4a574;
+    }
+    .section-subtitle {
+      margin: 0.35rem 0 0;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+      color: #e8c4a0;
+      font-weight: 500;
+    }
+    .section-desc {
+      margin: 0.65rem 0 0;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #a89890;
+      max-width: 62ch;
+    }
+
+    .join-band-new {
+      display: grid;
+      gap: 1.25rem;
+      align-items: center;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(45, 180, 160, 0.35);
+      background: linear-gradient(125deg, #0d3d38 0%, #1a4a42 35%, #2a2418 70%, #1c1816 100%);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+    }
+    @media (min-width: 768px) {
+      .join-band-new { grid-template-columns: 1.1fr 1fr; }
+    }
+    .join-band-new .join-photo {
+      min-height: 200px;
+      height: 100%;
+      position: relative;
+    }
+    .join-band-new .join-photo img {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+    @media (min-width: 768px) {
+      .join-band-new .join-photo img { min-height: 100%; }
+    }
+    .join-band-new .join-copy {
+      padding: 1.35rem 1.5rem 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .join-band-new .join-copy { padding: 2rem 2rem 2rem 0.5rem; }
+    }
+    .join-band-new .join-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #5eead4;
+      margin: 0 0 0.5rem;
+    }
+    .join-band-new .join-title {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(1.25rem, 2.8vw, 1.55rem);
+      font-weight: 600;
+      line-height: 1.35;
+      color: #fff;
+    }
+    .join-band-new .join-text {
+      margin: 0.75rem 0 0;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: rgba(242, 235, 230, 0.88);
+      max-width: 42ch;
+    }
+    .join-band-new .join-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.1rem;
+    }
+    .join-band-new .join-btns a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.65rem 1.1rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 12px;
+      color: #fff;
+    }
+    .join-band-new .join-btns .wa { background: #25d366; }
+    .join-band-new .join-btns .tg { background: #0088cc; }
+
+    .home-seo { margin-top: 3rem; padding-bottom: 2rem; }
+    .home-seo + .home-seo {
+      margin-top: 0;
+      padding-top: 2.5rem;
+      border-top: 1px solid #3a322c;
+    }
+    .home-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 2rem 2.5rem;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .home-split { grid-template-columns: 1fr; gap: 1.5rem; }
+      .home-split.stack-visual-first .home-split-visual { order: -1; }
+    }
+    .home-split-copy h2 {
+      font-size: clamp(1.45rem, 3.5vw, 1.95rem);
+      margin: 0 0 0.75rem;
+      padding-left: 0.65rem;
+      border-left: 3px solid #d4a574;
+      font-family: Georgia, serif;
+      font-weight: 600;
+    }
+    .home-split-copy .lead {
+      margin: 0 0 1rem;
+      color: #a89890;
+      max-width: 52ch;
+      line-height: 1.55;
+      font-size: 0.98rem;
+    }
+    .home-split-copy .lead strong { color: #f2ebe6; }
+    .home-split-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.25rem; }
+    .btn-primary-mock {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.65rem 1.25rem;
+      border-radius: 12px;
+      background: #d4a574;
+      color: #1b1305;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      text-decoration: none;
+    }
+    .home-steps { display: grid; gap: 0.85rem; }
+    .home-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: 1rem 1.05rem;
+      border: 1px solid #3a322c;
+      border-radius: 14px;
+      background: #1c1816;
+    }
+    .home-step:nth-child(2) { margin-left: 1rem; }
+    @media (max-width: 860px) { .home-step:nth-child(2) { margin-left: 0; } }
+    .home-step-num {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: #d4a574;
+      color: #1b1305;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .home-step h3 { margin: 0 0 0.25rem; font-size: 1.05rem; font-weight: 700; }
+    .home-step p { margin: 0; font-size: 0.92rem; color: #a89890; }
+    .home-why-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+      display: grid;
+      gap: 0.65rem;
+    }
+    .home-why-list li { font-size: 0.98rem; line-height: 1.45; color: #a89890; }
+    .home-why-list strong { color: #ecd0b0; font-weight: 600; }
+    .home-split-visual .visual-panel {
+      border-radius: 14px;
+      border: 1px solid #3a322c;
+      min-height: min(42vw, 280px);
+      aspect-ratio: 3 / 4;
+      background: linear-gradient(145deg, #352922 0%, #171412 55%, #1c1816 100%);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Featured slider — grid aligns arrows to card row center */
+    .feat-carousel {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .feat-carousel-viewport { overflow: hidden; min-width: 0; }
+    .feat-track {
+      display: flex;
+      gap: 0.75rem;
+      transition: transform 0.45s ease;
+      will-change: transform;
+    }
+    .feat-track .card-cine {
+      flex: 0 0 calc((100% - 0.75rem) / 2);
+      min-width: 0;
+    }
+    @media (min-width: 620px) {
+      .feat-track .card-cine { flex: 0 0 calc((100% - 1.5rem) / 3); }
+    }
+    @media (min-width: 900px) {
+      .feat-track .card-cine { flex: 0 0 calc((100% - 2.25rem) / 4); }
+    }
+    .card-cine--featured .card-cine-ph {
+      box-shadow: inset 0 0 0 2px rgba(212, 165, 116, 0.72);
+    }
+    .slider-btn {
+      flex-shrink: 0;
+      width: 2.35rem;
+      height: 2.35rem;
+      border-radius: 999px;
+      border: 1px solid #3a322c;
+      background: rgba(15, 13, 16, 0.92);
+      color: #ecd0b0;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+    .slider-btn:hover:not(:disabled) { border-color: #d4a574; }
+    .slider-btn:disabled { opacity: 0.35; cursor: default; }
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.75rem;
+    }
+    .slider-dots button {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: none;
+      background: #3a322c;
+      cursor: pointer;
+    }
+    .slider-dots button.active { background: #d4a574; width: 22px; }
+
+    /* Cinematic cards */
+    .card-cine { position: relative; border-radius: 14px; overflow: hidden; }
+    .card-cine-ph {
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      background: #231f26;
+    }
+    .card-cine-ph img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.55s ease;
+    }
+    .card-cine:hover .card-cine-ph img { transform: scale(1.05); }
+    .card-cine-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,6,10,0.92) 0%, rgba(8,6,10,0.38) 40%, transparent 64%);
+      pointer-events: none;
+    }
+    .card-cine-cap {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 0.85rem 0.75rem 1rem;
+      z-index: 1;
+    }
+    .card-cine-cap h3 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #f2ebe6;
+    }
+    .card-cine-cap .meta { font-size: 0.875rem; color: #a89890; margin-top: 0.15rem; }
+    .badges {
+      position: absolute;
+      top: 0.65rem;
+      left: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      z-index: 2;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+    }
+    .badge-gold { background: #d4a574; color: #1b1305; }
+    .badge-v { background: #2c7a4b; color: #fff; }
+    .online-dot {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.65rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #3ecf7a;
+      box-shadow: 0 0 0 2px rgba(15,13,16,0.9), 0 0 10px rgba(62,207,122,0.55);
+      z-index: 2;
+    }
+    .online-dot.off { background: #555; box-shadow: 0 0 0 2px rgba(15,13,16,0.9); }
+
+    .card-cine--premium .card-cine-ph {
+      box-shadow: inset 0 0 0 2px rgba(232, 196, 160, 0.55);
+    }
+    .card-cine--homepage .card-cine-ph {
+      box-shadow: inset 0 0 0 2px rgba(122, 158, 196, 0.45);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    @media (min-width: 620px) { .profile-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 900px) { .profile-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .join-band {
+      border: 1px solid #3a322c;
+      border-radius: 14px;
+      background: #1c1816;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .seo-block {
+      border-top: 1px solid #3a322c;
+      padding-top: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .mock-sidebar {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      background: #141117;
+      border-left: 1px solid #3a322c;
+      padding: 1rem;
+      font-size: 12px;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+      z-index: 50;
+    }
+    .mock-sidebar.open { transform: translateX(0); }
+    @media (min-width: 1400px) {
+      .mock-sidebar { transform: none; }
+      .has-sidebar { padding-right: 300px; }
+    }
+    .fab-outline {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 51;
+      background: #d4a574;
+      color: #1b1305;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+    }
+    @media (min-width: 1400px) { .fab-outline { display: none; } }
+  </style>
+</head>
+<body class="bg-vip-bg text-vip-text antialiased has-sidebar">
+
+  <div class="border-b border-vip-gold/40 bg-[#2a2418] px-4 py-2.5 text-center text-xs text-vip-gold">
+    <strong class="text-white">Homepage mockup v2</strong> — Hero image · Featured slider · SEO subtitles · Join band · Full SEO text below grids.
+    <span class="text-vip-muted mx-1">|</span>
+    Open: <code class="text-vip-text">/mockups/home-vip-featured-slider-proposal.html</code>
+    <span class="text-vip-muted mx-1">|</span>
+    <a href="/" class="underline decoration-vip-gold/50">Live home</a>
+  </div>
+
+  <button type="button" class="fab-outline" id="toggle-outline" aria-expanded="false">Outline</button>
+  <aside class="mock-sidebar" id="outline-panel" aria-label="Heading outline">
+    <p class="text-vip-gold font-bold text-sm mb-3">Target heading map</p>
+    <ol class="list-decimal pl-4 space-y-2 text-vip-muted leading-relaxed">
+      <li><span class="tag-h1 outline-tag">H1</span> Hero title (top of main)</li>
+      <li><span class="tag-h2 outline-tag">H2</span> Featured escorts — slider</li>
+      <li><span class="tag-h3 outline-tag">H3</span> Name on each slide/card</li>
+      <li><span class="tag-h2 outline-tag">H2</span> Premium (sponsored)</li>
+      <li><span class="tag-note outline-tag">p</span> Join CTA (not H2)</li>
+      <li><span class="tag-h2 outline-tag">H2</span> Homepage escorts</li>
+      <li><span class="tag-h2 outline-tag">H2</span> Find your perfect companion…</li>
+    </ol>
+    <p class="mt-4 text-[11px] text-vip-muted">Green dot = future “online” indicator (not a heading).</p>
+    <p class="mt-2 text-[11px] text-vip-muted">Empty Featured → whole slider section hidden (no H2).</p>
+  </aside>
+
+  <header class="sticky top-0 z-40 border-b border-vip-line bg-[#0b090c]">
+    <div class="mx-auto max-w-site px-4 flex min-h-14 items-center justify-between gap-3">
+      <span class="font-serif text-lg">Addis <span class="text-vip-brand">VIP</span> Escorts</span>
+      <nav class="hidden md:flex gap-5">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">Search</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-site px-4 py-6">
+
+    <!-- H1 HERO (no duplicate search CTA — use nav Search) -->
+    <section class="hero-split mb-10" aria-labelledby="home-h1">
+      <div class="hero-copy">
+        <span class="tag-h1 outline-tag">H1</span>
+        <h1 id="home-h1" class="inline font-serif font-semibold leading-tight text-white">
+          Addis Ababa's Most Exclusive Escort Directory
+        </h1>
+        <p class="mt-3 text-vip-muted leading-relaxed max-w-xl text-[0.98rem]">
+          Addis VIP Escorts is Ethiopia's premier platform connecting discerning gentlemen with verified, high-end independent
+          escorts in Addis Ababa. Our rigorously curated directory features the city's most sophisticated and discreet professionals.
+        </p>
+      </div>
+      <div class="hero-visual">
+        <img src="/mockups/images/home-hero-addis-vip-mockup.jpg" alt="" width="1200" height="675" loading="eager" />
+      </div>
+    </section>
+
+    <!-- FEATURED SLIDER -->
+    <section class="mb-10" aria-labelledby="sec-featured">
+      <header class="mb-3">
+        <span class="tag-h2 outline-tag">H2</span>
+        <h2 id="sec-featured" class="inline font-serif text-2xl font-semibold text-white">Featured escorts</h2>
+        <p class="section-subtitle">Handpicked featured escorts in Addis Ababa — verified profiles with premium directory placement</p>
+        <p class="section-desc">Browse featured Addis VIP escorts selected for discretion, quality, and exclusive companionship in Bole, Kazanchis, CMC, and across the capital.</p>
+      </header>
+
+      <div class="feat-carousel" id="featured-slider">
+        <button type="button" class="slider-btn prev" id="feat-prev" aria-label="Scroll featured left">‹</button>
+        <div class="feat-carousel-viewport" id="feat-viewport">
+          <div class="feat-track" id="feat-track">
+
+            <a href="#" class="card-cine card-cine--featured block no-underline text-inherit">
+              <div class="card-cine-ph">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80" alt="" loading="lazy" />
+                <div class="card-cine-grad"></div>
+                <div class="badges"><span class="badge badge-v">Verified</span><span class="badge badge-gold">Gold</span></div>
+                <span class="online-dot"></span>
+                <div class="card-cine-cap">
+                  <h3 class="truncate">Lulit Mar</h3>
+                  <div class="meta">23 yrs · Addis Ababa</div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="card-cine card-cine--featured block no-underline text-inherit">
+              <div class="card-cine-ph">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80" alt="" loading="lazy" />
+                <div class="card-cine-grad"></div>
+                <div class="badges"><span class="badge badge-v">Verified</span></div>
+                <span class="online-dot off"></span>
+                <div class="card-cine-cap">
+                  <h3 class="truncate">Yasmin</h3>
+                  <div class="meta">25 yrs · Bole</div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="card-cine card-cine--featured block no-underline text-inherit">
+              <div class="card-cine-ph">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80" alt="" loading="lazy" />
+                <div class="card-cine-grad"></div>
+                <div class="badges"><span class="badge badge-gold" style="background:#5c4a8a;color:#f3eeff">VIP</span></div>
+                <span class="online-dot"></span>
+                <div class="card-cine-cap">
+                  <h3 class="truncate">Edom</h3>
+                  <div class="meta">22 yrs · Kazanchis</div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="card-cine card-cine--featured block no-underline text-inherit">
+              <div class="card-cine-ph">
+                <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80" alt="" loading="lazy" />
+                <div class="card-cine-grad"></div>
+                <div class="badges"><span class="badge badge-v">Verified</span></div>
+                <span class="online-dot"></span>
+                <div class="card-cine-cap">
+                  <h3 class="truncate">Solana</h3>
+                  <div class="meta">24 yrs · CMC</div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="card-cine card-cine--featured block no-underline text-inherit">
+              <div class="card-cine-ph">
+                <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80" alt="" loading="lazy" />
+                <div class="card-cine-grad"></div>
+                <span class="online-dot off"></span>
+                <div class="card-cine-cap">
+                  <h3 class="truncate">Rita</h3>
+                  <div class="meta">26 yrs · Piassa</div>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="card-cine card-cine--featured block no-underline text-inherit">
+              <div class="card-cine-ph">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="" loading="lazy" />
+                <div class="card-cine-grad"></div>
+                <div class="badges"><span class="badge badge-gold">Gold</span></div>
+                <span class="online-dot"></span>
+                <div class="card-cine-cap">
+                  <h3 class="truncate">Tina</h3>
+                  <div class="meta">21 yrs · Bole</div>
+                </div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+        <button type="button" class="slider-btn next" id="feat-next" aria-label="Scroll featured right">›</button>
+      </div>
+      <div class="slider-dots" id="feat-dots" role="tablist" aria-label="Featured carousel pages"></div>
+      <p class="text-[11px] text-vip-muted mt-2">Cards match grid column width (2 / 3 / 4 per row). All featured links stay in the DOM for SEO.</p>
+    </section>
+
+    <!-- PREMIUM / SPONSORED -->
+    <section class="mb-10" aria-labelledby="sec-premium">
+      <header class="mb-4">
+        <span class="tag-h2 outline-tag">H2</span>
+        <h2 id="sec-premium" class="inline font-serif text-2xl font-semibold text-white">Premium</h2>
+        <p class="section-subtitle">Sponsored premium escorts in Addis Ababa — top visibility on Addis VIP Girls</p>
+        <p class="section-desc">Meet independent escorts on our sponsored premium tier: highly requested companions with maximum exposure in search results and on the home page.</p>
+      </header>
+      <div class="profile-grid">
+        <a href="#" class="card-cine card-cine--premium block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <div class="badges"><span class="badge badge-v">Verified</span></div>
+            <span class="online-dot"></span>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Samira</h3>
+              <div class="meta">24 yrs · Addis Ababa</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-cine card-cine--premium block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <span class="online-dot"></span>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Mesti</h3>
+              <div class="meta">26 yrs · Bole</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-cine card-cine--premium block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <span class="online-dot off"></span>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Hana</h3>
+              <div class="meta">21 yrs · CMC</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-cine card-cine--premium block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <span class="online-dot"></span>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Selam</h3>
+              <div class="meta">23 yrs · Piassa</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- JOIN — not H2; visual recruitment band -->
+    <aside class="join-band-new mb-10" aria-label="List your profile">
+      <div class="join-photo">
+        <img src="/mockups/images/home-join-escorts-mockup.jpg" alt="" width="800" height="600" loading="lazy" />
+      </div>
+      <div class="join-copy">
+        <span class="tag-note outline-tag">p</span>
+        <p class="join-kicker">List your profile</p>
+        <p class="join-title">Are you an escort in Addis Ababa or Ethiopia?</p>
+        <p class="join-text">
+          Join Addis VIP Escorts — Ethiopia's trusted directory for independent companions. Get verified, reach serious clients, and grow with featured and premium options.
+        </p>
+        <div class="join-btns">
+          <a class="wa" href="#">WhatsApp us</a>
+          <a class="tg" href="#">Telegram</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- HOMEPAGE PACKAGE -->
+    <section class="mb-6" aria-labelledby="sec-homepage">
+      <header class="mb-4">
+        <span class="tag-h2 outline-tag">H2</span>
+        <h2 id="sec-homepage" class="inline font-serif text-2xl font-semibold text-white">Homepage escorts</h2>
+        <p class="section-subtitle">Homepage spotlight escorts — curated Addis Ababa companions on our directory front page</p>
+        <p class="section-desc">Discover escorts featured on the Addis VIP homepage: selected Habesha and international companions offering authentic charm and premium service. For every profile, use Search in the menu.</p>
+      </header>
+      <div class="profile-grid">
+        <a href="#" class="card-cine card-cine--homepage block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <span class="online-dot"></span>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Liya</h3>
+              <div class="meta">22 yrs · Addis Ababa</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-cine card-cine--homepage block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Fenan</h3>
+              <div class="meta">24 yrs · Bole</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-cine card-cine--homepage block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <span class="online-dot off"></span>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Meklit</h3>
+              <div class="meta">20 yrs · Kazanchis</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-cine card-cine--homepage block no-underline text-inherit">
+          <div class="card-cine-ph">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80" alt="" loading="lazy" />
+            <div class="card-cine-grad"></div>
+            <div class="card-cine-cap">
+              <h3 class="truncate">Beza</h3>
+              <div class="meta">25 yrs · CMC</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- SEO blocks after listings (same role as live HomeSeoVip + expanded copy) -->
+    <div class="home-seo">
+      <section class="home-split" aria-labelledby="home-find">
+        <div class="home-split-copy">
+          <span class="tag-h2 outline-tag">H2</span>
+          <h2 id="home-find">Find Your Perfect Companion Today</h2>
+          <p class="lead"><strong>Refine your search with advanced filters to match your ideal escort in Addis Ababa:</strong></p>
+          <p class="lead">
+            Browse authentic photos, verified badges, and transparent rates—then connect discreetly with independent escorts
+            across Ethiopia's capital on a secure, adults-only platform.
+          </p>
+          <div class="home-split-actions">
+            <a class="btn-primary-mock" href="/search/">Browse all escorts</a>
+          </div>
+        </div>
+        <div class="home-steps">
+          <div class="home-step">
+            <span class="home-step-num">01</span>
+            <div>
+              <h3>Location &amp; age</h3>
+              <p>Filter by city—Bole, Kazanchis, CMC, Piassa—and preferred age range</p>
+            </div>
+          </div>
+          <div class="home-step">
+            <span class="home-step-num">02</span>
+            <div>
+              <h3>Verified &amp; premium</h3>
+              <p>Show verified escorts, featured listings, sponsored premium, or newly published profiles</p>
+            </div>
+          </div>
+          <div class="home-step">
+            <span class="home-step-num">03</span>
+            <div>
+              <h3>Services &amp; details</h3>
+              <p>Explore services, ethnicity, availability, incall/outcall rates, and direct contact</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="home-seo">
+      <section class="home-split stack-visual-first" aria-labelledby="home-why">
+        <div class="home-split-copy">
+          <span class="tag-h2 outline-tag">H2</span>
+          <h2 id="home-why">Why Choose Addis VIP Escorts?</h2>
+          <p class="lead"><strong>Independent companions offer clarity and discretion for clients who expect more</strong></p>
+          <ul class="home-why-list">
+            <li><strong>Verified profiles:</strong> ID-checked escorts where our verification program applies</li>
+            <li><strong>Direct contact:</strong> WhatsApp, Telegram, and phone—no unnecessary middlemen</li>
+            <li><strong>Premium tiers:</strong> Featured, sponsored, and homepage placements you can trust</li>
+            <li><strong>Addis-focused:</strong> Habesha escorts and international companions across major districts</li>
+          </ul>
+          <p class="lead">
+            Our directory connects you with escorts in Addis Ababa who value professionalism, privacy, and authentic
+            companionship—whether you book for an evening or travel across the city.
+          </p>
+        </div>
+        <div class="home-split-visual" aria-hidden="true">
+          <div class="visual-panel"></div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="mt-12 border-t border-vip-line py-8 text-sm text-vip-muted">
+    <div class="mx-auto max-w-site px-4">© Mockup only · Addis VIP Escorts</div>
+  </footer>
+
+  <script>
+    (function () {
+      var viewport = document.getElementById('feat-viewport');
+      var track = document.getElementById('feat-track');
+      var dotsEl = document.getElementById('feat-dots');
+      var prevBtn = document.getElementById('feat-prev');
+      var nextBtn = document.getElementById('feat-next');
+      var pos = 0;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var GAP = 12;
+
+      function cards() {
+        return track ? Array.prototype.slice.call(track.querySelectorAll('.card-cine')) : [];
+      }
+
+      function visibleCount() {
+        var w = viewport ? viewport.offsetWidth : 0;
+        if (w >= 900) return 4;
+        if (w >= 620) return 3;
+        return 2;
+      }
+
+      function stepPx() {
+        var list = cards();
+        if (!list.length) return 0;
+        return list[0].offsetWidth + GAP;
+      }
+
+      function maxPos() {
+        return Math.max(0, cards().length - visibleCount());
+      }
+
+      function pageCount() {
+        return maxPos() + 1;
+      }
+
+      function apply() {
+        if (!track) return;
+        pos = Math.max(0, Math.min(pos, maxPos()));
+        track.style.transform = 'translateX(-' + pos * stepPx() + 'px)';
+        if (prevBtn) prevBtn.disabled = pos <= 0;
+        if (nextBtn) nextBtn.disabled = pos >= maxPos();
+        if (dotsEl) {
+          dotsEl.querySelectorAll('button').forEach(function (b, i) {
+            b.classList.toggle('active', i === pos);
+            b.setAttribute('aria-selected', i === pos ? 'true' : 'false');
+          });
+        }
+      }
+
+      function go(delta) {
+        pos += delta;
+        apply();
+      }
+
+      function rebuildDots() {
+        if (!dotsEl) return;
+        dotsEl.innerHTML = '';
+        var n = pageCount();
+        for (var i = 0; i < n; i++) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.setAttribute('role', 'tab');
+          b.setAttribute('aria-label', 'Featured page ' + (i + 1));
+          b.addEventListener('click', (function (j) { return function () { pos = j; apply(); }; })(i));
+          dotsEl.appendChild(b);
+        }
+        apply();
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function () { go(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { go(1); });
+      rebuildDots();
+      window.addEventListener('resize', rebuildDots);
+
+      var autoplay = !reduced && cards().length > visibleCount();
+      var timer;
+      function startAuto() {
+        if (!autoplay) return;
+        timer = setInterval(function () {
+          if (pos >= maxPos()) pos = 0;
+          else pos += 1;
+          apply();
+        }, 6000);
+      }
+      function stopAuto() {
+        clearInterval(timer);
+      }
+      var slider = document.getElementById('featured-slider');
+      if (slider) {
+        slider.addEventListener('mouseenter', stopAuto);
+        slider.addEventListener('mouseleave', startAuto);
+        startAuto();
+      }
+
+      var fab = document.getElementById('toggle-outline');
+      var panel = document.getElementById('outline-panel');
+      if (fab && panel) {
+        fab.addEventListener('click', function () {
+          var open = panel.classList.toggle('open');
+          fab.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

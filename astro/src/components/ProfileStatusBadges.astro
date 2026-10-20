@@ -1,0 +1,46 @@
+---
+import { brand } from '../brand';
+import { isFeatured, isNewlyPublished, type Profile } from '../lib/data';
+import { photoBadgeLabelForProfile, profileDetailBadges, type PhotoBadgeKind } from '../lib/badges';
+
+interface Props {
+  profile: Profile;
+}
+const { profile: p } = Astro.props;
+const isVip = brand.id === 'vip';
+const featured = isFeatured(p);
+const isNew = isNewlyPublished(p);
+const badge =
+  'rounded-full px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-wide';
+
+const vipKinds = isVip ? profileDetailBadges(p) : [];
+const vipClass = (kind: PhotoBadgeKind) =>
+  ({
+    verified: 'bg-[#3d9a62] text-white',
+    gold: 'bg-vip-gold text-[#1b1305]',
+    vip: 'bg-[#5c4a8a] text-[#f3eeff]',
+    new: 'border border-[#5a6a99] bg-[#3d4a6b] text-[#e8ecff]',
+  })[kind];
+---
+
+{
+  isVip ? (
+    vipKinds.length > 0 && (
+      <div class="my-2 flex flex-wrap gap-1.5">
+        {vipKinds.map((kind) => (
+          <span class:list={[badge, vipClass(kind)]}>{photoBadgeLabelForProfile(p, kind)}</span>
+        ))}
+      </div>
+    )
+  ) : (
+    (featured || p.flags.verified || isNew) && (
+      <div class="my-2 flex flex-wrap gap-1.5">
+        {featured && <span class:list={[badge, 'bg-vip-gold text-[#1b1305]']}>Featured</span>}
+        {p.flags.verified && <span class:list={[badge, 'bg-[#3d9a62] text-white']}>Verified</span>}
+        {isNew && (
+          <span class:list={[badge, 'border border-[#5a6a99] bg-[#3d4a6b] text-[#e8ecff]']}>New</span>
+        )}
+      </div>
+    )
+  )
+}

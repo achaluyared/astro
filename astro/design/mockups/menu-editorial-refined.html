@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Editorial menu (refined) · Addis VIP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --line: #2b262e;
+      --text: #ece8ee;
+      --muted: #a69fab;
+      --gold: #c9a45c;
+      --gold-2: #e5c885;
+    }
+    .nav-editorial-link {
+      position: relative;
+      padding: 0.35rem 0;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-editorial-link::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.22s ease;
+    }
+    .nav-editorial-link:hover { color: var(--gold-2); }
+    .nav-editorial-link:hover::after,
+    .nav-editorial-link.is-active::after { transform: scaleX(1); }
+    .drawer-link {
+      display: block;
+      padding: 0.9rem 1.25rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      border-top: 1px solid var(--line);
+    }
+    .drawer-link.is-active {
+      color: var(--gold-2);
+      box-shadow: inset 3px 0 0 var(--gold);
+      background: rgba(201,164,92,0.08);
+    }
+    .phone {
+      width: min(100%, 390px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #0b090c;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body class="bg-[#0f0d10] text-[#ece8ee] antialiased p-4 md:p-8 max-w-4xl mx-auto">
+
+  <p class="text-center text-xs text-[#c9a45c] mb-6 border border-[#2b262e] rounded-lg py-2 px-3">
+    <strong class="text-white">Refined Option 1</strong> — Contact is <em>not</em> a pill (matches live site after update).
+    <a href="/" class="underline ml-1">Try live header</a>
+  </p>
+
+  <h1 class="font-serif text-2xl mb-2">Editorial menu — uniform links</h1>
+  <p class="text-sm text-[#a69fab] mb-8 leading-relaxed">
+    Home, Search, About Us, and Contact all use the same color, underline, and hover (live VIP site).
+  </p>
+
+  <div class="rounded-xl border border-[#2b262e] p-4 bg-[#141117] mb-12 max-w-xl">
+    <header class="flex flex-wrap items-center justify-between gap-3 border-b border-[#2b262e] pb-3">
+      <span class="font-serif text-base">Addis <span class="text-[#f0b429]">VIP</span></span>
+      <div class="flex flex-wrap gap-4">
+        <a href="#" class="nav-editorial-link is-active">Home</a>
+        <a href="#" class="nav-editorial-link">Search</a>
+        <a href="#" class="nav-editorial-link">About</a>
+        <a href="#" class="nav-editorial-link">Contact</a>
+      </div>
+    </header>
+  </div>
+
+  <h2 class="font-serif text-xl mb-2">Mobile (menu open)</h2>
+  <p class="text-sm text-[#a69fab] mb-4">
+    Tap ☰ → panel under the header. Every item looks the same; only the current page gets the gold left bar.
+  </p>
+
+  <div class="phone mx-auto">
+    <header class="flex min-h-14 items-center justify-between px-4 border-b border-[#2b262e] bg-[#0b090c]">
+      <span class="font-serif">Addis <span class="text-[#f0b429]">VIP</span> Escorts</span>
+      <button type="button" class="text-[#ece8ee] bg-transparent border-0 text-xl" aria-label="Menu">✕</button>
+    </header>
+    <nav aria-label="Main menu">
+      <a href="#" class="drawer-link is-active">Home</a>
+      <a href="#" class="drawer-link">Search</a>
+      <a href="#" class="drawer-link">About Us</a>
+      <a href="#" class="drawer-link">Contact</a>
+    </nav>
+    <div class="h-32 bg-gradient-to-b from-[#1a171c]/40 to-transparent"></div>
+  </div>
+
+  <p class="text-center text-xs text-[#a69fab] mt-6">
+    Narrow your browser on the live site or use DevTools device mode to open the real drawer.
+  </p>
+</body>
+</html>

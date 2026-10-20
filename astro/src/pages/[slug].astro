@@ -1,0 +1,53 @@
+---
+// Static pages whose content lives in WordPress post_content (currently: terms, privacy), plus
+// pages written by hand in src/lib/handwritten.ts (about-us, faq, contact, ... whose text comes
+// from PremiumPress/Elementor templates and is not available through the API).
+import Base from '../layouts/Base.astro';
+import { pages } from '../lib/data';
+import { handwritten } from '../lib/handwritten';
+import { staticPageSlugs } from '../lib/pages';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+import { sanitizeWpHtml } from '../lib/wp-content';
+import { brand } from '../brand';
+
+export function getStaticPaths() {
+  return staticPageSlugs().map((slug) => {
+    const h = handwritten[slug];
+    const wp = pages.find((p) => p.slug === slug);
+    return {
+      params: { slug },
+      props: {
+        title: h?.title ?? wp!.title,
+        html: h?.html ?? wp!.contentHtml,
+        seoTitle: wp?.seo.title ?? undefined,
+        description: h?.description ?? wp?.seo.description ?? undefined,
+      },
+    };
+  });
+}
+const { title, html, description, seoTitle } = Astro.props as {
+  title: string;
+  html: string;
+  description?: string;
+  seoTitle?: string;
+};
+const path = `/${Astro.params.slug}/`;
+const bodyHtml = sanitizeWpHtml(html, brand.contact.email);
+const metaDescription =
+  description ??
+  (Astro.params.slug === 'privacy'
+    ? `Privacy policy for ${brand.siteName} — how we collect, use, and protect your information.`
+    : Astro.params.slug === 'terms'
+      ? `Terms of use for ${brand.siteName} — adults only, listing rules, and contact.`
+      : undefined);
+---
+
+<Base
+  title={seoTitle?.trim() ? seoTitle.trim() : pageTitle(title)}
+  description={metaDescription}
+  path={path}
+  jsonLd={[breadcrumbLd(Astro.site!, [{ name: 'Home', path: '/' }, { name: title, path }])]}
+>
+  <h1>{title}</h1>
+  <div class="prose" set:html={bodyHtml} />
+</Base>

@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import FeaturedEscortsSlider from './FeaturedEscortsSlider.astro';
+import ProfileGrid from './ProfileGrid.astro';
+import { brand } from '../brand';
+import { taxonomies, profilesWithTerm, featuredProfiles, type Term } from '../lib/data';
+import { termTitle, termDescription, termArchiveIntro, termLabel, breadcrumbLd } from '../lib/seo';
+
+interface Props {
+  tax: string;
+  term: Term;
+}
+const { tax, term } = Astro.props;
+const t = taxonomies[tax];
+const path = `/${t.basePath}/${term.slug}/`;
+const list = profilesWithTerm(tax, term.slug);
+const children = t.terms
+  .filter((c) => c.parent === term.id && profilesWithTerm(tax, c.slug).length > 0)
+  .sort((a, b) => a.name.localeCompare(b.name));
+const parent = term.parentSlug ? t.terms.find((x) => x.slug === term.parentSlug) : null;
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  ...(parent ? [{ name: parent.name, path: `/${t.basePath}/${parent.slug}/` }] : []),
+  { name: term.name, path },
+];
+
+const intro = termArchiveIntro(term.name, list.length, tax);
+const isVip = brand.id === 'vip';
+const featuredInArchive = isVip ? featuredProfiles(list) : [];
+---
+
+<Base
+  title={termTitle(term.name, tax)}
+  description={termDescription(term.name, tax, list.length)}
+  path={path}
+  jsonLd={[
+    breadcrumbLd(Astro.site!, crumbs),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: termTitle(term.name, tax),
+      url: new URL(path, Astro.site).href,
+    },
+  ]}
+>
+  <div class:list={['term-archive', isVip && 'term-archive--vip']}>
+    <nav class="term-archive-crumbs" aria-label="Breadcrumb">
+      {
+        crumbs.map((c, i) => (
+          <>
+            {i > 0 && <span class="term-archive-crumbs-sep" aria-hidden="true">›</span>}
+            {i < crumbs.length - 1 ? (
+              <a class="term-archive-crumbs-link" href={c.path}>{c.name}</a>
+            ) : (
+              <span class="term-archive-crumbs-current">{c.name}</span>
+            )}
+          </>
+        ))
+      }
+    </nav>
+
+    <header class="term-archive-head">
+      {
+        isVip && tax === 'country' && (
+          <p class="term-archive-kicker">Location</p>
+        )
+      }
+      <h1 class="term-archive-title">{termLabel(term.name, tax)}</h1>
+      <p class="term-archive-intro">{intro}</p>
+    </header>
+
+    {
+      children.length > 0 && (
+        <section class="term-archive-areas" aria-labelledby="term-areas-heading">
+          <h2 id="term-areas-heading" class="term-archive-areas-title">
+            {tax === 'country' ? `Areas in ${term.name}` : `Browse ${term.name}`}
+          </h2>
+          <div class="term-pill-row">
+            {
+              children.map((c) => (
+                <a class="term-pill" href={`/${t.basePath}/${c.slug}/`}>{c.name}</a>
+              ))
+            }
+          </div>
+        </section>
+      )
+    }
+
+    {
+      isVip && (
+        <FeaturedEscortsSlider
+          profiles={featuredInArchive}
+          context="archive"
+          termName={term.name}
+          tax={tax}
+          class="my-8"
+        />
+      )
+    }
+
+    {
+      list.length === 0 ? (
+        <div class="empty">
+          <p>No Results Found</p>
+          <p>
+            <a href={`/${t.basePath}/`}>Browse all {term.name}</a> · <a href="/search/">Search</a>
+          </p>
+        </div>
+      ) : (
+        <ProfileGrid profiles={list} filters={list.length > 12} eager={8} />
+      )
+    }
+  </div>
+</Base>

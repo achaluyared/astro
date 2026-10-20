@@ -1,0 +1,67 @@
+/**
+ * GLightbox must cover the viewport, not sit in document flow at the bottom of <body>.
+ * Astro view transitions + late-loaded CSS can break default fixed positioning.
+ */
+
+#glightbox-body.glightbox-container,
+.glightbox-container {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 2147483646 !important;
+  transform: none !important;
+}
+
+.glightbox-container .goverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100dvh !important;
+  background: rgba(0, 0, 0, 0.96);
+}
+
+.glightbox-container .gcontainer {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+html.profile-lightbox-open,
+body.profile-lightbox-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+.glightbox-container .gclose,
+.glightbox-container .gnext,
+.glightbox-container .gprev {
+  opacity: 0.95;
+}
+
+.glightbox-container .gclose svg,
+.glightbox-container .gnext svg,
+.glightbox-container .gprev svg {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.85));
+}
+
+.glightbox-container .gslide-image img {
+  object-fit: contain;
+  max-height: 100vh;
+  max-height: 100dvh;
+}
+
+.glightbox-container .gdesc {
+  font-family: var(--font-sans, Inter, system-ui, sans-serif);
+}

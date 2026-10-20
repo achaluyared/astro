@@ -1,0 +1,113 @@
+---
+import { pagePath } from '../lib/pages';
+
+interface Props {
+  /** Legal pages (terms, privacy) skip the overlay so visitors can read them first. */
+  skip?: boolean;
+}
+const { skip = false } = Astro.props;
+
+const termsHref = pagePath('terms');
+const REMEMBER_DAYS = 60;
+const STORAGE_KEY = 'addis_age_ok';
+---
+
+<dialog
+  class="age-gate fixed inset-0 z-[100] m-0 h-full max-h-none w-full max-w-none border-0 bg-[rgba(8,6,10,0.94)] p-0 text-vip-text"
+  id="age-gate"
+  aria-labelledby="age-gate-title"
+  aria-describedby="age-gate-desc"
+>
+  <div
+    class="mx-4 w-[min(92vw,420px)] rounded-vip border border-vip-line bg-vip-panel p-7 text-center shadow-[0_24px_64px_rgba(0,0,0,0.55)]"
+  >
+    <h2 id="age-gate-title" class="mb-3 font-serif text-xl font-semibold text-vip-text">Adults only (21+)</h2>
+    <p id="age-gate-desc" class="mb-4 text-[0.95rem] leading-relaxed text-vip-muted">
+      This site contains adult-oriented material. You must be at least <strong class="text-vip-text">21 years old</strong> to enter.
+      By continuing, you confirm you meet this requirement and agree to our <a class="text-vip-gold-light" href={termsHref}>Terms</a>.
+    </p>
+    <div class="mt-5 grid gap-2.5">
+      <button
+        type="button"
+        class="btn primary flex min-h-12 w-full cursor-pointer items-center justify-center rounded-xl bg-vip-gold text-base font-bold text-[#1b1305]"
+        id="age-gate-enter"
+      >
+        I am 21 or older — Enter
+      </button>
+      <button
+        type="button"
+        class="btn ghost flex min-h-12 w-full cursor-pointer items-center justify-center rounded-xl border border-vip-line bg-transparent text-base text-vip-muted"
+        id="age-gate-leave"
+      >
+        Leave site
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .age-gate[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .age-gate::backdrop {
+    background: #08060a;
+  }
+  body.age-gate-open {
+    overflow: hidden;
+  }
+</style>
+
+<script is:inline define:vars={{ STORAGE_KEY, REMEMBER_DAYS, skip }}>
+  (function () {
+    if (skip) return;
+    var dlg = document.getElementById('age-gate');
+    if (!dlg) return;
+    var ms = REMEMBER_DAYS * 24 * 60 * 60 * 1000;
+
+    function isOk() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        var t = parseInt(raw, 10);
+        if (!t || Date.now() - t > ms) {
+          localStorage.removeItem(STORAGE_KEY);
+          return false;
+        }
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function closeGate() {
+      dlg.close();
+      document.body.classList.remove('age-gate-open');
+    }
+
+    function openGate() {
+      document.body.classList.add('age-gate-open');
+      if (typeof dlg.showModal === 'function') dlg.showModal();
+    }
+
+    if (isOk()) return;
+
+    openGate();
+
+    document.getElementById('age-gate-enter')?.addEventListener('click', function () {
+      try {
+        localStorage.setItem(STORAGE_KEY, String(Date.now()));
+      } catch (e) {}
+      closeGate();
+    });
+
+    document.getElementById('age-gate-leave')?.addEventListener('click', function () {
+      window.location.href = 'https://www.google.com/';
+    });
+
+    dlg.addEventListener('cancel', function (e) {
+      e.preventDefault();
+    });
+  })();
+</script>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f0d10" />
+  <title>Escort card mockups · Addis VIP Girls</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vip: {
+              bg: '#0f0d10',
+              panel: '#1a171c',
+              line: '#2b262e',
+              text: '#ece8ee',
+              muted: '#a69fab',
+              gold: '#c9a45c',
+              brand: '#f0b429',
+            },
+          },
+          fontFamily: { serif: ['Georgia', 'Times New Roman', 'serif'] },
+          borderRadius: { vip: '14px' },
+        },
+      },
+    };
+  </script>
+  <style>
+    .pick-btn { transition: transform 0.15s, box-shadow 0.15s; }
+    .pick-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201, 164, 92, 0.2); }
+    .pick-btn.is-selected { outline: 2px solid #c9a45c; outline-offset: 3px; }
+    /* Option 1 — cinematic overlay */
+    .card-a .photo-wrap { position: relative; aspect-ratio: 3/4; overflow: hidden; border-radius: 14px; }
+    .card-a .photo-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+    .card-a:hover .photo-wrap img { transform: scale(1.05); }
+    .card-a .grad {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,6,10,0.92) 0%, rgba(8,6,10,0.35) 38%, transparent 62%);
+      pointer-events: none;
+    }
+    .card-a .on-photo { position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem 1rem 1.1rem; z-index: 1; }
+    .card-a .badges { position: absolute; top: 0.65rem; left: 0.65rem; display: flex; flex-wrap: wrap; gap: 0.35rem; z-index: 2; }
+    /* Option 2 — concierge frame */
+    .card-b {
+      padding: 0.55rem;
+      background: linear-gradient(145deg, #2a2318 0%, #1a171c 40%, #141218 100%);
+      border: 1px solid rgba(201, 164, 92, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(201, 164, 92, 0.12), 0 14px 36px rgba(0,0,0,0.45);
+    }
+    .card-b .inner { border: 1px solid rgba(201, 164, 92, 0.22); border-radius: 10px; overflow: hidden; background: #121015; }
+    .card-b .photo-wrap { aspect-ratio: 3/4; overflow: hidden; }
+    .card-b .photo-wrap img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.95) contrast(1.02); transition: filter 0.3s; }
+    .card-b:hover .photo-wrap img { filter: saturate(1.05); }
+    .card-b .plate {
+      border-top: 1px solid rgba(201, 164, 92, 0.45);
+      padding: 0.85rem 1rem 1rem;
+      text-align: center;
+      background: linear-gradient(to bottom, #1e1a22, #161419);
+    }
+    .card-b .plate h3 { font-family: Georgia, serif; font-size: 1.05rem; font-weight: 600; margin: 0; letter-spacing: 0.02em; }
+    .card-b .plate .meta { font-size: 0.78rem; color: #a69fab; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .card-b .plate .cta { margin-top: 0.55rem; font-size: 0.72rem; color: #c9a45c; letter-spacing: 0.12em; text-transform: uppercase; }
+    /* Option 3 — glass dock */
+    .card-c { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid #2b262e; background: #1a171c; }
+    .card-c .photo-wrap { aspect-ratio: 3/4; position: relative; overflow: hidden; }
+    .card-c .photo-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .card-c:hover .photo-wrap img { transform: scale(1.04); }
+    .card-c .dock {
+      position: absolute; left: 0.5rem; right: 0.5rem; bottom: 0.5rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(22, 18, 26, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; gap: 0.65rem;
+    }
+    .card-c .dock .dot { width: 8px; height: 8px; border-radius: 50%; background: #3ecf7a; box-shadow: 0 0 8px rgba(62,207,122,0.6); flex-shrink: 0; }
+    .card-c .dock .dot.off { background: #555; box-shadow: none; }
+    .card-c .dock h3 { margin: 0; font-family: Georgia, serif; font-size: 0.95rem; font-weight: 600; line-height: 1.2; }
+    .card-c .dock .meta { font-size: 0.75rem; color: #a69fab; }
+    .card-c .ribbon {
+      position: absolute; top: 0.6rem; right: -2rem;
+      transform: rotate(42deg);
+      background: #c9a45c; color: #1b1305;
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em;
+      padding: 0.2rem 2.5rem; text-transform: uppercase;
+    }
+    /* Reference — current production-ish */
+    .card-ref { overflow: hidden; border-radius: 14px; border: 1px solid #2b262e; background: #1a171c; transition: border-color 0.2s, box-shadow 0.2s; }
+    .card-ref:hover { border-color: rgba(201,164,92,0.45); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+    .card-ref .ph { aspect-ratio: 3/4; position: relative; background: #231f26; }
+    .card-ref .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .card-ref .badges { position: absolute; top: 0.5rem; left: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .card-ref .body { padding: 0.65rem 0.75rem 0.9rem; }
+    .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.15rem 0.45rem; border-radius: 999px; }
+    .badge-f { background: #c9a45c; color: #1b1305; }
+    .badge-v { background: #2c7a4b; color: #fff; font-weight: 500; }
+    .badge-n { background: #3d4a6b; color: #e8ecff; border: 1px solid #5a6a99; font-weight: 500; }
+  </style>
+</head>
+<body class="bg-vip-bg text-vip-text antialiased pb-16">
+
+  <div class="border-b border-vip-gold/40 bg-[#2a2418] px-4 py-2.5 text-center text-xs text-vip-gold">
+    <strong class="text-white">Design mockup</strong> — pick a card direction for Addis VIP Girls.
+    <a href="/" class="ml-2 underline decoration-vip-gold/50">Live home</a>
+  </div>
+
+  <header class="mx-auto max-w-6xl px-4 pt-8 pb-4">
+    <h1 class="font-serif text-2xl md:text-3xl font-semibold text-white">Escort listing cards — 3 proposals</h1>
+    <p class="mt-2 max-w-2xl text-sm text-vip-muted leading-relaxed">
+      Your current cards (reference below) use a flat panel + name under the photo — common on directories, but they can feel generic.
+      These three directions stay on-brand (dark + gold, 3∶4 photos, Featured / Verified / New badges) with a more premium feel.
+      Click <strong class="text-vip-gold">I prefer this</strong> on a section to mark your choice (saved in this browser only).
+    </p>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 space-y-14">
+
+    <!-- Option 1 -->
+    <section class="option-section" data-option="1">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5 border-b border-vip-line pb-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-vip-gold mb-1">Option 1</p>
+          <h2 class="font-serif text-xl md:text-2xl text-white">Cinematic overlay</h2>
+          <p class="mt-1 text-sm text-vip-muted max-w-xl">
+            Magazine / nightlife directory: name and age sit <em>on</em> the photo with a soft gradient. No separate text box — cleaner grid, stronger photos. Best if your images are high quality.
+          </p>
+        </div>
+        <button type="button" class="pick-btn shrink-0 rounded-full border border-vip-gold px-4 py-2 text-sm text-vip-gold hover:bg-vip-gold/10" data-pick="1">I prefer this</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+        <a href="#" class="card-a block no-underline text-inherit group">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="grad"></div>
+            <div class="badges"><span class="badge badge-f">Featured</span><span class="badge badge-v">Verified</span></div>
+            <div class="on-photo">
+              <h3 class="font-serif text-lg font-semibold text-white m-0">Samira</h3>
+              <p class="text-sm text-vip-muted mt-0.5 m-0">24 yrs · Bole</p>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-a block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="grad"></div>
+            <div class="badges"><span class="badge badge-v">Verified</span></div>
+            <div class="on-photo">
+              <h3 class="font-serif text-lg font-semibold text-white m-0">Liya</h3>
+              <p class="text-sm text-vip-muted mt-0.5 m-0">22 yrs · Kazanchis</p>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-a block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="grad"></div>
+            <div class="badges"><span class="badge badge-n">New</span></div>
+            <div class="on-photo">
+              <h3 class="font-serif text-lg font-semibold text-white m-0">Hanna</h3>
+              <p class="text-sm text-vip-muted mt-0.5 m-0">26 yrs · CMC</p>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-a block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="grad"></div>
+            <div class="on-photo">
+              <h3 class="font-serif text-lg font-semibold text-white m-0">Meron</h3>
+              <p class="text-sm text-vip-muted mt-0.5 m-0">23 yrs · Old Airport</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Option 2 -->
+    <section class="option-section" data-option="2">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5 border-b border-vip-line pb-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-vip-gold mb-1">Option 2</p>
+          <h2 class="font-serif text-xl md:text-2xl text-white">Concierge frame</h2>
+          <p class="mt-1 text-sm text-vip-muted max-w-xl">
+            Luxury hotel / private club directory: double gold frame, centered nameplate, subtle “View profile” cue. Feels exclusive and deliberate; slightly taller card due to the plate.
+          </p>
+        </div>
+        <button type="button" class="pick-btn shrink-0 rounded-full border border-vip-gold px-4 py-2 text-sm text-vip-gold hover:bg-vip-gold/10" data-pick="2">I prefer this</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+        <a href="#" class="card-b block rounded-vip no-underline text-inherit">
+          <div class="inner">
+            <div class="photo-wrap relative">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=480&h=640&fit=crop" alt="" loading="lazy" />
+              <div class="badges absolute top-2 left-2 flex flex-wrap gap-1"><span class="badge badge-f">Featured</span></div>
+            </div>
+            <div class="plate">
+              <h3>Samira</h3>
+              <div class="meta">24 · Bole</div>
+              <div class="cta">View profile</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-b block rounded-vip no-underline text-inherit">
+          <div class="inner">
+            <div class="photo-wrap"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=480&h=640&fit=crop" alt="" loading="lazy" /></div>
+            <div class="plate">
+              <h3>Liya</h3>
+              <div class="meta">Verified · 22 · Kazanchis</div>
+              <div class="cta">View profile</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-b block rounded-vip no-underline text-inherit">
+          <div class="inner">
+            <div class="photo-wrap"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=480&h=640&fit=crop" alt="" loading="lazy" /></div>
+            <div class="plate">
+              <h3>Hanna</h3>
+              <div class="meta">New · 26 · CMC</div>
+              <div class="cta">View profile</div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-b block rounded-vip no-underline text-inherit">
+          <div class="inner">
+            <div class="photo-wrap"><img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=480&h=640&fit=crop" alt="" loading="lazy" /></div>
+            <div class="plate">
+              <h3>Meron</h3>
+              <div class="meta">23 · Old Airport</div>
+              <div class="cta">View profile</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Option 3 -->
+    <section class="option-section" data-option="3">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5 border-b border-vip-line pb-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-vip-gold mb-1">Option 3</p>
+          <h2 class="font-serif text-xl md:text-2xl text-white">Glass dock</h2>
+          <p class="mt-1 text-sm text-vip-muted max-w-xl">
+            Modern app-style: full-bleed photo with a floating frosted bar (verified green dot + name). Corner “Featured” ribbon for promos. Compact metadata; works well on mobile search grids.
+          </p>
+        </div>
+        <button type="button" class="pick-btn shrink-0 rounded-full border border-vip-gold px-4 py-2 text-sm text-vip-gold hover:bg-vip-gold/10" data-pick="3">I prefer this</button>
+      </div>
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+        <a href="#" class="card-c block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <span class="ribbon">Featured</span>
+            <div class="dock">
+              <span class="dot" title="Verified"></span>
+              <div>
+                <h3>Samira</h3>
+                <div class="meta">24 yrs · Bole</div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-c block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="dock">
+              <span class="dot"></span>
+              <div>
+                <h3>Liya</h3>
+                <div class="meta">22 yrs · Kazanchis</div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-c block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="dock">
+              <span class="dot off"></span>
+              <div>
+                <h3>Hanna</h3>
+                <div class="meta">26 yrs · CMC · <span class="text-[#7a9fd4]">New</span></div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="card-c block no-underline text-inherit">
+          <div class="photo-wrap">
+            <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="dock">
+              <span class="dot"></span>
+              <div>
+                <h3>Meron</h3>
+                <div class="meta">23 yrs · Old Airport</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Reference -->
+    <section class="opacity-90">
+      <div class="mb-5 border-b border-vip-line pb-4">
+        <p class="text-xs uppercase tracking-widest text-vip-muted mb-1">Reference (today)</p>
+        <h2 class="font-serif text-lg text-vip-muted">Current production card</h2>
+        <p class="mt-1 text-sm text-vip-muted">Bordered panel, badges on photo, name in a separate block below — what you said you don’t like.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 max-w-4xl">
+        <a href="#" class="card-ref block no-underline text-inherit">
+          <div class="ph">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="badges"><span class="badge badge-f">Featured</span><span class="badge badge-v">Verified</span></div>
+          </div>
+          <div class="body">
+            <h3 class="font-serif text-base font-semibold m-0 truncate">Samira</h3>
+            <p class="text-sm text-vip-muted mt-0.5 m-0">24 yrs · Bole</p>
+          </div>
+        </a>
+        <a href="#" class="card-ref block no-underline text-inherit">
+          <div class="ph">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=480&h=640&fit=crop" alt="" loading="lazy" />
+            <div class="badges"><span class="badge badge-v">Verified</span></div>
+          </div>
+          <div class="body">
+            <h3 class="font-serif text-base font-semibold m-0 truncate">Liya</h3>
+            <p class="text-sm text-vip-muted mt-0.5 m-0">22 yrs · Kazanchis</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const KEY = 'addisvip-escort-card-pick';
+    document.querySelectorAll('[data-pick]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const n = btn.dataset.pick;
+        localStorage.setItem(KEY, n);
+        document.querySelectorAll('.pick-btn').forEach((b) => b.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        btn.textContent = 'Selected ✓';
+      });
+    });
+    const saved = localStorage.getItem(KEY);
+    if (saved) {
+      const btn = document.querySelector(`[data-pick="${saved}"]`);
+      if (btn) { btn.classList.add('is-selected'); btn.textContent = 'Selected ✓'; }
+    }
+  </script>
+</body>
+</html>

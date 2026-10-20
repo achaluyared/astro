@@ -1,0 +1,40 @@
+---
+import HomeHero from '../HomeHero.astro';
+import HomeSeoContent from '../HomeSeoContent.astro';
+import ProfileSection from '../ProfileSection.astro';
+import { brand } from '../../brand';
+import { sortProfiles, profiles, isFeatured, isOnHomepage } from '../../lib/data';
+
+const featured = sortProfiles(profiles.filter(isFeatured));
+const homepage = sortProfiles(profiles.filter(isOnHomepage));
+const { whatsapp: WHATSAPP, telegram: TELEGRAM } = brand.contact;
+---
+
+<HomeHero />
+
+<p class="mt-4 text-right text-sm text-vip-muted">
+  <a class="text-vip-gold-light no-underline hover:underline" href="/search/">Search all profiles</a> &rarr;
+</p>
+
+<ProfileSection
+  title="Featured Massage Girls in Addis Ababa"
+  subtitle="Hand-picked premium massage providers"
+  description="Hand-picked premium massage providers offering high-quality and personalized experiences."
+  profiles={featured}
+/>
+
+<section
+  class="join-band my-10 flex flex-wrap items-center justify-between gap-4 rounded-vip border border-vip-line bg-[#1d2a22] p-6"
+>
+  <h2 class="m-0 flex-[1_1_380px] font-serif text-xl font-semibold leading-snug">
+    Are You a Massage Girl in Addis Ababa?<br />Join our platform and get more clients instantly. Promote your profile and grow your income.
+  </h2>
+  <div class="cta m-0 flex flex-wrap gap-2">
+    <a class="btn" style="background:#075E54;border-color:#075E54;color:#fff" href={WHATSAPP} rel="noopener" target="_blank">WhatsApp</a>
+    <a class="btn" style="background:#0088CC;border-color:#0088CC;color:#fff" href={TELEGRAM} rel="noopener" target="_blank">Telegram</a>
+  </div>
+</section>
+
+<ProfileSection title="New Massage Girls" subtitle="Recently verified and ready to book" profiles={homepage} />
+
+<HomeSeoContent />

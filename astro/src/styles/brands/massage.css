@@ -1,0 +1,16 @@
+/* massageinaddisababa.com — calmer spa tones; same layout tokens as VIP */
+:root {
+  --bg: #0c1110;
+  --panel: #141c18;
+  --panel-2: #101814;
+  --panel-deep: #080c0a;
+  --line: #243028;
+  --text: #e8eee9;
+  --muted: #94a89c;
+  --gold: #5cb88a;
+  --gold-2: #8ed4b0;
+  --brand-gold: #6ecf9d;
+  --accent-wa: #25d366;
+  --radius: 14px;
+  --max: 1180px;
+}

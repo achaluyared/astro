@@ -1,0 +1,70 @@
+---
+import ProfileCard from './ProfileCard.astro';
+import { featuredSliderCopy, type FeaturedSliderContext } from '../lib/featured-slider-copy';
+import type { Profile } from '../lib/data';
+
+interface Props {
+  profiles: Profile[];
+  context?: FeaturedSliderContext;
+  termName?: string;
+  tax?: string;
+  /** Override auto copy (home defaults when context is home). */
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  sectionId?: string;
+  class?: string;
+}
+const {
+  profiles,
+  context = 'home',
+  termName,
+  tax,
+  title: titleOverride,
+  subtitle: subtitleOverride,
+  description: descriptionOverride,
+  sectionId: sectionIdOverride,
+  class: className,
+} = Astro.props;
+
+const copy = featuredSliderCopy(context, { termName, tax });
+const title = titleOverride ?? copy.title;
+const subtitle = subtitleOverride ?? copy.subtitle;
+const description = descriptionOverride ?? copy.description;
+const sectionId = sectionIdOverride ?? copy.sectionId;
+---
+
+{
+  profiles.length > 0 && (
+    <section class:list={['featured-escorts-slider', className]} aria-labelledby={sectionId}>
+      <header class="mb-4 home-section-header">
+        <h2 id={sectionId} class="mb-1 mt-0 font-serif text-2xl font-semibold text-vip-text">
+          {title}
+        </h2>
+        <p class="home-section-subtitle">{subtitle}</p>
+        <p class="muted mt-2 max-w-[62ch]">{description}</p>
+      </header>
+
+      <div class="feat-carousel" data-featured-carousel>
+        <button type="button" class="feat-carousel-btn" data-feat-prev aria-label="Scroll featured escorts left">
+          ‹
+        </button>
+        <div class="feat-carousel-viewport" data-feat-viewport>
+          <div class="feat-carousel-track" data-feat-track>
+            {profiles.map((p, i) => (
+              <ProfileCard profile={p} homeSection="featured" eager={i < 4} />
+            ))}
+          </div>
+        </div>
+        <button type="button" class="feat-carousel-btn" data-feat-next aria-label="Scroll featured escorts right">
+          ›
+        </button>
+      </div>
+      <div class="feat-carousel-dots" data-feat-dots role="tablist" aria-label="Featured carousel pages" />
+    </section>
+  )
+}
+
+<script>
+  import '../scripts/featured-slider.ts';
+</script>

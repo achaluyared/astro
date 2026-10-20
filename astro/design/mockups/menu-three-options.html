@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menu mockups · Addis VIP Girls</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vip: { bg: '#0f0d10', panel: '#1a171c', deep: '#0b090c', line: '#2b262e', text: '#ece8ee', muted: '#a69fab', gold: '#c9a45c', brand: '#f0b429' },
+          },
+          fontFamily: { serif: ['Georgia', 'Times New Roman', 'serif'] },
+          maxWidth: { site: '1180px' },
+        },
+      },
+    };
+  </script>
+  <style>
+    .pick-btn { transition: transform 0.15s, box-shadow 0.15s; }
+    .pick-btn:hover { transform: translateY(-1px); }
+    .pick-btn.is-selected { outline: 2px solid #c9a45c; outline-offset: 3px; }
+    .demo-block { border: 1px solid #2b262e; border-radius: 14px; overflow: hidden; background: #141117; }
+    .demo-scroll-hint { font-size: 11px; color: #a69fab; text-align: center; padding: 0.5rem; border-top: 1px solid #2b262e; }
+
+    /* —— Option A: Editorial underline —— */
+    .nav-a .links a {
+      position: relative;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ece8ee;
+      text-decoration: none;
+      padding: 0.35rem 0;
+    }
+    .nav-a .links a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 2px;
+      background: #c9a45c;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .nav-a .links a:hover { color: #e5c885; }
+    .nav-a .links a:hover::after { transform: scaleX(1); }
+    .nav-a .links a.is-active::after { transform: scaleX(1); }
+    .drawer-a {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: #0b090c;
+      border-bottom: 1px solid #2b262e;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      padding: 0.5rem 0 1rem;
+    }
+    .drawer-a a {
+      display: block;
+      padding: 0.85rem 1.25rem;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #ece8ee;
+      text-decoration: none;
+      border-top: 1px solid #2b262e;
+    }
+    .drawer-a a:hover { color: #c9a45c; background: rgba(201,164,92,0.06); }
+    .drawer-a a.is-active { color: #e5c885; box-shadow: inset 3px 0 0 #c9a45c; background: rgba(201,164,92,0.08); }
+
+    /* —— Option B: Segmented capsule —— */
+    .nav-b .capsule {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+      padding: 0.25rem;
+      border-radius: 999px;
+      background: #1a171c;
+      border: 1px solid #2b262e;
+    }
+    .nav-b .capsule a {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      color: #a69fab;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-b .capsule a:hover { color: #ece8ee; background: rgba(255,255,255,0.04); }
+    .nav-b .capsule a.is-active { color: #1b1305; background: #c9a45c; font-weight: 600; }
+    .nav-b .capsule a.cta-pill {
+      background: linear-gradient(180deg, #f0b429, #c9a45c);
+      color: #1b1305;
+      font-weight: 600;
+    }
+    .nav-b .capsule a.cta-pill:hover { filter: brightness(1.08); color: #1b1305; }
+    .drawer-b {
+      position: absolute; top: 100%; left: 0; right: 0;
+      padding: 1rem;
+      background: #0b090c;
+      border-bottom: 1px solid #2b262e;
+    }
+    .drawer-b .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      border-radius: 12px;
+      background: #1a171c;
+      border: 1px solid #2b262e;
+      padding: 0.35rem;
+    }
+    .drawer-b .stack a {
+      display: block;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      color: #ece8ee;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .drawer-b .stack a:hover { background: rgba(201,164,92,0.1); }
+    .drawer-b .stack a.highlight {
+      background: rgba(201,164,92,0.2);
+      color: #e5c885;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* —— Option C: Split bar + full-screen mobile —— */
+    .nav-c .row-links { display: flex; align-items: center; gap: 1.25rem; }
+    .nav-c .row-links a {
+      color: #ece8ee;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .nav-c .row-links a span.num {
+      display: none;
+    }
+    .nav-c .row-links a:hover { color: #f0b429; }
+    .nav-c .search-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: #1a171c;
+      border: 1px solid #2b262e;
+      color: #e5c885;
+      font-size: 0.875rem;
+      text-decoration: none;
+    }
+    .nav-c .search-btn:hover { border-color: #c9a45c; }
+    .nav-c .search-btn svg { opacity: 0.85; }
+    .overlay-c {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(8, 6, 10, 0.92);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .overlay-c.open { opacity: 1; pointer-events: auto; }
+    .overlay-c .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .overlay-c nav { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.25rem; }
+    .overlay-c nav a {
+      font-family: Georgia, serif;
+      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      color: #ece8ee;
+      text-decoration: none;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(43,38,46,0.6);
+    }
+    .overlay-c nav a:hover { color: #c9a45c; padding-left: 0.35rem; transition: padding 0.2s; }
+    .overlay-c .foot { font-size: 0.8rem; color: #a69fab; text-align: center; margin-top: auto; }
+
+    .drawer-hidden { display: none !important; }
+    .hamburger {
+      width: 44px; height: 44px;
+      border: 0; background: transparent;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+      cursor: pointer;
+    }
+    .hamburger span { display: block; width: 20px; height: 2px; background: #ece8ee; }
+    @media (min-width: 768px) {
+      .show-mobile-only { display: none !important; }
+      .hide-mobile { display: flex !important; }
+    }
+    @media (max-width: 767px) {
+      .hide-mobile { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-vip-bg text-vip-text antialiased pb-20">
+
+  <div class="border-b border-vip-gold/40 bg-[#2a2418] px-4 py-2.5 text-center text-xs text-vip-gold">
+    <strong class="text-white">Menu mockups</strong> — Addis VIP Girls · resize browser to test mobile.
+    <a href="/" class="ml-2 underline">Live site</a>
+    ·
+    <a href="/mockups/escort-cards-three-options.html" class="underline">Card mockups</a>
+  </div>
+
+  <header class="mx-auto max-w-site px-4 pt-8 pb-2">
+    <h1 class="font-serif text-2xl md:text-3xl font-semibold text-white">Navigation — 3 proposals</h1>
+    <p class="mt-2 max-w-2xl text-sm text-vip-muted leading-relaxed">
+      Today: plain text links + dropdown drawer on mobile. Below: three VIP-friendly menus using your usual items
+      (Home, Search, About Us, Contact). Tap the <strong class="text-vip-gold">☰</strong> on narrow screens to preview mobile.
+    </p>
+  </header>
+
+  <main class="mx-auto max-w-site px-4 space-y-12 mt-8">
+
+    <!-- Reference -->
+    <section class="opacity-85">
+      <p class="text-xs uppercase tracking-widest text-vip-muted mb-2">Reference (today)</p>
+      <div class="demo-block">
+        <header class="sticky top-0 z-10 flex min-h-14 items-center justify-between gap-3 border-b border-vip-line bg-vip-deep px-4">
+          <span class="font-serif text-lg">Addis <span class="text-vip-brand">VIP</span> Escorts</span>
+          <nav class="hide-mobile items-center gap-5 text-sm">
+            <a href="#" class="text-vip-text no-underline hover:text-vip-gold">Home</a>
+            <a href="#" class="text-vip-text no-underline hover:text-vip-gold">Search</a>
+            <a href="#" class="text-vip-text no-underline hover:text-vip-gold">About Us</a>
+            <a href="#" class="text-vip-text no-underline hover:text-vip-gold">Contact</a>
+          </nav>
+          <button type="button" class="hamburger show-mobile-only" aria-label="Menu"><span></span><span></span><span></span></button>
+        </header>
+        <div class="demo-scroll-hint">Simple links · mobile = slide-down list (current SiteNav)</div>
+      </div>
+    </section>
+
+    <!-- Option 1 -->
+    <section data-option="1">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-3">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-vip-gold mb-1">Option 1</p>
+          <h2 class="font-serif text-xl text-white">Editorial underline</h2>
+          <p class="mt-1 text-sm text-vip-muted max-w-xl">Uppercase tracking + gold underline on hover/active. All items identical (including Contact). <a href="/mockups/menu-editorial-refined.html" class="text-vip-gold underline">Mobile preview</a>.</p>
+        </div>
+        <button type="button" class="pick-btn shrink-0 rounded-full border border-vip-gold px-4 py-2 text-sm text-vip-gold" data-pick="1">I prefer this</button>
+      </div>
+      <div class="demo-block relative" data-demo="1">
+        <header class="nav-a sticky top-0 z-10 flex min-h-[3.75rem] items-center justify-between gap-3 border-b border-vip-line bg-vip-deep/95 px-4 backdrop-blur-sm">
+          <a href="#" class="font-serif text-lg no-underline text-white">Addis <span class="text-vip-brand">VIP</span> Escorts</a>
+          <div class="links hide-mobile items-center gap-6">
+            <a href="#" class="is-active">Home</a>
+            <a href="#">Search</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+          </div>
+          <button type="button" class="hamburger show-mobile-only nav-a-toggle" aria-expanded="false" aria-label="Menu"><span></span><span></span><span></span></button>
+        </header>
+        <nav class="drawer-a drawer-hidden nav-a-drawer show-mobile-only" aria-label="Main">
+          <a href="#" class="is-active">Home</a>
+          <a href="#">Search</a>
+          <a href="#">About Us</a>
+          <a href="#">Contact</a>
+        </nav>
+        <div class="h-24 bg-gradient-to-b from-vip-panel/30 to-transparent"></div>
+        <div class="demo-scroll-hint">Tap ☰ below 768px · drawer matches uppercase editorial style</div>
+      </div>
+    </section>
+
+    <!-- Option 2 -->
+    <section data-option="2">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-3">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-vip-gold mb-1">Option 2</p>
+          <h2 class="font-serif text-xl text-white">Segmented capsule</h2>
+          <p class="mt-1 text-sm text-vip-muted max-w-xl">Links grouped in a pill bar; active page filled gold. Search can be the bright pill. Feels app-like and easy to scan.</p>
+        </div>
+        <button type="button" class="pick-btn shrink-0 rounded-full border border-vip-gold px-4 py-2 text-sm text-vip-gold" data-pick="2">I prefer this</button>
+      </div>
+      <div class="demo-block relative" data-demo="2">
+        <header class="nav-b sticky top-0 z-10 flex min-h-[3.75rem] items-center justify-between gap-2 border-b border-vip-line bg-vip-deep px-3 md:px-4">
+          <a href="#" class="font-serif text-base md:text-lg no-underline text-white shrink-0">Addis <span class="text-vip-brand">VIP</span></a>
+          <div class="capsule hide-mobile">
+            <a href="#" class="is-active">Home</a>
+            <a href="#" class="cta-pill">Search</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+          </div>
+          <button type="button" class="hamburger show-mobile-only nav-b-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        </header>
+        <nav class="drawer-b drawer-hidden nav-b-drawer show-mobile-only" aria-label="Main">
+          <div class="stack">
+            <a href="#">Home</a>
+            <a href="#" class="highlight">Search profiles</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+          </div>
+        </nav>
+        <div class="h-24 bg-gradient-to-b from-vip-panel/30 to-transparent"></div>
+        <div class="demo-scroll-hint">Highlights Search (main conversion path)</div>
+      </div>
+    </section>
+
+    <!-- Option 3 -->
+    <section data-option="3">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-3">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-vip-gold mb-1">Option 3</p>
+          <h2 class="font-serif text-xl text-white">Serif overlay (mobile-first drama)</h2>
+          <p class="mt-1 text-sm text-vip-muted max-w-xl">Desktop: calm row + search chip. Mobile: full-screen menu with large serif links (luxury hotel site vibe). Slightly heavier on mobile (blur overlay).</p>
+        </div>
+        <button type="button" class="pick-btn shrink-0 rounded-full border border-vip-gold px-4 py-2 text-sm text-vip-gold" data-pick="3">I prefer this</button>
+      </div>
+      <div class="demo-block relative" data-demo="3">
+        <header class="nav-c sticky top-0 z-10 flex min-h-[3.75rem] items-center justify-between gap-3 border-b border-vip-line bg-vip-deep px-4">
+          <a href="#" class="font-serif text-lg no-underline text-white">Addis <span class="text-vip-brand">VIP</span> Escorts</a>
+          <div class="hide-mobile items-center gap-4">
+            <div class="row-links">
+              <a href="#">Home</a>
+              <a href="#">About Us</a>
+              <a href="#">Contact</a>
+            </div>
+            <a href="#" class="search-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+              Search
+            </a>
+          </div>
+          <button type="button" class="hamburger show-mobile-only nav-c-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        </header>
+        <div class="h-24 bg-gradient-to-b from-vip-panel/30 to-transparent"></div>
+        <div class="demo-scroll-hint">On mobile, ☰ opens full-screen overlay (see below header when open)</div>
+      </div>
+      <!-- Fullscreen overlay lives outside demo-block for option 3 -->
+      <div class="overlay-c nav-c-overlay" id="overlay-c" aria-hidden="true">
+        <div class="top">
+          <span class="font-serif text-lg text-white">Menu</span>
+          <button type="button" class="hamburger nav-c-close" aria-label="Close"><span></span><span></span></button>
+        </div>
+        <nav>
+          <a href="#">Home</a>
+          <a href="#">Search</a>
+          <a href="#">About Us</a>
+          <a href="#">Contact</a>
+        </nav>
+        <p class="foot">Adults only 21+ · Addis VIP Girls</p>
+      </div>
+    </section>
+
+    <section class="rounded-vip border border-vip-line bg-vip-panel p-5 text-sm text-vip-muted max-w-2xl">
+      <h2 class="font-serif text-lg text-white mt-0">Quick pick guide</h2>
+      <ul class="space-y-2 pl-4">
+        <li><strong class="text-vip-gold">Option 1</strong> — Best match for your cinematic cards; lightest code; strong SEO (normal links, clear hierarchy).</li>
+        <li><strong class="text-vip-gold">Option 2</strong> — Best if you want Search to stand out; still fast on desktop.</li>
+        <li><strong class="text-vip-gold">Option 3</strong> — Best mobile “wow”; use sparing blur or skip blur in production for speed.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const KEY = 'addisvip-menu-pick';
+    document.querySelectorAll('[data-pick]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        localStorage.setItem(KEY, btn.dataset.pick);
+        document.querySelectorAll('.pick-btn').forEach((b) => b.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        btn.textContent = 'Selected ✓';
+      });
+    });
+    const saved = localStorage.getItem(KEY);
+    if (saved) {
+      const btn = document.querySelector(`[data-pick="${saved}"]`);
+      if (btn) { btn.classList.add('is-selected'); btn.textContent = 'Selected ✓'; }
+    }
+
+    function toggleDrawer(drawer, open) {
+      if (!drawer) return;
+      drawer.classList.toggle('drawer-hidden', !open);
+    }
+
+    document.querySelector('.nav-a-toggle')?.addEventListener('click', function () {
+      const d = document.querySelector('.nav-a-drawer');
+      const open = d?.classList.contains('drawer-hidden');
+      toggleDrawer(d, open);
+      this.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.querySelector('.nav-b-toggle')?.addEventListener('click', function () {
+      const d = document.querySelector('.nav-b-drawer');
+      const open = d?.classList.contains('drawer-hidden');
+      toggleDrawer(d, open);
+    });
+
+    const overlay = document.getElementById('overlay-c');
+    document.querySelector('.nav-c-toggle')?.addEventListener('click', () => {
+      overlay?.classList.add('open');
+      overlay?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeOverlay() {
+      overlay?.classList.remove('open');
+      overlay?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    document.querySelector('.nav-c-close')?.addEventListener('click', closeOverlay);
+    overlay?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeOverlay));
+  </script>
+</body>
+</html>

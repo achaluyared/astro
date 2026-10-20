@@ -1,0 +1,26 @@
+---
+import '../styles/home.css';
+import Base from '../layouts/Base.astro';
+import HomeMassage from '../components/home/HomeMassage.astro';
+import HomeVip from '../components/home/HomeVip.astro';
+import { brand } from '../brand';
+import { homeTitle, homeDescription, SITE_NAME } from '../lib/seo';
+
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: new URL('/', Astro.site).href,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: new URL('/search/?q={search_term_string}', Astro.site).href,
+      'query-input': 'required name=search_term_string',
+    },
+  },
+];
+---
+
+<Base title={homeTitle} description={homeDescription} path="/" jsonLd={ld}>
+  {brand.homeLayout === 'massage' ? <HomeMassage /> : <HomeVip />}
+</Base>

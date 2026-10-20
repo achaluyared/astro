@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import AboutMassage from '../components/brand/AboutMassage.astro';
+import AboutVip from '../components/brand/AboutVip.astro';
+import { brand } from '../brand';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+
+const path = '/about-us/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'About Us', path },
+];
+
+const description =
+  brand.id === 'massage'
+    ? "Massage In Addis Ababa is Addis Ababa's directory for verified massage providers. Learn about our platform, discretion, and how direct booking works."
+    : "Addis VIP Escorts is Addis Ababa's premium directory for verified independent companions. Learn about our platform, safety standards, and why we're different.";
+---
+
+<Base
+  title={pageTitle('About Us')}
+  description={description}
+  path={path}
+  ogImage="/images/about/hero.jpg"
+  jsonLd={[breadcrumbLd(Astro.site!, crumbs)]}
+>
+  <nav
+    class:list={[
+      'crumbs text-sm text-vip-muted',
+      brand.id === 'vip' && 'mx-auto max-w-[52rem] w-full',
+    ]}
+    aria-label="Breadcrumb"
+  >
+    <a class="text-vip-muted no-underline hover:text-vip-gold-light" href="/">Home</a>
+    <span aria-hidden="true"> › </span>
+    <span>About Us</span>
+  </nav>
+  {brand.id === 'massage' ? <AboutMassage /> : <AboutVip />}
+</Base>

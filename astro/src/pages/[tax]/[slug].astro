@@ -1,0 +1,17 @@
+---
+// /dagender/female-escort/, /dathnicity/..., /daeyes/... etc. One route for all attribute taxonomies.
+import TermArchive from '../../components/TermArchive.astro';
+import { ATTRIBUTE_TAXONOMIES, taxonomies, termsWithProfiles } from '../../lib/data';
+
+export function getStaticPaths() {
+  return ATTRIBUTE_TAXONOMIES.flatMap((tax) =>
+    termsWithProfiles(tax).map((term) => ({
+      params: { tax: taxonomies[tax].basePath, slug: term.slug },
+      props: { tax, term },
+    })),
+  );
+}
+const { tax, term } = Astro.props;
+---
+
+<TermArchive tax={tax} term={term} />

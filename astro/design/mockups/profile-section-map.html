@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile page · section map (wireframe)</title>
+  <style>
+    :root {
+      --bg: #0a090b;
+      --panel: #141218;
+      --line: #3d3644;
+      --text: #ece8ee;
+      --muted: #9a919f;
+      --gold: #c9a45c;
+      --label-bg: rgba(201, 164, 92, 0.15);
+      --label-border: #c9a45c;
+      --mobile-only: #5b8def;
+      --desktop-only: #6bcf7f;
+      --both: #e5c885;
+      --overlay: #d47aff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, Segoe UI, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    a { color: var(--gold); }
+    .banner {
+      background: #2a2418;
+      border-bottom: 1px solid var(--line);
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+    h1 { font-family: Georgia, serif; font-weight: 600; font-size: 1.5rem; margin: 0 0 0.35rem; }
+    .lead { color: var(--muted); font-size: 0.92rem; max-width: 52rem; margin: 0 0 1.5rem; }
+    h2 {
+      font-family: Georgia, serif;
+      font-size: 1.15rem;
+      margin: 2rem 0 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+    }
+    h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      font-size: 0.78rem;
+      margin-bottom: 1rem;
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .dot { width: 10px; height: 10px; border-radius: 2px; }
+    .dot.mobile { background: var(--mobile-only); }
+    .dot.desktop { background: var(--desktop-only); }
+    .dot.shared { background: var(--both); }
+    .dot.overlay { background: var(--overlay); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--panel); color: var(--gold); font-weight: 600; }
+    td code { font-size: 0.72rem; color: #b8d4ff; word-break: break-all; }
+
+    .frames {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 1100px) {
+      .frames { grid-template-columns: 1fr 380px; align-items: start; }
+    }
+    .frame-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .frame {
+      background: var(--panel);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .frame.desktop { min-height: 720px; }
+    .frame.mobile { max-width: 380px; margin: 0 auto; min-height: 820px; }
+
+    /* Wireframe blocks */
+    .wf {
+      position: relative;
+      border: 2px dashed var(--line);
+      margin: 6px;
+      border-radius: 8px;
+      min-height: 2.5rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .wf.nested { margin: 4px; border-style: dotted; border-color: #4a4350; }
+    .wf.fill { flex: 1; min-height: 3rem; }
+    .tag {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      z-index: 2;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--label-border);
+      background: var(--label-bg);
+      color: var(--gold);
+      max-width: calc(100% - 8px);
+      line-height: 1.25;
+    }
+    .tag.mobile-only { border-color: var(--mobile-only); background: rgba(91,141,239,0.2); color: #a8c8ff; }
+    .tag.desktop-only { border-color: var(--desktop-only); background: rgba(107,207,127,0.15); color: #9ee8ad; }
+    .tag.overlay { border-color: var(--overlay); background: rgba(212,122,255,0.15); color: #efb8ff; }
+    .tag .sub { display: block; font-weight: 500; color: var(--muted); font-size: 0.58rem; margin-top: 1px; }
+
+    .wf-inner {
+      padding: 1.75rem 0.5rem 0.5rem;
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+    .wf-row { display: flex; gap: 6px; }
+    .wf-col { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .wf-col.narrow { flex: 0 0 38%; max-width: 38%; }
+    .hero-box {
+      aspect-ratio: 4/5;
+      max-height: 200px;
+      background: #231f26;
+      border-radius: 6px;
+      margin: 1.75rem 0.35rem 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5a5560;
+      font-size: 0.7rem;
+    }
+    .thumbs-row {
+      display: flex;
+      gap: 4px;
+      padding: 0 0.35rem 0.35rem;
+    }
+    .thumb {
+      width: 2rem;
+      height: 2rem;
+      background: #2c2830;
+      border-radius: 4px;
+      border: 1px solid var(--gold);
+    }
+    .btn-fake {
+      height: 1.25rem;
+      margin: 2px 0;
+      border-radius: 6px;
+      background: rgba(201,164,92,0.25);
+      border: 1px solid var(--gold);
+    }
+    .btn-fake.outline { background: transparent; }
+    .dock {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      margin: 6px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dock div {
+      background: #0b090c;
+      text-align: center;
+      padding: 0.5rem 0.2rem;
+      font-size: 0.55rem;
+      color: var(--muted);
+    }
+    .site-chrome {
+      background: #0b090c;
+      border-bottom: 1px solid var(--line);
+      padding: 0.5rem;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr minmax(120px, 38%);
+      gap: 6px;
+      padding: 6px;
+    }
+    .full-span { grid-column: 1 / -1; }
+    .rec-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      padding: 1.5rem 0.35rem 0.35rem;
+    }
+    .rec-cards.mobile { grid-template-columns: repeat(2, 1fr); }
+    .card-fake {
+      aspect-ratio: 3/4;
+      background: #2c2830;
+      border-radius: 6px;
+    }
+    .note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <strong>Profile section map</strong> — wireframe labels match <code>escort/[slug].astro</code>
+    · <a href="/mockups/tailwind-proposal-profile.html">Visual mockup</a>
+    · <a href="/escort/samira/">Live profile</a>
+  </div>
+
+  <div class="wrap">
+    <h1>Profile page sections &amp; data fields</h1>
+    <p class="lead">
+      Each labeled block shows the <strong>section name</strong> (for design/PM), the <strong>DOM hook</strong> (for dev), and which
+      <strong>Profile JSON fields</strong> feed it. Shell nav and age gate come from <code>Base.astro</code>, not the profile template.
+    </p>
+
+    <div class="legend">
+      <span><i class="dot shared"></i> Mobile + desktop</span>
+      <span><i class="dot mobile"></i> Mobile only (&lt;768px)</span>
+      <span><i class="dot desktop"></i> Desktop / tablet sidebar (≥768px)</span>
+      <span><i class="dot overlay"></i> Overlay / modal / lightbox</span>
+    </div>
+
+    <h2>Section index</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Section name</th>
+          <th>DOM / class / id</th>
+          <th>Profile / WP data</th>
+          <th>Viewport</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>Site header</td><td><code>SiteNav</code> in Base</td><td>menus, site</td><td>Both</td></tr>
+        <tr><td>1</td><td>Breadcrumb</td><td><code>.crumbs</code></td><td><code>title</code>, <code>taxonomies.country</code></td><td>Both</td></tr>
+        <tr><td>2</td><td>Gallery zone</td><td><code>.gallery-zone</code></td><td><code>images[]</code></td><td>Both</td></tr>
+        <tr><td>2a</td><td>Hero viewer</td><td><code>#hero</code> · <code>.gallery-main</code> · <code>#hero-img</code></td><td>images (grid URLs)</td><td>Both</td></tr>
+        <tr><td>2b</td><td>Gallery counter</td><td><code>#gallery-counter</code></td><td>image count</td><td>Both</td></tr>
+        <tr><td>2c</td><td>Hero prev / next</td><td><code>#hero-prev</code> · <code>#hero-next</code></td><td>—</td><td>Both (if &gt;1 photo)</td></tr>
+        <tr><td>2d</td><td>Thumbnail strip</td><td><code>#thumbs</code></td><td>images (thumb URLs)</td><td>Both (if &gt;1 photo)</td></tr>
+        <tr><td>3</td><td>Sidebar panel</td><td><code>.sidebar-panel</code></td><td>—</td><td>Desktop only</td></tr>
+        <tr><td>3a</td><td>Profile title</td><td><code>h1</code> in sidebar</td><td><code>title</code></td><td>Desktop</td></tr>
+        <tr><td>3b</td><td>Status badges</td><td><code>ProfileStatusBadges</code></td><td><code>flags.*</code>, <code>publishedAt</code> (New)</td><td>Both (dup on mobile header)</td></tr>
+        <tr><td>3c</td><td>Meta line</td><td><code>.meta-line</code></td><td><code>age</code>, <code>heightCm</code>, location, ethnicity tax</td><td>Both</td></tr>
+        <tr><td>3d</td><td>Trust notice</td><td><code>TrustNotice</code></td><td>static copy</td><td>Both</td></tr>
+        <tr><td>3e</td><td>Contact stack (sidebar)</td><td><code>.sidebar-panel .cta-stack</code> · <code>#phone-btn</code></td><td><code>contact.*</code></td><td>Desktop</td></tr>
+        <tr><td>3f</td><td>My rates in $</td><td><code>.sidebar-rates</code></td><td><code>rates.incall</code>, <code>rates.outcall</code></td><td>Desktop</td></tr>
+        <tr><td>3g</td><td>Availability</td><td><code>.week</code> · <code>.hours-note</code></td><td><code>businessHours[]</code></td><td>Desktop</td></tr>
+        <tr><td>4</td><td>Mobile profile header</td><td><code>.profile-mobile-only</code> header</td><td>same as 3a–3d</td><td>Mobile</td></tr>
+        <tr><td>5</td><td>Mobile contact stack</td><td><code>.mobile-cta-stack</code> · <code>#phone-btn-mobile-inline</code></td><td><code>contact.*</code></td><td>Mobile</td></tr>
+        <tr><td>6</td><td>Mobile rates cards</td><td><code>.rate-card</code> scroll</td><td><code>rates.*</code></td><td>Mobile</td></tr>
+        <tr><td>7</td><td>Mobile availability</td><td><code>.card-block</code> week</td><td><code>businessHours[]</code></td><td>Mobile</td></tr>
+        <tr><td>8</td><td>Main content</td><td><code>#main-content</code> · <code>.main-content</code></td><td>—</td><td>Both</td></tr>
+        <tr><td>8a</td><td>Section tabs</td><td><code>#profile-tabs</code></td><td>panels present</td><td>Mobile (JS)</td></tr>
+        <tr><td>8b</td><td>About me</td><td><code>data-panel="about"</code></td><td><code>descriptionHtml</code></td><td>Both</td></tr>
+        <tr><td>8c</td><td>Details grid</td><td><code>.def-grid</code></td><td>taxonomies + age, height, location</td><td>Both</td></tr>
+        <tr><td>8d</td><td>Services pills</td><td><code>.card-block</code> · <code>#svc-list</code> · <code>#svc-more</code></td><td><code>taxonomies.features</code></td><td>Both</td></tr>
+        <tr><td>8e</td><td>Categories pills</td><td><code>.card-block</code> · <code>#cat-row</code> · <code>#cat-more</code></td><td><code>taxonomies.listing</code></td><td>Both</td></tr>
+        <tr><td>9</td><td>Recommended for you</td><td><code>.profile-rec</code></td><td>other profiles (same city first)</td><td>Both</td></tr>
+        <tr><td>10</td><td>Recently viewed</td><td><code>#recent-section</code> · <code>#recent-list</code></td><td>localStorage <code>addis_recent</code></td><td>Both (when list non-empty)</td></tr>
+        <tr><td>11</td><td>Mobile sticky dock</td><td><code>.profile-mobile-dock</code> · <code>#phone-btn-dock</code></td><td><code>contact.*</code></td><td>Mobile</td></tr>
+        <tr><td>12</td><td>More contact sheet</td><td><code>#contact-sheet</code> dialog</td><td>website + extra <code>contact.links</code> (not Telegram)</td><td>Mobile</td></tr>
+        <tr><td>13</td><td>Fullscreen gallery</td><td><code>#pswp-data</code> · PhotoSwipe</td><td>images (full URLs)</td><td>Both (overlay)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Wireframe · desktop (≥768px)</h2>
+    <p class="note">Grid: row 1 = gallery + sidebar; row 2 = main content full width; row 3 = recommended; row 4 = recently viewed.</p>
+
+    <div class="frames">
+      <div>
+        <div class="frame-title">Desktop / tablet layout</div>
+        <div class="frame desktop">
+          <div class="site-chrome">Site header (Base · SiteNav)</div>
+
+          <div class="wf" style="min-height: 2rem;">
+            <span class="tag">1 · Breadcrumb <span class="sub">.crumbs</span></span>
+            <div class="wf-inner">Home › Addis Ababa › {title}</div>
+          </div>
+
+          <div class="grid-2col">
+            <div class="wf-col">
+              <div class="wf nested" style="border: none; margin: 0;">
+                <span class="tag">2 · Gallery zone <span class="sub">.gallery-zone</span></span>
+                <div class="hero-box">2a · Hero #hero · #hero-img</div>
+                <div class="thumbs-row">
+                  <div class="thumb"></div><div class="thumb"></div><div class="thumb"></div><div class="thumb"></div>
+                </div>
+                <div class="wf-inner" style="padding-top:0">2d · #thumbs · 2b counter · 2c arrows</div>
+              </div>
+            </div>
+
+            <div class="wf-col narrow">
+              <div class="wf nested fill">
+                <span class="tag desktop-only">3 · Sidebar panel <span class="sub">.sidebar-panel</span></span>
+                <div class="wf-inner">
+                  <div>3a · Title</div>
+                  <div>3b · Badges</div>
+                  <div>3c · Meta line</div>
+                  <div>3d · TrustNotice</div>
+                  <div class="btn-fake"></div>
+                  <div class="btn-fake outline"></div>
+                  <div>3e · .cta-stack #phone-btn</div>
+                  <div style="margin-top:6px">3f · My rates in $</div>
+                  <div style="margin-top:4px">3g · Availability</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="wf full-span nested">
+              <span class="tag">8 · Main content <span class="sub">#main-content · grid row 2</span></span>
+              <div class="wf-inner">
+                8b About · 8c Details · 8d Services · 8e Categories
+              </div>
+            </div>
+
+            <div class="wf full-span nested">
+              <span class="tag">9 · Recommended for you <span class="sub">.profile-rec · row 3</span></span>
+              <div class="rec-cards">
+                <div class="card-fake"></div><div class="card-fake"></div><div class="card-fake"></div><div class="card-fake"></div>
+              </div>
+            </div>
+
+            <div class="wf full-span nested">
+              <span class="tag">10 · Recently viewed <span class="sub">#recent-section · row 4</span></span>
+              <div class="wf-inner">Name links from localStorage</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="frame-title">Mobile layout (&lt;768px)</div>
+        <div class="frame mobile">
+          <div class="site-chrome">Site header</div>
+
+          <div class="wf"><span class="tag">1 · Breadcrumb</span></div>
+
+          <div class="wf">
+            <span class="tag">2 · Gallery zone</span>
+            <div class="hero-box">Hero full-bleed</div>
+            <div class="thumbs-row"><div class="thumb"></div><div class="thumb"></div><div class="thumb"></div></div>
+          </div>
+
+          <div class="wf">
+            <span class="tag mobile-only">4 · Mobile header <span class="sub">.profile-mobile-only</span></span>
+            <div class="wf-inner">Title · badges · meta · trust</div>
+          </div>
+
+          <div class="wf">
+            <span class="tag mobile-only">5 · Mobile CTA stack <span class="sub">.mobile-cta-stack</span></span>
+            <div class="btn-fake"></div><div class="btn-fake outline"></div><div class="btn-fake outline"></div>
+          </div>
+
+          <div class="wf">
+            <span class="tag mobile-only">6 · Mobile rates · 7 · Mobile availability</span>
+            <div class="wf-inner">Horizontal rate cards · week pills</div>
+          </div>
+
+          <div class="wf">
+            <span class="tag">8 · Main content</span>
+            <div class="wf-inner">8a tabs (optional) · about · details · services · categories</div>
+          </div>
+
+          <div class="wf">
+            <span class="tag">9 · Recommended</span>
+            <div class="rec-cards mobile">
+              <div class="card-fake"></div><div class="card-fake"></div>
+            </div>
+          </div>
+
+          <div class="wf">
+            <span class="tag">10 · Recently viewed</span>
+          </div>
+
+          <div class="dock">
+            <div>Call</div><div>WA</div><div>TG</div><div>More</div>
+          </div>
+          <div class="wf" style="margin-top:0;border:none;background:transparent;">
+            <span class="tag mobile-only">11 · Sticky dock <span class="sub">.profile-mobile-dock</span></span>
+          </div>
+        </div>
+
+        <div class="wf" style="margin-top:1rem;">
+          <span class="tag overlay">12 · Contact sheet <span class="sub">#contact-sheet</span></span>
+          <div class="wf-inner">Opens from dock “More” · website + social links only</div>
+        </div>
+        <div class="wf">
+          <span class="tag overlay">13 · PhotoSwipe lightbox <span class="sub">#pswp-data</span></span>
+          <div class="wf-inner">Tap hero or thumb dbl-click · full-size images</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Quick reference image (export)</h2>
+    <p class="note">
+      Open this page in the browser and screenshot the wireframes above for Slack/Figma notes, or print to PDF.
+      File path: <code>public/mockups/profile-section-map.html</code> → URL <code>/mockups/profile-section-map.html</code>.
+    </p>
+  </div>
+</body>
+</html>

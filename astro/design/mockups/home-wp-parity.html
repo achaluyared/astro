@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mockup · Home · WP-style cards + hero sections</title>
+  <style>
+    :root {
+      --header-bg: #0a0a0a;
+      --brand-gold: #f0b429;
+      --brand-gold-dark: #d49a12;
+      --page-bg: #ffffff;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --line: #e8e8e8;
+      --btn-yellow: #ffc107;
+      --btn-yellow-border: #e6ae06;
+      --featured-red: #e53935;
+      --vip-yellow: #ffca28;
+      --online-green: #22c55e;
+      --wm-red: rgba(220, 38, 38, 0.55);
+      --max: 1200px;
+      --card-radius: 4px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--text);
+      font: 16px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; line-height: 1.2; margin: 0; }
+
+    .mockup-bar {
+      background: #1e3a2f;
+      color: #b8f0d0;
+      text-align: center;
+      padding: .55rem 1rem;
+      font-size: .82rem;
+      border-bottom: 2px solid #3d9a62;
+    }
+    .mockup-bar strong { color: #fff; }
+
+    /* —— WP header —— */
+    .site-header {
+      background: var(--header-bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-header .inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand { font-family: Georgia, serif; font-size: 1.35rem; font-weight: 700; color: #fff; }
+    .brand em { font-style: normal; color: var(--brand-gold); }
+    .nav { display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: .95rem; }
+    .nav a { color: #f5f5f5; }
+    .nav a.is-active { text-decoration: underline; text-underline-offset: 4px; }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 1.25rem; }
+
+    /* —— Yellow WP buttons —— */
+    .btn-yellow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: .65rem 1.35rem;
+      border-radius: 6px;
+      border: 1px solid var(--btn-yellow-border);
+      background: var(--btn-yellow);
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, .08);
+      cursor: pointer;
+    }
+    .btn-yellow:hover { filter: brightness(1.05); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+
+    /* —— Listing sections —— */
+    .listing-section { padding: 2.5rem 0; }
+    .section-head { margin-bottom: 1.25rem; }
+    .section-head h2 { font-size: clamp(1.75rem, 4vw, 2.25rem); color: #111; }
+    .section-head .sub { margin: .35rem 0 0; color: var(--muted); font-size: 1rem; }
+
+    .wp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    @media (max-width: 900px) { .wp-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 620px) { .wp-grid { grid-template-columns: repeat(2, 1fr); gap: .65rem; } }
+
+    /* —— WP-style card (overlay + watermark) —— */
+    .wp-card {
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+      background: #ddd;
+    }
+    .wp-card a { display: block; color: #fff; }
+    .wp-card-ph {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      background: linear-gradient(145deg, #6b5b6e 0%, #3d3540 100%);
+      overflow: hidden;
+    }
+    .wp-card-ph .photo {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+      opacity: .92;
+    }
+    .wp-card-ph .wm {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%) rotate(-18deg);
+      font-size: clamp(.65rem, 2.8vw, .85rem);
+      font-weight: 800;
+      letter-spacing: .06em;
+      color: var(--wm-red);
+      text-shadow: 0 0 8px rgba(255, 255, 255, .35);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    .wp-card-ph .badge-feat {
+      position: absolute;
+      top: 38%;
+      left: 0;
+      z-index: 3;
+      background: var(--featured-red);
+      color: #fff;
+      font-size: .62rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      padding: .35rem .55rem;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+    .wp-card-ph .badge-vip {
+      position: absolute;
+      bottom: 3.2rem;
+      right: .5rem;
+      z-index: 3;
+      background: var(--vip-yellow);
+      color: #111;
+      font-size: .65rem;
+      font-weight: 800;
+      padding: .2rem .45rem;
+      border-radius: 2px;
+    }
+    .wp-card-ph .online {
+      position: absolute;
+      bottom: 3.35rem;
+      left: calc(50% - 4px);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--online-green);
+      border: 2px solid rgba(255, 255, 255, .9);
+      z-index: 3;
+    }
+    .wp-card-cap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+      padding: 2.5rem .65rem .65rem;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .75));
+    }
+    .wp-card-cap strong {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+    }
+    .wp-card-cap span {
+      font-size: .82rem;
+      opacity: .95;
+    }
+
+    /* —— Split marketing sections —— */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      padding: 3rem 0;
+    }
+    @media (max-width: 860px) {
+      .split { grid-template-columns: 1fr; gap: 1.75rem; }
+      .split.reverse-mobile .split-visual { order: -1; }
+    }
+    .split h1 { font-size: clamp(1.85rem, 4.5vw, 2.65rem); margin-bottom: 1rem; }
+    .split h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); margin-bottom: .75rem; }
+    .split .lead { color: var(--muted); margin: 0 0 1rem; }
+    .split-visual img,
+    .split-visual .ph {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
+    }
+    .split-visual .ph {
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, #4a3540 0%, #1a1218 100%);
+    }
+
+    .step-cards { display: grid; gap: 1rem; }
+    .step-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+    }
+    .step-card:nth-child(2) { margin-left: 1.25rem; }
+    @media (max-width: 860px) { .step-card:nth-child(2) { margin-left: 0; } }
+    .step-num {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: var(--btn-yellow);
+      color: #fff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+    }
+    .step-card h3 { font-size: 1.05rem; margin: 0 0 .25rem; font-family: inherit; font-weight: 700; }
+    .step-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+    .why-list { list-style: none; padding: 0; margin: 1rem 0; }
+    .why-list li { margin: .65rem 0; font-size: .98rem; }
+    .why-list strong { font-weight: 700; }
+
+    .divider { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+    .note {
+      background: #f7f7f7;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: .88rem;
+      color: var(--muted);
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <p class="mockup-bar">
+    <strong>Preview only</strong> · WP-style home (light theme, overlay cards + watermark, hero blocks) · Not wired to Astro yet ·
+    <a href="/mockups/samira-proposal-a.html" style="color:#7dffb0">Profile mockup</a>
+  </p>
+
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="/">Addis <em>VIP Escorts</em></a>
+      <nav class="nav" aria-label="Main">
+        <a class="is-active" href="/">Home</a>
+        <a href="/search/">Search</a>
+        <a href="/about-us/">About Us</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Same order as live 1.local: listings first -->
+    <section class="listing-section wrap">
+      <header class="section-head">
+        <h2>Popular Escorts</h2>
+        <p class="sub">Most viewed and highly requested escorts in Addis Ababa.</p>
+      </header>
+      <div class="wp-grid" id="popular-grid"></div>
+      <p class="note">Featured / New sections use the same card component; limits &amp; shuffle stay as today in Astro.</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Hero: Exclusive Directory (from WP bottom block — shown here for preview) -->
+    <section class="split wrap reverse-mobile" aria-labelledby="hero-h1">
+      <div>
+        <h1 id="hero-h1">Addis Ababa's Most Exclusive Escort Directory</h1>
+        <p class="lead">
+          Addis VIP Escorts is Ethiopia's premier platform connecting discerning gentlemen with verified, high-end independent
+          escorts in Addis Ababa. Our rigorously curated directory features the city's most sophisticated and discreet
+          professionals, offering tailored experiences for dinners, travel, events, and private engagements.
+        </p>
+        <div class="btn-row">
+          <a class="btn-yellow" href="/search/">Start Search</a>
+          <a class="btn-yellow" href="https://1.local/my-account/">Member Login</a>
+        </div>
+      </div>
+      <div class="split-visual">
+        <div class="ph" role="img" aria-label="Hero placeholder"></div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Find Your Perfect Companion -->
+    <section class="split wrap" aria-labelledby="find-h2">
+      <div>
+        <h2 id="find-h2">Find Your Perfect Companion Today</h2>
+        <p class="lead"><strong>Refine your search with our advanced filters to match your ideal companion:</strong></p>
+        <p class="lead">
+          Browse authentic photos, read verified reviews, and connect directly with Ethiopia's most sought-after independent
+          professionals—all within a secure, discreet platform.
+        </p>
+        <a class="btn-yellow" href="/search/">Start Search</a>
+      </div>
+      <div class="step-cards">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <div>
+            <h3>Service Type</h3>
+            <p>Dinner dates, travel partners, event escorts, private meetings</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <div>
+            <h3>Location</h3>
+            <p>Bole, Kazanchis, Old Town, and all key Addis neighborhoods</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <div>
+            <h3>Appearance</h3>
+            <p>Ethnicity, body type, age, and style preferences</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Why Choose -->
+    <section class="split wrap reverse-mobile" aria-labelledby="why-h2">
+      <div>
+        <h2 id="why-h2">Why Choose Independent Escorts?</h2>
+        <p class="lead"><strong>Independent companions offer unmatched advantages for elite clients</strong></p>
+        <ul class="why-list">
+          <li><strong>✨ Personalized Service:</strong> Direct communication ensures tailored experiences</li>
+          <li><strong>✨ Discretion:</strong> No agency middlemen; complete privacy guaranteed</li>
+          <li><strong>✨ Authentic Reviews:</strong> Transparent feedback from verified clients</li>
+          <li><strong>✨ Flexible Rates:</strong> Competitive pricing without corporate fees</li>
+        </ul>
+        <p class="lead">
+          Unlike traditional agencies, our directory empowers you to engage directly with professionals who prioritize your
+          satisfaction and confidentiality.
+        </p>
+        <div class="btn-row">
+          <a class="btn-yellow" href="/search/">Start Search</a>
+          <a class="btn-yellow" href="https://1.local/my-account/">Member Login</a>
+        </div>
+      </div>
+      <div class="split-visual">
+        <div class="ph" style="aspect-ratio:3/4" role="img" aria-label="Why section placeholder"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    var samples = [
+      { name: 'Fenan Mar · VIP', city: 'Addis Ababa', feat: true, vip: true, online: true, hue: '320' },
+      { name: 'Senait Bae', city: 'Addis Ababa', feat: true, vip: false, online: true, hue: '280' },
+      { name: 'Meron', city: 'Addis Ababa', feat: false, vip: false, online: true, hue: '200' },
+      { name: 'Edom', city: 'Addis Ababa', feat: false, vip: false, online: false, hue: '30' },
+      { name: 'Tina Sexy', city: 'Addis Ababa', feat: false, vip: false, online: true, hue: '260' },
+      { name: 'Rita Sexy', city: 'Addis Ababa', feat: false, vip: false, online: true, hue: '340' },
+      { name: 'Meklit', city: 'Addis Ababa', feat: false, vip: false, online: true, hue: '180' },
+      { name: 'Hanita Sexy', city: 'Addis Ababa', feat: false, vip: false, online: true, hue: '220' },
+    ];
+    var grid = document.getElementById('popular-grid');
+    samples.forEach(function (s, i) {
+      var el = document.createElement('article');
+      el.className = 'wp-card';
+      el.innerHTML =
+        '<a href="/escort/samira/">' +
+          '<div class="wp-card-ph">' +
+            '<div class="photo" style="background-image:linear-gradient(160deg, hsl(' + s.hue + ',35%,45%), hsl(' + s.hue + ',25%,22%))"></div>' +
+            '<span class="wm">ADDISVIPGIRLS.COM</span>' +
+            (s.feat ? '<span class="badge-feat">FEATURED</span>' : '') +
+            (s.vip ? '<span class="badge-vip">VIP</span>' : '') +
+            (s.online ? '<span class="online" title="Online"></span>' : '') +
+            '<div class="wp-card-cap"><strong>' + s.name + '</strong><span>' + s.city + '</span></div>' +
+          '</div>' +
+        '</a>';
+      grid.appendChild(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+---
+import { Picture } from 'astro:assets';
+import { loadImage } from '../lib/images';
+
+interface Props {
+  file: string;
+  alt: string;
+  /** Responsive srcset breakpoints; largest entry caps output size (default: listing cards). */
+  widths?: number[];
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  /** JPEG/WebP encode quality (1–100). */
+  quality?: number;
+  class?: string;
+}
+
+const {
+  file,
+  alt,
+  widths = [320, 480, 720],
+  sizes = '(max-width: 600px) 50vw, 240px',
+  loading = 'lazy',
+  quality = 78,
+  class: cls,
+} = Astro.props;
+
+const src = await loadImage(file);
+
+const maxW = Math.max(...widths);
+const capW = src ? Math.min(maxW, src.width) : maxW;
+const capH = src && src.width ? Math.round(capW * (src.height / src.width)) : undefined;
+const resolvedWidths = src
+  ? [...new Set(widths.map((w) => Math.min(w, src.width)).filter((w) => w >= 200))].sort((a, b) => a - b)
+  : widths;
+if (src && resolvedWidths.length === 0) resolvedWidths.push(capW);
+---
+
+{
+  src && capH && (
+    <Picture
+      src={src}
+      alt={alt}
+      width={capW}
+      height={capH}
+      widths={resolvedWidths}
+      sizes={sizes}
+      formats={['webp']}
+      fallbackFormat="jpg"
+      quality={quality}
+      loading={loading}
+      decoding="async"
+      class={cls}
+    />
+  )
+}

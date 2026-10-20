@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0d10" />
+  <title>Mockup · Samira · Mobile-first</title>
+  <style>
+    :root {
+      --bg: #0f0d10;
+      --panel: #1a171c;
+      --panel-2: #141117;
+      --line: #2b262e;
+      --text: #ece8ee;
+      --muted: #a69fab;
+      --gold: #c9a45c;
+      --gold-2: #e5c885;
+      --green: #3d9a62;
+      --wa: #25d366;
+      --tg: #2aabee;
+      --radius: 16px;
+      --radius-sm: 12px;
+      --max: 1180px;
+      --mockup-bar: #2a2418;
+      --touch: 48px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: dark; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      padding-bottom: calc(72px + var(--safe-b));
+      -webkit-tap-highlight-color: transparent;
+    }
+    a { color: var(--gold-2); text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 600; line-height: 1.15; margin: 0; }
+
+    .mockup-banner {
+      background: var(--mockup-bar);
+      border-bottom: 1px solid var(--gold);
+      color: var(--gold-2);
+      text-align: center;
+      padding: .5rem .75rem;
+      font-size: .8rem;
+    }
+    .mockup-banner strong { color: #fff; }
+
+    /* —— Gallery: full bleed on mobile —— */
+    .gallery-zone {
+      background: #080709;
+    }
+    .gallery-main {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      max-height: min(78vh, 640px);
+      background: #231f26;
+      overflow: hidden;
+    }
+    .gallery-main { cursor: zoom-in; }
+    .gallery-main img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    .gallery-main .open-lightbox {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      background: transparent;
+      cursor: zoom-in;
+      z-index: 1;
+    }
+
+    dialog.lightbox {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      max-width: none;
+      max-height: none;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, .92);
+      color: #fff;
+    }
+    dialog.lightbox::backdrop { background: rgba(0, 0, 0, .85); }
+    dialog.lightbox[open] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox img {
+      max-width: min(96vw, 1200px);
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      border-radius: 8px;
+      user-select: none;
+    }
+    .lightbox .lb-ui {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+    .lightbox .lb-ui button {
+      pointer-events: auto;
+      position: absolute;
+      border: 0;
+      background: rgba(255, 255, 255, .12);
+      color: #fff;
+      font-size: 1.75rem;
+      line-height: 1;
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+    }
+    .lightbox .lb-ui button:hover { background: rgba(255, 255, 255, .22); }
+    .lightbox .lb-close { top: max(.75rem, env(safe-area-inset-top)); right: .75rem; font-size: 1.5rem; }
+    .lightbox .lb-prev { left: .75rem; top: 50%; transform: translateY(-50%); }
+    .lightbox .lb-next { right: .75rem; top: 50%; transform: translateY(-50%); }
+    .lightbox .lb-counter {
+      position: fixed;
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: .85rem;
+      color: rgba(255, 255, 255, .85);
+      pointer-events: none;
+    }
+    .gallery-counter {
+      position: absolute;
+      bottom: .75rem;
+      right: .75rem;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .thumbs-scroll {
+      display: flex;
+      gap: .5rem;
+      padding: .65rem 1rem .85rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .thumbs-scroll::-webkit-scrollbar { display: none; }
+    .thumbs-scroll button {
+      flex: 0 0 4.25rem;
+      height: 4.25rem;
+      scroll-snap-align: start;
+      border: 2px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+      background: none;
+    }
+    .thumbs-scroll button.active { border-color: var(--gold); }
+    .thumbs-scroll img { width: 100%; height: 100%; object-fit: cover; }
+
+    @media (max-width: 767px) {
+      .gallery-zone {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        width: calc(100% + 2rem);
+      }
+    }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 1rem; }
+    .crumbs {
+      font-size: .8rem;
+      color: var(--muted);
+      margin: .75rem 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .crumbs span { color: var(--text); }
+
+    /* —— Profile header (mobile-first) —— */
+    .profile-head {
+      padding: 1rem 0 .25rem;
+    }
+    .profile-head h1 { font-size: 1.85rem; letter-spacing: -.02em; }
+    .badges { display: flex; flex-wrap: wrap; gap: .4rem; margin: .55rem 0 .65rem; }
+    .badge {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: .28rem .6rem;
+      border-radius: 999px;
+    }
+    .badge.green { background: var(--green); color: #fff; }
+    .badge.gold { background: var(--gold); color: #1b1305; }
+    .meta-line {
+      color: var(--muted);
+      font-size: .95rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem .65rem;
+      align-items: center;
+    }
+    .meta-line span + span::before {
+      content: '·';
+      margin-right: .65rem;
+      color: var(--line);
+    }
+
+    /* —— Contact: thumb-friendly —— */
+    .contact-block { margin: 1rem 0 1.25rem; }
+    .contact-block .wa-hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      width: 100%;
+      min-height: 52px;
+      margin-bottom: .5rem;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(180deg, #2ecc71 0%, var(--wa) 100%);
+      color: #052a12;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: none;
+      text-decoration: none;
+    }
+    .contact-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .5rem;
+    }
+    .contact-row .action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .15rem;
+      min-height: var(--touch);
+      padding: .45rem .35rem;
+      border-radius: var(--radius-sm);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: .72rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .contact-row .action .ico { font-size: 1.15rem; line-height: 1; }
+    .contact-row .action.phone { border-color: var(--gold); color: var(--gold-2); }
+
+    /* —— Cards —— */
+    .card-block {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem 1.05rem;
+      margin-bottom: .85rem;
+    }
+    .card-block h2, .card-block h3 {
+      font-size: 1.15rem;
+      margin-bottom: .65rem;
+      padding-left: .65rem;
+      border-left: 3px solid var(--gold);
+    }
+    .card-block h3 { font-size: 1rem; margin-top: 0; }
+
+    .rates-scroll {
+      display: flex;
+      gap: .55rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: .25rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .rate-card {
+      flex: 0 0 8.5rem;
+      scroll-snap-align: start;
+      background: var(--panel-2);
+      border-radius: var(--radius-sm);
+      padding: .65rem .7rem;
+      border: 1px solid var(--line);
+    }
+    .rate-card .label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .rate-card .row { display: flex; justify-content: space-between; margin-top: .35rem; font-size: .85rem; }
+    .rate-card .row strong { font-size: 1.05rem; }
+
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: .2rem;
+      text-align: center;
+      font-size: .7rem;
+      margin-top: .35rem;
+    }
+    .week .day { color: var(--muted); font-weight: 600; }
+    .week .pill {
+      margin-top: .35rem;
+      height: 6px;
+      border-radius: 999px;
+      background: #3a323c;
+    }
+    .week .pill.open { background: var(--green); }
+    .week .pill.busy { background: #8b4545; }
+    .hours-note { font-size: .82rem; color: var(--muted); margin: .55rem 0 0; }
+
+    .about { color: #ddd8df; line-height: 1.65; font-size: .98rem; }
+    .def-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+    }
+    .def-grid div {
+      background: var(--panel-2);
+      border-radius: var(--radius-sm);
+      padding: .6rem .7rem;
+      min-height: 3.25rem;
+    }
+    .def-grid dt { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+    .def-grid dd { margin: .2rem 0 0; font-weight: 600; font-size: .92rem; }
+
+    details.block {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      margin-top: .65rem;
+      background: var(--panel-2);
+    }
+    details.block summary {
+      cursor: pointer;
+      padding: .95rem 1rem;
+      font-weight: 600;
+      font-size: .95rem;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .5rem;
+      min-height: var(--touch);
+    }
+    details.block summary::-webkit-details-marker { display: none; }
+    details.block summary::after { content: '▾'; color: var(--gold); font-size: .9rem; }
+    details.block:not([open]) summary::after { content: '▸'; }
+    details.block .inner { padding: 0 1rem 1rem; border-top: 1px solid var(--line); }
+    .svc-list {
+      list-style: none;
+      margin: .75rem 0 0;
+      padding: 0;
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+    .svc-list li {
+      padding: .45rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .svc-list li:last-child { border-bottom: none; }
+    .svc-list a { color: var(--text); display: block; padding: .15rem 0; }
+    .cat-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .65rem; }
+    .cat-row a {
+      font-size: .82rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: .35rem .65rem;
+      color: var(--text);
+      background: var(--panel);
+      min-height: 2rem;
+      display: inline-flex;
+      align-items: center;
+    }
+    .show-more {
+      display: block;
+      width: 100%;
+      margin-top: .75rem;
+      padding: .75rem;
+      min-height: var(--touch);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--gold-2);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: .92rem;
+    }
+    .show-more[hidden] { display: none; }
+    .is-collapsed .expand-only { display: none; }
+
+    /* Recommended: 2 columns on mobile */
+    .rec { margin: 1.5rem 0 2rem; }
+    .rec h2 {
+      font-size: 1.15rem;
+      margin-bottom: .75rem;
+      padding-left: .65rem;
+      border-left: 3px solid var(--gold);
+    }
+    .rec-scroll {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .65rem;
+    }
+    .rec-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .rec-card .ph { aspect-ratio: 3/4; background: #231f26; }
+    .rec-card .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .rec-card .b { padding: .55rem .65rem; font-size: .88rem; font-weight: 600; }
+
+    /* Sticky dock — always 4 actions, large taps */
+    .mobile-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      padding-bottom: var(--safe-b);
+    }
+    .mobile-dock a, .mobile-dock button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .1rem;
+      min-height: 56px;
+      padding: .35rem .25rem;
+      border: none;
+      background: #0b090c;
+      color: var(--muted);
+      font-size: .62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .mobile-dock .ico { font-size: 1.25rem; line-height: 1; }
+    .mobile-dock .wa-tab { color: #7dffb0; }
+    .mobile-dock .wa-tab .ico { color: var(--wa); }
+    .mobile-dock .call-tab { color: var(--gold-2); }
+    .mobile-dock .tg-tab { color: #9ed4ff; }
+    .mobile-dock .web-tab { color: var(--gold-2); }
+
+    /* Sidebar (tablet + desktop) */
+    .sidebar-panel { display: none; }
+    .profile-shell { display: block; }
+
+    .sidebar-panel .cta-stack { display: grid; gap: .5rem; margin: 1rem 0 1.15rem; }
+    .sidebar-panel .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: .65rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--gold);
+      color: var(--gold-2);
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      text-decoration: none;
+      font-size: .95rem;
+    }
+    .sidebar-panel .btn.primary { background: var(--gold); color: #1b1305; }
+    .sidebar-panel .btn.wa { border-color: var(--wa); color: #8eeda8; }
+    .sidebar-panel .btn.tg { border-color: var(--tg); color: #9ed4ff; }
+    .sidebar-panel h1 { font-size: 1.75rem; }
+    .sidebar-panel h3 {
+      font-size: 1rem;
+      margin: 0 0 .55rem;
+      padding-left: .65rem;
+      border-left: 3px solid var(--gold);
+      font-family: Georgia, serif;
+    }
+    .sidebar-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.3rem 1.35rem;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+    }
+    .sidebar-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+    }
+    .sidebar-section:first-of-type { margin-top: .85rem; padding-top: 0; border-top: 0; }
+    .sidebar-rates {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    .sidebar-rates th, .sidebar-rates td {
+      padding: .4rem .35rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+    .sidebar-rates th { color: var(--muted); font-weight: 600; font-size: .75rem; }
+    .sidebar-rates td:last-child, .sidebar-rates th:last-child { text-align: right; }
+
+    /* —— Tablet (768+) & desktop: one grid, no phone dock —— */
+    @media (min-width: 768px) {
+      body { padding-bottom: 0; font-size: 16px; }
+      .mobile-dock, .mobile-only { display: none !important; }
+
+      .wrap { padding: 0 1.25rem; }
+      .gallery-zone {
+        background: transparent;
+      }
+      .gallery-main {
+        border-radius: var(--radius);
+        max-height: min(72vh, 580px);
+        aspect-ratio: 4 / 5;
+      }
+      .thumbs-scroll {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        overflow: visible;
+        padding: .6rem 0 0;
+        gap: .5rem;
+      }
+      .thumbs-scroll button {
+        flex: none;
+        width: auto;
+        height: auto;
+        aspect-ratio: 1;
+      }
+
+      .profile-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+        gap: 1.5rem 1.75rem;
+        align-items: start;
+        margin-top: .5rem;
+      }
+      /* Top row: gallery + booking card only (sidebar does not stretch down the page). */
+      .gallery-zone { grid-column: 1; grid-row: 1; min-width: 0; }
+      .sidebar-panel {
+        display: block;
+        grid-column: 2;
+        grid-row: 1;
+        align-self: start;
+      }
+      .main-content {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        min-width: 0;
+        margin-top: .25rem;
+      }
+      .main-content .card-block:first-child { margin-top: 0; }
+      .rec {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        margin-top: .5rem;
+      }
+
+      .def-grid { grid-template-columns: repeat(3, 1fr); }
+      .svc-list { columns: 2; gap: 1.25rem; }
+      .svc-list li { border: none; padding: 0 0 .35rem; break-inside: avoid; }
+
+      .rec-scroll {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .85rem;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+      }
+      .rec-card { flex: none; max-width: none; }
+    }
+
+    @media (min-width: 1024px) {
+      .wrap { padding: 0 1.5rem; }
+      .profile-shell {
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 400px);
+        gap: 2rem;
+      }
+      .gallery-main { max-height: 620px; }
+      .sidebar-panel .cta-stack { grid-template-columns: 1fr; }
+      .def-grid { grid-template-columns: repeat(4, 1fr); }
+      .rec-scroll { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .about { font-size: 1rem; max-width: 72ch; }
+    }
+
+    @media (min-width: 768px) and (max-width: 900px) {
+      /* iPad portrait: slightly tighter sidebar */
+      .profile-shell {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+        gap: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="mockup-banner">
+    <strong>Mobile-first mockup</strong> · Phone &lt;768px · Tablet/desktop ≥768px (gallery + sidebar) · Samira
+  </div>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <a href="/country/addis-ababa/">Addis Ababa</a> › <span>Samira</span>
+    </nav>
+
+    <div class="profile-shell">
+      <div class="gallery-zone">
+        <div class="gallery-main" id="hero">
+          <img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1oEbj1.webp" alt="Samira - photo 1" width="960" height="1200" />
+          <button type="button" class="open-lightbox" id="hero-open-lightbox" aria-label="Open full screen gallery"></button>
+          <span class="gallery-counter" id="gallery-counter">1 / 5</span>
+        </div>
+        <div class="thumbs-scroll" id="thumbs">
+          <button type="button" class="active" data-index="1" data-src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1oEbj1.webp"><img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1yyIkd.webp" alt="" width="240" height="240" /></button>
+          <button type="button" data-index="2" data-src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized.Scd_uzwd_2oI3x3.webp"><img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized.Scd_uzwd_Z25fR4e.webp" alt="" width="240" height="240" /></button>
+          <button type="button" data-index="3" data-src="/_astro/2f810b3f43481b99ae6b9d96a84146bc-full_anonymized.DSnSNRIY_Z16wDS4.webp"><img src="/_astro/2f810b3f43481b99ae6b9d96a84146bc-full_anonymized.DSnSNRIY_zVbmj.webp" alt="" width="240" height="240" /></button>
+          <button type="button" data-index="4" data-src="/_astro/1631777a6ccacc4d7c58be67e66de3f1-full_anonymized.BtjDhqQR_1o372f.webp"><img src="/_astro/1631777a6ccacc4d7c58be67e66de3f1-full_anonymized.BtjDhqQR_Z1WeOGX.webp" alt="" width="240" height="240" /></button>
+          <button type="button" data-index="5" data-src="/_astro/1aa2ff633979c016e7ec8d0191c47fef-full_anonymized.oCM7dLpU_Z1HPYAG.webp"><img src="/_astro/1aa2ff633979c016e7ec8d0191c47fef-full_anonymized.oCM7dLpU_2hyhot.webp" alt="" width="240" height="240" /></button>
+        </div>
+      </div>
+
+      <aside class="sidebar-panel">
+        <h1>Samira</h1>
+        <div class="badges">
+          <span class="badge green">Verified</span>
+          <span class="badge gold">Featured</span>
+        </div>
+        <p class="meta-line" style="margin:.65rem 0 0">
+          <span>24 yrs</span><span>164 cm</span><span>Addis Ababa</span><span>Habesha</span>
+        </p>
+        <div class="cta-stack">
+          <button type="button" class="btn primary" id="phone-btn">Show number</button>
+          <a class="btn wa" href="https://wa.me/251992909178" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn tg" href="https://t.me/+251992909178" target="_blank" rel="noopener">Telegram</a>
+          <a class="btn" href="https://addisfantasymassage.com/" target="_blank" rel="noopener nofollow">Visit website</a>
+        </div>
+        <div class="sidebar-section">
+          <h3>My rates</h3>
+          <table class="sidebar-rates">
+            <thead><tr><th>Duration</th><th>Incall</th><th>Out call</th></tr></thead>
+            <tbody>
+              <tr><td>30 min</td><td>30</td><td>50</td></tr>
+              <tr><td>1 hour</td><td>50</td><td>70</td></tr>
+              <tr><td>Overnight</td><td>—</td><td>120</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sidebar-section">
+        <h3>Availability</h3>
+        <div class="week">
+          <div><div class="day">M</div><div class="pill open"></div></div>
+          <div><div class="day">T</div><div class="pill open"></div></div>
+          <div><div class="day">W</div><div class="pill open"></div></div>
+          <div><div class="day">T</div><div class="pill open"></div></div>
+          <div><div class="day">F</div><div class="pill open"></div></div>
+          <div><div class="day">S</div><div class="pill busy"></div></div>
+          <div><div class="day">S</div><div class="pill busy"></div></div>
+        </div>
+        <p class="hours-note">Mon–Fri 9:00 – 18:00 · Sat–Sun busy</p>
+        </div>
+      </aside>
+
+    <header class="profile-head mobile-only">
+      <h1>Samira</h1>
+      <div class="badges">
+        <span class="badge green">Verified</span>
+        <span class="badge gold">Featured</span>
+      </div>
+      <p class="meta-line">
+        <span>24 yrs</span><span>164 cm</span><span>Addis Ababa</span><span>Habesha</span>
+      </p>
+    </header>
+
+    <div class="contact-block mobile-only">
+      <a class="wa-hero" href="https://wa.me/251992909178" target="_blank" rel="noopener">Message on WhatsApp</a>
+      <div class="contact-row">
+        <button type="button" class="action phone" id="phone-btn-mobile-inline"><span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>Call</button>
+        <a class="action" href="https://t.me/+251992909178" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></span>Telegram</a>
+        <a class="action" href="https://addisfantasymassage.com/" target="_blank" rel="noopener nofollow"><span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>Website</a>
+      </div>
+    </div>
+
+    <div class="card-block rates-mobile mobile-only">
+      <h2>My rates</h2>
+      <div class="rates-scroll">
+        <div class="rate-card">
+          <div class="label">30 minutes</div>
+          <div class="row"><span>Incall</span><strong>30</strong></div>
+          <div class="row"><span>Out call</span><strong>50</strong></div>
+        </div>
+        <div class="rate-card">
+          <div class="label">1 hour</div>
+          <div class="row"><span>Incall</span><strong>50</strong></div>
+          <div class="row"><span>Out call</span><strong>70</strong></div>
+        </div>
+        <div class="rate-card">
+          <div class="label">Overnight</div>
+          <div class="row"><span>Incall</span><strong>—</strong></div>
+          <div class="row"><span>Out call</span><strong>120</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-block avail-mobile mobile-only">
+      <h2>My availability</h2>
+      <div class="week" aria-label="Weekly availability">
+        <div><div class="day">M</div><div class="pill open"></div></div>
+        <div><div class="day">T</div><div class="pill open"></div></div>
+        <div><div class="day">W</div><div class="pill open"></div></div>
+        <div><div class="day">T</div><div class="pill open"></div></div>
+        <div><div class="day">F</div><div class="pill open"></div></div>
+        <div><div class="day">S</div><div class="pill busy"></div></div>
+        <div><div class="day">S</div><div class="pill busy"></div></div>
+      </div>
+      <p class="hours-note">Mon–Fri 9:00 – 18:00 · Sat–Sun busy</p>
+    </div>
+
+      <div class="main-content">
+        <section class="card-block">
+          <h2>About me</h2>
+          <p class="about">
+            I'm Samira, a curvaceous brown-skinned beauty with irresistible charm. Known for my sensual skills and warm
+            companionship, I specialize in making every moment unforgettable. Let's start with light conversation to ensure
+            your comfort, then explore pleasure together. Available for discreet encounters in Addis. Verified · 24/7 · WhatsApp me.
+          </p>
+        </section>
+
+        <section class="card-block">
+          <h2>Details</h2>
+          <dl class="def-grid">
+            <div><dt>Gender</dt><dd>Female escort</dd></div>
+            <div><dt>Age</dt><dd>24</dd></div>
+            <div><dt>Ethnicity</dt><dd>Habesha</dd></div>
+            <div><dt>Sexuality</dt><dd>Straight</dd></div>
+            <div><dt>Eyes</dt><dd>Brown</dd></div>
+            <div><dt>Hair</dt><dd>Black</dd></div>
+            <div><dt>Body</dt><dd>Average</dd></div>
+            <div><dt>Height</dt><dd>164 cm</dd></div>
+            <div><dt>Drinking</dt><dd>Socially</dd></div>
+            <div><dt>Smoking</dt><dd>Never</dd></div>
+          </dl>
+
+          <details class="block">
+            <summary>Services <span id="svc-count-label" style="font-weight:400;color:var(--muted);font-size:.82rem"></span></summary>
+            <div class="inner">
+              <ul class="svc-list is-collapsed" id="svc-list"></ul>
+              <button type="button" class="show-more" id="svc-more" hidden></button>
+            </div>
+          </details>
+
+          <details class="block">
+            <summary>Categories <span id="cat-count-label" style="font-weight:400;color:var(--muted);font-size:.82rem"></span></summary>
+            <div class="inner">
+              <div class="cat-row is-collapsed" id="cat-row"></div>
+              <button type="button" class="show-more" id="cat-more" hidden></button>
+            </div>
+          </details>
+        </section>
+      </div>
+
+      <section class="rec">
+      <h2>Recommended for you</h2>
+      <div class="rec-scroll">
+        <div class="rec-card"><div class="ph"><img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1yyIkd.webp" alt="" /></div><div class="b">Hana · 23</div></div>
+        <div class="rec-card"><div class="ph"><img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1yyIkd.webp" alt="" /></div><div class="b">Fana · 25</div></div>
+        <div class="rec-card"><div class="ph"><img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1yyIkd.webp" alt="" /></div><div class="b">Meseret · 23</div></div>
+        <div class="rec-card"><div class="ph"><img src="/_astro/79b61597c4be6bda349a5a587e6d0691-full_anonymized-scaled.4gK3VGMt_Z1yyIkd.webp" alt="" /></div><div class="b">Richo · 24</div></div>
+      </div>
+      <p class="hours-note mobile-only" style="margin-top:.75rem">Recommended cards shuffle on each visit (same as today).</p>
+      </section>
+    </div><!-- .profile-shell -->
+  </div><!-- .wrap -->
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo gallery">
+    <img alt="" id="lightbox-img" />
+    <div class="lb-ui">
+      <button type="button" class="lb-close" id="lb-close" aria-label="Close">×</button>
+      <button type="button" class="lb-prev" id="lb-prev" aria-label="Previous photo">‹</button>
+      <button type="button" class="lb-next" id="lb-next" aria-label="Next photo">›</button>
+    </div>
+    <span class="lb-counter" id="lb-counter"></span>
+  </dialog>
+
+  <nav class="mobile-dock" aria-label="Contact">
+    <button type="button" class="call-tab" id="phone-btn-dock"><span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>Call</button>
+    <a class="wa-tab" href="https://wa.me/251992909178" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>WhatsApp</a>
+    <a class="tg-tab" href="https://t.me/+251992909178" target="_blank" rel="noopener"><span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg></span>Telegram</a>
+    <a class="web-tab" href="https://addisfantasymassage.com/" target="_blank" rel="noopener nofollow"><span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>Website</a>
+  </nav>
+
+  <script>
+    var gallerySources = [];
+    var galleryIndex = 0;
+    document.querySelectorAll('#thumbs button').forEach(function (btn, i) {
+      var src = btn.getAttribute('data-src');
+      if (src) gallerySources.push(src);
+      btn.addEventListener('click', function () {
+        var idx = btn.getAttribute('data-index');
+        if (!src) return;
+        galleryIndex = i;
+        document.querySelector('#hero img').src = src;
+        document.querySelectorAll('#thumbs button').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var c = document.getElementById('gallery-counter');
+        if (c && idx) c.textContent = idx + ' / ' + gallerySources.length;
+      });
+      btn.addEventListener('dblclick', function () {
+        galleryIndex = i;
+        openLightbox();
+      });
+    });
+
+    var dlg = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCounter = document.getElementById('lb-counter');
+
+    function renderLightbox() {
+      if (!gallerySources.length || !lbImg) return;
+      lbImg.src = gallerySources[galleryIndex];
+      lbImg.alt = 'Samira - photo ' + (galleryIndex + 1);
+      if (lbCounter) lbCounter.textContent = galleryIndex + 1 + ' / ' + gallerySources.length;
+    }
+    function openLightbox() {
+      if (!dlg || !gallerySources.length) return;
+      renderLightbox();
+      dlg.showModal();
+    }
+    function closeLightbox() { dlg && dlg.close(); }
+    function stepLightbox(delta) {
+      if (!gallerySources.length) return;
+      galleryIndex = (galleryIndex + delta + gallerySources.length) % gallerySources.length;
+      renderLightbox();
+      var thumb = document.querySelectorAll('#thumbs button')[galleryIndex];
+      if (thumb) thumb.click();
+    }
+
+    document.getElementById('hero-open-lightbox')?.addEventListener('click', openLightbox);
+    document.getElementById('lb-close')?.addEventListener('click', closeLightbox);
+    document.getElementById('lb-prev')?.addEventListener('click', function () { stepLightbox(-1); });
+    document.getElementById('lb-next')?.addEventListener('click', function () { stepLightbox(1); });
+    dlg?.addEventListener('click', function (e) {
+      if (e.target === dlg) closeLightbox();
+    });
+    dlg?.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') stepLightbox(-1);
+      if (e.key === 'ArrowRight') stepLightbox(1);
+    });
+
+    var touchStartX = 0;
+    dlg?.addEventListener('touchstart', function (e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    dlg?.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(dx) < 50) return;
+      stepLightbox(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
+    function wirePhoneReveal(el) {
+      if (!el) return;
+      el.addEventListener('click', function once() {
+        var label = document.createElement('span');
+        label.textContent = '+251 99 290 9178';
+        label.style.fontSize = '.85rem';
+        el.replaceChildren(label);
+        el.onclick = function () { location.href = 'tel:+251992909178'; };
+      }, { once: true });
+    }
+    wirePhoneReveal(document.getElementById('phone-btn'));
+    wirePhoneReveal(document.getElementById('phone-btn-mobile-inline'));
+    wirePhoneReveal(document.getElementById('phone-btn-dock'));
+
+    var SVC_PREVIEW = 5;
+    var CAT_PREVIEW = 5;
+
+    function setupExpandableList(opts) {
+      var root = document.getElementById(opts.rootId);
+      var moreBtn = document.getElementById(opts.moreId);
+      var countLabel = document.getElementById(opts.countLabelId);
+      if (!root || !moreBtn) return;
+
+      fetch('samira-data.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var items = data[opts.key] || [];
+          var preview = Math.max(5, opts.preview);
+          if (countLabel) {
+            countLabel.textContent = '(' + items.length + ', showing ' + Math.min(preview, items.length) + ')';
+          }
+          items.forEach(function (item, i) {
+            var el;
+            if (opts.mode === 'list') {
+              el = document.createElement('li');
+              var a = document.createElement('a');
+              a.href = item.href;
+              a.textContent = item.name;
+              el.appendChild(a);
+            } else {
+              el = document.createElement('a');
+              el.href = item.href;
+              el.textContent = item.name;
+            }
+            if (i >= preview) el.classList.add('expand-only');
+            root.appendChild(el);
+          });
+          var hidden = Math.max(0, items.length - preview);
+          if (hidden > 0) {
+            moreBtn.hidden = false;
+            function showMoreLabel() {
+              return 'Show remaining ' + hidden + ' ' + opts.noun;
+            }
+            moreBtn.textContent = showMoreLabel();
+            moreBtn.addEventListener('click', function () {
+              var expanded = !root.classList.contains('is-collapsed');
+              if (expanded) {
+                root.classList.add('is-collapsed');
+                moreBtn.textContent = showMoreLabel();
+                if (countLabel) {
+                  countLabel.textContent = '(' + items.length + ', showing ' + preview + ')';
+                }
+              } else {
+                root.classList.remove('is-collapsed');
+                moreBtn.textContent = 'Show less';
+                if (countLabel) {
+                  countLabel.textContent = '(' + items.length + ', showing all)';
+                }
+              }
+            });
+          }
+        });
+    }
+
+    setupExpandableList({ key: 'services', rootId: 'svc-list', moreId: 'svc-more', countLabelId: 'svc-count-label', preview: SVC_PREVIEW, noun: 'services', mode: 'list' });
+    setupExpandableList({ key: 'categories', rootId: 'cat-row', moreId: 'cat-more', countLabelId: 'cat-count-label', preview: CAT_PREVIEW, noun: 'categories', mode: 'tags' });
+  </script>
+</body>
+</html>

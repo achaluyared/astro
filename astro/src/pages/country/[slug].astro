@@ -1,0 +1,11 @@
+---
+import TermArchive from '../../components/TermArchive.astro';
+import { termsWithProfiles } from '../../lib/data';
+
+export function getStaticPaths() {
+  return termsWithProfiles('country').map((term) => ({ params: { slug: term.slug }, props: { term } }));
+}
+const { term } = Astro.props;
+---
+
+<TermArchive tax="country" term={term} />

@@ -1,0 +1,36 @@
+---
+import HomeHeroVip from './HomeHeroVip.astro';
+import FeaturedEscortsSlider from '../FeaturedEscortsSlider.astro';
+import HomeJoinVip from './HomeJoinVip.astro';
+import HomeSeoVip from './HomeSeoVip.astro';
+import ProfileSection from '../ProfileSection.astro';
+import { sortProfiles, profiles, featuredProfiles, isSponsored, isOnHomepage } from '../../lib/data';
+
+const featured = featuredProfiles();
+const sponsored = sortProfiles(profiles.filter(isSponsored));
+const homepage = sortProfiles(profiles.filter(isOnHomepage));
+---
+
+<HomeHeroVip />
+
+<FeaturedEscortsSlider profiles={featured} context="home" />
+
+<ProfileSection
+  title="Premium"
+  subtitle="Sponsored premium escorts in Addis Ababa — top visibility on Addis VIP Girls"
+  description="Meet independent escorts on our sponsored premium tier: highly requested companions with maximum exposure in search results and on the home page."
+  profiles={sponsored}
+  homeSection="sponsored"
+/>
+
+<HomeJoinVip />
+
+<ProfileSection
+  title="Homepage escorts"
+  subtitle="Homepage spotlight escorts — curated Addis Ababa companions on our directory front page"
+  description="Discover escorts featured on the Addis VIP homepage: selected Habesha and international companions offering authentic charm and premium service. For the full directory, use Search in the menu."
+  profiles={homepage}
+  homeSection="homepage"
+/>
+
+<HomeSeoVip />

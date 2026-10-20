@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="vip">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0d10" />
+  <title>Mockup · Profile · DaisyUI · Samira</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    [data-theme="vip"] {
+      color-scheme: dark;
+      --p: 38 52% 57%;
+      --pc: 35 74% 7%;
+      --s: 42 68% 71%;
+      --sc: 35 74% 7%;
+      --a: 43 86% 55%;
+      --ac: 35 74% 7%;
+      --n: 280 8% 16%;
+      --nc: 300 8% 93%;
+      --b1: 280 12% 6%;
+      --b2: 280 8% 11%;
+      --b3: 280 7% 17%;
+      --bc: 300 8% 93%;
+      --su: 142 45% 42%;
+      --rounded-box: 0.875rem;
+      --rounded-btn: 0.75rem;
+    }
+    .font-serif { font-family: Georgia, 'Times New Roman', serif; }
+    .max-w-site { max-width: 1180px; }
+    .mockup-bar { background: #2a2418; border-bottom: 1px solid hsl(var(--p)); }
+    .gallery-full-bleed { margin-left: -1rem; margin-right: -1rem; width: calc(100% + 2rem); }
+    @media (min-width: 1024px) {
+      .gallery-full-bleed { margin: 0; width: 100%; border-radius: var(--rounded-box); overflow: hidden; }
+    }
+  </style>
+</head>
+<body class="bg-base-100 pb-24 text-base-content lg:pb-8">
+
+  <div class="mockup-bar px-4 py-2 text-center text-xs text-secondary">
+    <strong class="text-base-content">Profile · DaisyUI</strong>
+    · <a href="/mockups/daisyui-proposal.html" class="link link-primary">Home mockup</a>
+    · <a href="/mockups/tailwind-proposal-profile.html" class="link">Tailwind profile</a>
+    · <a href="/escort/samira/" class="link">Live profile</a>
+  </div>
+
+  <div class="navbar border-b border-base-300 bg-base-200 px-2">
+    <div class="mx-auto flex w-full max-w-site">
+      <a href="/" class="btn btn-ghost normal-case font-serif text-lg">Addis <span class="text-accent">VIP</span> Escorts</a>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-site px-4 pt-3">
+    <div class="breadcrumbs text-sm opacity-70">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/country/addis-ababa/">Addis Ababa</a></li>
+        <li>Samira</li>
+      </ul>
+    </div>
+
+    <div class="lg:grid lg:grid-cols-[1fr_320px] lg:gap-8 lg:items-start">
+      <div class="min-w-0">
+        <!-- Gallery -->
+        <section class="gallery-full-bleed border-base-300 bg-[#080709] lg:border">
+          <div class="relative aspect-[3/4] max-h-[78vh] bg-neutral lg:max-h-[620px]">
+            <img id="hero" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=960&h=1200&fit=crop" alt="Samira" class="h-full w-full object-cover" />
+            <div class="badge badge-neutral absolute bottom-3 right-3 gap-0 border-0 bg-black/55 text-white" id="counter">1 / 4</div>
+            <button type="button" class="btn btn-circle btn-sm absolute left-2 top-1/2 -translate-y-1/2 border-0 bg-black/50 text-white" id="prev">‹</button>
+            <button type="button" class="btn btn-circle btn-sm absolute right-2 top-1/2 -translate-y-1/2 border-0 bg-black/50 text-white" id="next">›</button>
+          </div>
+          <div class="flex gap-2 overflow-x-auto p-3" id="thumbs"></div>
+        </section>
+
+        <header class="pt-4 lg:hidden">
+          <h1 class="font-serif text-3xl font-bold">Samira</h1>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <span class="badge badge-primary">Featured</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <p class="mt-2 text-sm opacity-70">24 yrs · 168 cm · Bole · Habesha</p>
+        </header>
+
+        <!-- Tabs (DaisyUI) — mobile primary; desktop show all panels stacked -->
+        <div role="tablist" class="tabs tabs-boxed mt-4 overflow-x-auto bg-base-200 p-1 lg:hidden">
+          <button type="button" role="tab" class="tab tab-active" data-tab="about">About</button>
+          <button type="button" role="tab" class="tab" data-tab="details">Details</button>
+          <button type="button" role="tab" class="tab" data-tab="services">Services</button>
+          <button type="button" role="tab" class="tab" data-tab="categories">Categories</button>
+        </div>
+
+        <div class="mt-4 space-y-4">
+          <div class="card border border-base-300 bg-base-200 tab-panel" data-panel="about">
+            <div class="card-body">
+              <h2 class="card-title border-l-4 border-primary pl-2 font-serif text-lg">About</h2>
+              <p class="text-sm leading-relaxed opacity-85">
+                Sophisticated companion in Addis Ababa — GFE, discreet outcall &amp; incall, dinner dates, travel. Chemistry, elegance, privacy in Bole.
+              </p>
+            </div>
+          </div>
+
+          <div class="card border border-base-300 bg-base-200 tab-panel hidden lg:block" data-panel="details">
+            <div class="card-body">
+              <h2 class="card-title border-l-4 border-primary pl-2 font-serif text-lg">Details</h2>
+              <div class="stats stats-vertical bg-base-100 shadow sm:stats-horizontal">
+                <div class="stat place-items-center px-4 py-3">
+                  <div class="stat-title text-xs">Gender</div>
+                  <div class="stat-value text-sm text-primary">Female</div>
+                </div>
+                <div class="stat place-items-center px-4 py-3">
+                  <div class="stat-title text-xs">Ethnicity</div>
+                  <div class="stat-value text-sm">Habesha</div>
+                </div>
+                <div class="stat place-items-center px-4 py-3">
+                  <div class="stat-title text-xs">Height</div>
+                  <div class="stat-value text-sm">168 cm</div>
+                </div>
+              </div>
+              <h3 class="mt-4 font-serif font-semibold">Rates</h3>
+              <div class="mt-2 flex gap-2 overflow-x-auto pb-1">
+                <div class="card card-compact min-w-[130px] bg-base-100 shadow">
+                  <div class="card-body items-center p-3 text-center">
+                    <p class="text-xs opacity-60">1h incall</p>
+                    <p class="font-serif text-lg text-primary">3,500</p>
+                  </div>
+                </div>
+                <div class="card card-compact min-w-[130px] bg-base-100 shadow">
+                  <div class="card-body items-center p-3 text-center">
+                    <p class="text-xs opacity-60">1h outcall</p>
+                    <p class="font-serif text-lg text-primary">4,000</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card border border-base-300 bg-base-200 tab-panel hidden lg:block" data-panel="services">
+            <div class="card-body">
+              <h2 class="card-title border-l-4 border-primary pl-2 font-serif text-lg">Services</h2>
+              <div class="flex flex-wrap gap-2">
+                <a class="badge badge-outline badge-lg hover:border-primary">GFE</a>
+                <a class="badge badge-outline badge-lg">Massage</a>
+                <a class="badge badge-outline badge-lg">Outcall</a>
+                <a class="badge badge-outline badge-lg">Dinner date</a>
+                <a class="badge badge-outline badge-lg">Travel</a>
+              </div>
+              <button type="button" class="btn btn-ghost btn-xs mt-2 text-primary">ALL SERVICES +</button>
+            </div>
+          </div>
+
+          <div class="card border border-base-300 bg-base-200 tab-panel hidden lg:block" data-panel="categories">
+            <div class="card-body">
+              <h2 class="card-title border-l-4 border-primary pl-2 font-serif text-lg">Categories</h2>
+              <div class="flex flex-wrap gap-2">
+                <a class="badge badge-primary badge-lg">Bole</a>
+                <a class="badge badge-outline badge-lg">VIP escorts</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="mt-10">
+          <h2 class="font-serif text-xl font-bold">You may also like</h2>
+          <div class="carousel carousel-center mt-3 gap-3 rounded-box p-1">
+            <div class="carousel-item w-36">
+              <div class="card card-compact w-full bg-base-200 shadow">
+                <figure class="aspect-[3/4]"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=280&h=373&fit=crop" class="object-cover" alt="" /></figure>
+                <div class="card-body p-2"><p class="text-sm font-medium">Liya</p></div>
+              </div>
+            </div>
+            <div class="carousel-item w-36">
+              <div class="card card-compact w-full bg-base-200 shadow opacity-50">
+                <figure class="aspect-[3/4] bg-neutral"></figure>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Desktop sidebar -->
+      <aside class="hidden lg:block lg:sticky lg:top-4">
+        <h1 class="font-serif text-3xl font-bold">Samira</h1>
+        <div class="mt-2 flex gap-2">
+          <span class="badge badge-primary">Featured</span>
+          <span class="badge badge-success">Verified</span>
+        </div>
+        <p class="mt-2 text-sm opacity-70">24 yrs · Bole</p>
+        <div class="mt-6 flex flex-col gap-2">
+          <a href="tel:" class="btn btn-outline btn-primary">Call</a>
+          <a href="#" class="btn border-none bg-[#25D366] text-[#052a12]">WhatsApp</a>
+          <div class="grid grid-cols-3 gap-2">
+            <a class="btn btn-sm btn-ghost">Telegram</a>
+            <a class="btn btn-sm btn-ghost">Instagram</a>
+            <label for="contact-modal" class="btn btn-sm btn-ghost">More</label>
+          </div>
+        </div>
+        <div class="alert mt-6 border border-dashed border-base-300 bg-base-200 text-xs">
+          <span><strong class="text-primary">DaisyUI:</strong> <code>tabs</code>, <code>modal</code>, <code>badge</code>, <code>btn</code> — all in Astro HTML.</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Mobile dock -->
+  <div class="btm-nav btm-nav-md border-t border-base-300 bg-base-200/95 backdrop-blur lg:hidden">
+    <a href="tel:" class="text-primary">
+      <span class="text-xs font-bold">Call</span>
+    </a>
+    <a href="#" class="border-none bg-[#25D366] text-[#052a12]">
+      <span class="text-xs font-bold">WhatsApp</span>
+    </a>
+    <label for="contact-modal" class="opacity-80">
+      <span class="text-xs">More</span>
+    </label>
+  </div>
+
+  <!-- Contact sheet = modal -->
+  <input type="checkbox" id="contact-modal" class="modal-toggle" />
+  <div class="modal modal-bottom sm:modal-middle" role="dialog">
+    <div class="modal-box border border-base-300 bg-base-200">
+      <h3 class="font-serif text-lg font-bold">Contact &amp; social</h3>
+      <ul class="menu mt-3 rounded-box bg-base-100 p-0">
+        <li><a class="py-3">Telegram</a></li>
+        <li><a class="py-3">Instagram</a></li>
+        <li><a class="py-3">TikTok</a></li>
+      </ul>
+      <div class="modal-action">
+        <label for="contact-modal" class="btn">Close</label>
+      </div>
+    </div>
+    <label class="modal-backdrop" for="contact-modal"></label>
+  </div>
+
+  <script>
+    const photos = [
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=960&h=1200&fit=crop',
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=960&h=1200&fit=crop',
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=960&h=1200&fit=crop',
+      'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=960&h=1200&fit=crop',
+    ];
+    let i = 0;
+    const hero = document.getElementById('hero');
+    const counter = document.getElementById('counter');
+    const thumbs = document.getElementById('thumbs');
+    photos.forEach((src, j) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn btn-square btn-sm h-16 w-16 shrink-0 overflow-hidden p-0' + (j === 0 ? ' ring ring-primary' : '');
+      b.innerHTML = '<img src="' + src.replace('960', '128') + '" class="h-full w-full object-cover" alt="" />';
+      b.onclick = () => go(j);
+      thumbs.appendChild(b);
+    });
+    function go(j) {
+      i = (j + photos.length) % photos.length;
+      hero.src = photos[i];
+      counter.textContent = i + 1 + ' / ' + photos.length;
+      thumbs.querySelectorAll('button').forEach((b, k) => b.classList.toggle('ring', k === i), b.classList.toggle('ring-primary', k === i));
+    }
+    document.getElementById('prev').onclick = () => go(i - 1);
+    document.getElementById('next').onclick = () => go(i + 1);
+
+    document.querySelectorAll('[role="tab"]').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const id = tab.getAttribute('data-tab');
+        document.querySelectorAll('[role="tab"]').forEach((t) => t.classList.toggle('tab-active', t === tab));
+        document.querySelectorAll('.tab-panel').forEach((p) => {
+          if (window.matchMedia('(min-width: 1024px)').matches) return;
+          p.classList.toggle('hidden', p.getAttribute('data-panel') !== id);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

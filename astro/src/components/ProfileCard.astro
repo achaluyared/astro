@@ -1,0 +1,109 @@
+---
+import Photo from './Photo.astro';
+import { brand } from '../brand';
+import { cityFilterKey } from '../lib/search';
+import { primaryImage } from '../lib/images';
+import { isFeatured, isNewlyPublished, isSponsored, listingTierExclusive, type Profile } from '../lib/data';
+import {
+  photoBadgeLabelForProfile,
+  profileHasVerifiedBadge,
+  profilePhotoBadges,
+  type PhotoBadgeKind,
+} from '../lib/badges';
+
+interface Props {
+  profile: Profile;
+  eager?: boolean;
+  /** Home section tint (VIP only). */
+  homeSection?: 'sponsored' | 'featured' | 'homepage';
+}
+const { profile: p, eager = false, homeSection } = Astro.props;
+const isVip = brand.id === 'vip';
+const img = primaryImage(p);
+const featured = isFeatured(p);
+const sponsored = isSponsored(p);
+const isNew = isNewlyPublished(p);
+const photoBadges = isVip ? profilePhotoBadges(p) : [];
+const badgeClass = (kind: PhotoBadgeKind) =>
+  ({
+    verified: 'badge-verified',
+    gold: 'badge-gold',
+    vip: 'badge-vip',
+    new: 'badge-new',
+  })[kind];
+const listingTier = listingTierExclusive(p);
+const cityKey = cityFilterKey(p);
+const locationLabel = [p.age ? `${p.age} yrs` : null, p.location.city ?? p.location.state].filter(Boolean).join(' · ');
+const escortPlace = p.location.city ?? 'Ethiopia';
+---
+
+<article
+  class:list={[
+    'card group',
+    isVip
+      ? ['card-cinematic', homeSection && `card-cinematic--${homeSection}`]
+      : 'overflow-hidden rounded-vip border border-vip-line bg-vip-panel transition hover:border-vip-gold/45 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)]',
+  ]}
+  data-slug={p.slug}
+  data-name={p.title.toLowerCase()}
+  data-age={p.age ?? ''}
+  data-city={cityKey}
+  data-verified={isVip ? (profileHasVerifiedBadge(p) ? '1' : '0') : p.flags.verified ? '1' : '0'}
+  data-featured={featured ? '1' : '0'}
+  data-sponsored={sponsored ? '1' : '0'}
+  data-new={isNew ? '1' : '0'}
+  data-listing-tier={listingTier}
+>
+  <a class="block text-inherit no-underline hover:no-underline" href={p.path} data-astro-prefetch="hover">
+    {
+      isVip ? (
+        <div class="ph card-cinematic-ph relative aspect-[3/4] overflow-hidden rounded-vip bg-vip-panel">
+          {img && (
+            <Photo
+              file={img.file}
+              alt={`${p.title} - escort in ${escortPlace}`}
+              loading={eager ? 'eager' : 'lazy'}
+              class="card-cinematic-img h-full w-full object-cover object-center"
+            />
+          )}
+          <div class="card-cinematic-grad" aria-hidden="true" />
+          <div class="badges">
+            {photoBadges.map((kind) => (
+              <span class:list={['badge', badgeClass(kind)]}>{photoBadgeLabelForProfile(p, kind)}</span>
+            ))}
+          </div>
+          <div class="card-cinematic-caption">
+            <h3 class="m-0 truncate font-serif text-[1.05rem] font-semibold text-[var(--text)]">{p.title}</h3>
+            {locationLabel && <div class="meta mt-0.5 text-sm">{locationLabel}</div>}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div class="ph relative aspect-[3/4] bg-[#231f26]">
+            {img && (
+              <Photo
+                file={img.file}
+                alt={`${p.title} - escort in ${escortPlace}`}
+                loading={eager ? 'eager' : 'lazy'}
+                class="h-full w-full object-cover object-center"
+              />
+            )}
+            <div class="badges">
+              {!isVip && featured && <span class="badge badge-featured">Featured</span>}
+              {!isVip && p.flags.verified && <span class="badge badge-verified">Verified</span>}
+              {!isVip && isNew && <span class="badge badge-new">New</span>}
+              {isVip &&
+                photoBadges.map((kind) => (
+                  <span class:list={['badge', badgeClass(kind)]}>{photoBadgeLabelForProfile(p, kind)}</span>
+                ))}
+            </div>
+          </div>
+          <div class="body px-3 py-2.5 pb-3.5">
+            <h3 class="m-0 truncate font-serif text-[1.05rem] font-semibold">{p.title}</h3>
+            {locationLabel && <div class="meta mt-0.5 text-sm text-vip-muted">{locationLabel}</div>}
+          </div>
+        </>
+      )
+    }
+  </a>
+</article>

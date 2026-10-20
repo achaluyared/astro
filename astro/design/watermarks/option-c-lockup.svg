@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-label="Addis VIP Escorts watermark">
+  <!-- Option C: Monogram + stacked title/domain — brand mark above text block -->
+  <circle cx="240" cy="52" r="36" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.95"/>
+  <circle cx="240" cy="52" r="36" fill="none" stroke="#d4a574" stroke-width="1" opacity="0.8"/>
+  <path
+    fill="#ffffff"
+    d="M240 28 252.4 68h-4.7l-2.1-6.7h-7.2L236.3 68h-4.7L240 28Zm0 13.7-2.7 8.6h5.4L240 41.7Z"
+  />
+  <rect x="48" y="98" width="384" height="118" rx="14" fill="#0f0e0d" fill-opacity="0.28" stroke="#d4a574" stroke-width="1" stroke-opacity="0.35"/>
+  <text
+    x="240"
+    y="148"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="32"
+    font-weight="600"
+    fill="#ffffff"
+  >Addis <tspan fill="#ecd0b0" font-weight="700">VIP</tspan> Escorts</text>
+  <text
+    x="240"
+    y="148"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="32"
+    font-weight="600"
+    fill="none"
+    stroke="#1a1410"
+    stroke-width="2"
+    opacity="0.35"
+    paint-order="stroke fill"
+  >Addis VIP Escorts</text>
+  <text
+    x="240"
+    y="188"
+    text-anchor="middle"
+    font-family="system-ui, sans-serif"
+    font-size="17"
+    font-weight="600"
+    letter-spacing="0.24em"
+    fill="#d4a574"
+  >ADDISVIPGIRLS.COM</text>
+</svg>

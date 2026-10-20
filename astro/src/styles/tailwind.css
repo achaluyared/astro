@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+
+/* Theme utilities follow :root tokens from src/styles/brands/{BRAND}.css */
+@theme {
+  --color-vip-bg: var(--bg);
+  --color-vip-panel: var(--panel);
+  --color-vip-panel-deep: var(--panel-deep);
+  --color-vip-line: var(--line);
+  --color-vip-text: var(--text);
+  --color-vip-muted: var(--muted);
+  --color-vip-gold: var(--gold);
+  --color-vip-gold-light: var(--gold-2);
+  --color-vip-brand: var(--brand-gold);
+
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --radius-vip: 14px;
+  --width-site: 1180px;
+  --max-width-site: 1180px;
+}
+
+@utility max-w-site {
+  max-width: var(--max-width-site);
+}
+
+@utility rounded-vip {
+  border-radius: var(--radius-vip);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .profile-tab {
+    @apply min-h-11 shrink-0 cursor-pointer rounded-full border border-vip-line bg-vip-panel px-4 py-2 text-sm font-semibold text-vip-muted;
+  }
+  .profile-tab.active {
+    @apply border-vip-gold bg-vip-gold text-[#1b1305];
+  }
+  .profile-tabs[hidden] {
+    display: none;
+  }
+}

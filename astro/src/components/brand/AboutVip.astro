@@ -1,0 +1,416 @@
+---
+/** About page body — addisvipgirls.com */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+const publicRoot = join(process.cwd(), 'public');
+const hasHero = existsSync(join(publicRoot, 'images/about/hero.jpg'));
+const hasPlatform = existsSync(join(publicRoot, 'images/about/platform.jpg'));
+const hasTrust = existsSync(join(publicRoot, 'images/about/trust.jpg'));
+---
+
+<article class="about-page pb-14">
+  <header class="about-hero">
+    <p class="about-kicker">About us</p>
+    <h1 class="about-title">About Addis VIP Escorts</h1>
+    <p class="about-sub">Your Trusted Gateway to Elite Ethiopian Companionship</p>
+    <div class="about-lead prose">
+      <p>
+        At Addis VIP Escorts, we've redefined luxury companionship in Ethiopia's capital since 2024. As Addis Ababa's
+        most exclusive connection service, we bridge the gap between discerning gentlemen and the city's finest verified
+        independent escorts through our premium digital directory.
+      </p>
+    </div>
+    {
+      hasHero && (
+        <figure class="about-hero-media">
+          <img
+            src="/images/about/hero.jpg"
+            alt="Addis Ababa skyline at night — premium companionship directory"
+            width="1200"
+            height="675"
+            loading="eager"
+            decoding="async"
+          />
+        </figure>
+      )
+    }
+  </header>
+
+  <section class="about-stats" aria-label="Platform highlights">
+    <div class="about-stat">
+      <strong>50,000</strong>
+      <span>Customers Worldwide</span>
+    </div>
+    <div class="about-stat">
+      <strong>32,472</strong>
+      <span>Satisfied Customers</span>
+    </div>
+    <div class="about-stat">
+      <strong>10</strong>
+      <span>Years Experience</span>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <h2 class="section-title">Why We're Different</h2>
+    <p class="section-intro">Unlike traditional agencies, our platform empowers:</p>
+
+    <div class="about-cards">
+      <div class="about-card">
+        <h3>Clients</h3>
+        <p>Direct access to 100+ independent escort professionals with transparent reviews.</p>
+      </div>
+      <div class="about-card">
+        <h3>Companions</h3>
+        <p>Full control over their schedules, services, and clientele.</p>
+      </div>
+      <div class="about-card about-card--wide">
+        <h3>No Middleman Markups</h3>
+        <p>Direct companion relationships with transparent pricing and no hidden fees.</p>
+      </div>
+    </div>
+
+    {
+      hasPlatform && (
+        <figure class="about-inline-media">
+          <img
+            src="/images/about/platform.jpg"
+            alt="Illustration representing direct connections on the Addis VIP Escorts platform"
+            width="800"
+            height="450"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      )
+    }
+  </section>
+
+  <section class="about-panel">
+    <div class="about-panel-inner">
+      <div class="about-panel-copy">
+        <h2 class="section-title section-title--left">Safety &amp; Legality</h2>
+        <div class="prose">
+          <p>
+            Addis VIP Escorts operates as a professional networking platform. All relationships between consenting adults
+            are private arrangements. We strictly prohibit illegal activities and enforce:
+          </p>
+          <ul>
+            <li>Mandatory ID verification</li>
+            <li>Client screening tools</li>
+            <li>Anonymous feedback system</li>
+          </ul>
+        </div>
+      </div>
+      {
+        hasTrust && (
+          <figure class="about-panel-media">
+            <img
+              src="/images/about/trust.jpg"
+              alt="Discreet luxury setting representing safety and professionalism"
+              width="800"
+              height="1067"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        )
+      }
+    </div>
+  </section>
+
+  <div class="about-cta">
+    <a class="btn primary" href="/search/">Start Search</a>
+  </div>
+</article>
+
+<style>
+  .about-page {
+    width: 100%;
+    max-width: 52rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-kicker {
+    margin: 0 0 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .about-title {
+    margin: 0 0 0.65rem;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.85rem, 5vw, 2.65rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--text);
+  }
+
+  .about-sub {
+    margin: 0 0 1.25rem;
+    font-size: 1.05rem;
+    color: var(--gold-2);
+  }
+
+  .about-lead {
+    max-width: 42rem;
+    margin: 0 auto 1.75rem;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .about-lead p {
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .about-hero-media {
+    margin: 0 auto;
+    max-width: 44rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(145deg, #352922 0%, var(--panel-2) 55%, var(--panel) 100%);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.4);
+  }
+
+  .about-hero-media img,
+  .about-inline-media img,
+  .about-panel-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2.75rem;
+  }
+
+  @media (max-width: 540px) {
+    .about-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .about-stat {
+    padding: 1.1rem 0.75rem;
+    text-align: center;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .about-stat strong {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 2rem);
+    font-weight: 600;
+    color: var(--gold-2);
+    line-height: 1.1;
+  }
+
+  .about-stat span {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .about-section {
+    margin-bottom: 2.75rem;
+    text-align: center;
+  }
+
+  .about-page .section-title {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    border: 0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .about-page .section-title::after {
+    content: '';
+    display: block;
+    width: 2.75rem;
+    height: 2px;
+    margin: 0.55rem auto 0;
+    background: var(--gold);
+  }
+
+  .about-page .section-title--left {
+    text-align: left;
+  }
+
+  .about-page .section-title--left::after {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .section-intro {
+    margin: 0 auto 1.35rem;
+    max-width: 32rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .about-cards {
+    display: grid;
+    gap: 0.75rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .about-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .about-card--wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .about-card {
+    padding: 1.15rem 1.2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .about-card h3 {
+    margin: 0 0 0.45rem;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold-2);
+  }
+
+  .about-card p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .about-inline-media {
+    margin: 0 auto;
+    max-width: 36rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(145deg, #352922 0%, var(--panel) 100%);
+  }
+
+  .about-panel {
+    margin-bottom: 2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-panel {
+      padding: 1.5rem 1.75rem;
+    }
+  }
+
+  .about-panel-inner {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .about-panel-inner:has(.about-panel-media) {
+      grid-template-columns: 1fr minmax(220px, 42%);
+      gap: 2rem;
+    }
+  }
+
+  .about-panel-copy {
+    text-align: left;
+  }
+
+  .about-panel-copy .prose {
+    color: var(--muted);
+  }
+
+  .about-panel-copy .prose p {
+    margin: 0 0 0.75rem;
+  }
+
+  .about-panel-copy .prose ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    list-style: disc;
+  }
+
+  .about-panel-copy .prose li {
+    margin: 0.35rem 0;
+    color: var(--muted);
+  }
+
+  .about-panel-media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: calc(var(--radius) - 2px);
+    border: 1px solid var(--line);
+    aspect-ratio: 4 / 5;
+    max-height: 420px;
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+  }
+
+  @media (min-width: 900px) {
+    .about-panel-media {
+      max-height: none;
+      aspect-ratio: 3 / 4;
+    }
+  }
+
+  .about-page .prose {
+    max-width: none;
+  }
+
+  .about-cta {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5rem;
+  }
+
+  .about-cta .btn.primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--gold);
+    background: var(--gold);
+    color: #1a1208;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .about-cta .btn.primary:hover {
+    text-decoration: none;
+    filter: brightness(1.08);
+  }
+</style>

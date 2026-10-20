@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import FeaturedEscortsSlider from '../components/FeaturedEscortsSlider.astro';
+import ProfileGrid from '../components/ProfileGrid.astro';
+import { brand } from '../brand';
+import { featuredProfiles, sortedProfiles } from '../lib/data';
+import { pageTitle } from '../lib/seo';
+
+const featured = brand.id === 'vip' ? featuredProfiles() : [];
+---
+
+<!-- Replaces the old /?s= WordPress search. Filtering runs in the browser; the page itself is not indexed. -->
+<Base
+  title={pageTitle('Search')}
+  description="Search verified profiles by name, location, age, and filters. This tool page is not indexed."
+  path="/search/"
+  noindex
+>
+  <h1>Search</h1>
+  {brand.id === 'vip' && <FeaturedEscortsSlider profiles={featured} context="search" class="my-8" />}
+  <ProfileGrid profiles={sortedProfiles} shuffleTiers />
+</Base>

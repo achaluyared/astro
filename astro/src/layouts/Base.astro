@@ -1,0 +1,139 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import { brand } from '../brand';
+if (brand.id === 'vip') {
+  await import('../styles/brands/vip.css');
+} else {
+  await import('../styles/brands/massage.css');
+}
+import '../styles/global.css';
+import '../styles/tailwind.css';
+import 'glightbox/dist/css/glightbox.css';
+import '../styles/glightbox-overrides.css';
+import AgeGate from '../components/AgeGate.astro';
+import Logo from '../components/Logo.astro';
+import SiteNav from '../components/SiteNav.astro';
+import { menus, menuHref } from '../lib/data';
+import { AGE_GATE_EXEMPT_PATHS, pagePath } from '../lib/pages';
+import { SITE_NAME } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Site-relative path used for the canonical URL, e.g. /escort/solana/ */
+  path: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: object[];
+  linkPrev?: string;
+  linkNext?: string;
+}
+const {
+  title,
+  description,
+  path,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+  jsonLd = [],
+  linkPrev,
+  linkNext,
+} = Astro.props;
+const canonical = new URL(path, Astro.site).href;
+const ogSrc = ogImage ?? brand.defaultOgImage;
+const og = ogSrc ? new URL(ogSrc, Astro.site).href : undefined;
+const preloadHero = path === '/' && brand.defaultOgImage?.includes('/images/home/');
+
+const footer = (menus['footermenu_en_US']?.items ?? []).map((i) => ({ ...i, ...menuHref(i.url) }));
+const termsHref = pagePath('terms');
+const privacyHref = pagePath('privacy');
+const skipAgeGate = AGE_GATE_EXEMPT_PATHS.has(path);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex, nofollow'
+        : 'follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large'}
+    />
+    <link rel="canonical" href={canonical} />
+    {linkPrev && <link rel="prev" href={new URL(linkPrev, Astro.site).href} />}
+    {linkNext && <link rel="next" href={new URL(linkNext, Astro.site).href} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    {
+      preloadHero && brand.defaultOgImage && (
+        <link rel="preload" as="image" href={brand.defaultOgImage} fetchpriority="high" />
+      )
+    }
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    {og && <meta property="og:image" content={og} />}
+    <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
+    {og && <meta name="twitter:image" content={og} />}
+    {jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen bg-vip-bg font-sans text-vip-text antialiased">
+    <a
+      class="skip-link absolute left-[-9999px] top-0 z-[100] rounded-br-lg bg-vip-gold px-4 py-3 font-bold text-[#1b1305] focus:left-0"
+      href="#site-main"
+    >
+      Skip to main content
+    </a>
+    <AgeGate skip={skipAgeGate} />
+    <header class="sticky top-0 z-40 border-b border-vip-line bg-vip-panel-deep">
+      <div class="wrap relative flex min-h-14 items-center justify-between gap-3 md:min-h-16 md:gap-4">
+        <Logo />
+        <SiteNav />
+      </div>
+    </header>
+    <main id="site-main" class="wrap max-w-site">
+      <slot />
+    </main>
+    <footer class="mt-16 border-t border-vip-line py-8 text-sm text-vip-muted">
+      <div class="wrap max-w-site">
+        {
+          footer.length > 0 && (
+            <ul class="mb-4 flex list-none flex-wrap gap-4 p-0">
+              {footer.map((i) => (
+                <li>
+                  <a class="text-vip-gold-light no-underline hover:underline" href={i.href} rel="noopener" target="_blank">
+                    {i.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+        <div>&copy; {new Date().getFullYear()} {SITE_NAME}. Adults only (21+).</div>
+        <div class="mt-1">
+          <a class="text-vip-gold-light no-underline hover:underline" href={termsHref}>Terms</a>
+          {' '}&middot;{' '}
+          <a class="text-vip-gold-light no-underline hover:underline" href={privacyHref}>Privacy</a>
+          {' '}&middot;{' '}
+          <a class="text-vip-gold-light no-underline hover:underline" href="/dmca/">DMCA</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      import '../scripts/mobile-nav.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { brand } from '../brand';
+import { taxonomies } from '../lib/data';
+import { pageTitle, breadcrumbLd } from '../lib/seo';
+
+const t = taxonomies.listing;
+const parents = t.terms.filter((x) => !x.parent);
+---
+
+<Base
+  title={pageTitle('Browse all categories')}
+  description={`Browse all escort listing categories on ${brand.siteName} — dinner companions, travel, and more. Verified profiles in Addis Ababa.`}
+  path="/categories/"
+  jsonLd={[breadcrumbLd(Astro.site!, [{ name: 'Home', path: '/' }, { name: 'Categories', path: '/categories/' }])]}
+>
+  <h1>Categories</h1>
+  {parents.map((p) => (
+    <section>
+      <h2><a href={`/escort-category/${p.slug}/`}>{p.name}</a></h2>
+      <ul class="tags">
+        {t.terms.filter((c) => c.parent === p.id).map((c) => <li><a href={`/escort-category/${c.slug}/`}>{c.name}</a></li>)}
+      </ul>
+    </section>
+  ))}
+</Base>

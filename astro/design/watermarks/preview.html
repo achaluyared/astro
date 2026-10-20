@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Center watermark mockups — Addis VIP</title>
+    <style>
+      :root {
+        --bg: #0f0e0d;
+        --panel: #171412;
+        --gold: #d4a574;
+        --text: #f2ebe6;
+        --muted: #9a9088;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+      .wrap { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+      h1 { font-family: Georgia, serif; font-weight: 600; font-size: 1.75rem; margin: 0 0 0.35rem; }
+      .lead { color: var(--muted); margin: 0 0 1.25rem; max-width: 58ch; }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: var(--panel);
+        border-radius: 12px;
+        border: 1px solid #2a2520;
+      }
+      .controls label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+      input[type="range"] { width: 140px; }
+      .grid {
+        display: grid;
+        gap: 1.25rem;
+      }
+      @media (min-width: 900px) {
+        .grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .card {
+        background: var(--panel);
+        border-radius: 14px;
+        border: 1px solid #2a2520;
+        overflow: hidden;
+      }
+      .card h2 {
+        font-size: 0.82rem;
+        font-weight: 600;
+        margin: 0;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #2a2520;
+        color: var(--gold);
+      }
+      .ph {
+        position: relative;
+        aspect-ratio: 3 / 4;
+        background: #231f26 center / cover no-repeat;
+        background-image: url('../../public/images/home/hero.jpg');
+      }
+      .ph.fallback {
+        background-image: linear-gradient(160deg, #5c4038 0%, #2a2228 40%, #121018 100%);
+      }
+      .wm-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 78%;
+        max-width: 320px;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+      }
+      .wm-center img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .card footer {
+        padding: 0.65rem 1rem 0.85rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      .card footer strong { color: var(--text); font-weight: 600; }
+      .card footer a { color: var(--gold); }
+      .stack-key {
+        margin: 1.5rem 0 0;
+        padding: 1rem 1.1rem;
+        background: var(--panel);
+        border-radius: 12px;
+        border: 1px solid #2a2520;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      .stack-key dt { color: var(--gold); font-weight: 600; margin-top: 0.5rem; }
+      .stack-key dt:first-child { margin-top: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Center watermark mockups</h1>
+      <p class="lead">
+        All three are designed for the         <strong>middle of portrait escort photos</strong>:
+        <strong>site title on top</strong>, <strong>domain below</strong>. Production default: <strong>Option A @ 45%</strong>.
+      </p>
+
+      <div class="controls">
+        <label>
+          Watermark opacity
+          <input type="range" id="opacity" min="10" max="55" value="45" />
+          <span id="opacity-val">45%</span>
+        </label>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h2>Option A — Editorial panel</h2>
+          <div class="ph">
+            <div class="wm-center" data-wm>
+              <img src="option-a-mark-only.svg" alt="" />
+            </div>
+          </div>
+          <footer>
+            <strong>Title:</strong> Addis VIP Escorts<br />
+            <strong>Domain:</strong> ADDISVIPGIRLS.COM<br />
+            <a href="option-a-mark-only.svg">SVG file</a> — soft dark panel + gold rule
+          </footer>
+        </article>
+
+        <article class="card">
+          <h2>Option B — Bold caps</h2>
+          <div class="ph">
+            <div class="wm-center" data-wm>
+              <img src="option-b-wordmark.svg" alt="" />
+            </div>
+          </div>
+          <footer>
+            <strong>Title:</strong> ADDIS VIP ESCORTS<br />
+            <strong>Domain:</strong> addisvipgirls.com<br />
+            <a href="option-b-wordmark.svg">SVG file</a> — no box; outline for contrast
+          </footer>
+        </article>
+
+        <article class="card">
+          <h2>Option C — Mark + card</h2>
+          <div class="ph">
+            <div class="wm-center" data-wm>
+              <img src="option-c-lockup.svg" alt="" />
+            </div>
+          </div>
+          <footer>
+            <strong>Title:</strong> Addis VIP Escorts (gold VIP)<br />
+            <strong>Domain:</strong> ADDISVIPGIRLS.COM<br />
+            <a href="option-c-lockup.svg">SVG file</a> — monogram above rounded card
+          </footer>
+        </article>
+      </div>
+
+      <dl class="stack-key">
+        <dt>Layout (all options)</dt>
+        <dd>Center of image · title line first · domain second · transparent SVG background (panel opacity is in the SVG for A/C).</dd>
+        <dt>Preview</dt>
+        <dd>Double-click <code>preview.html</code> or open from browser: <code>astro/design/watermarks/preview.html</code></dd>
+      </dl>
+    </div>
+    <script>
+      const opacity = document.getElementById('opacity');
+      const opacityVal = document.getElementById('opacity-val');
+      function apply() {
+        const o = opacity.value / 100;
+        opacityVal.textContent = opacity.value + '%';
+        document.querySelectorAll('[data-wm]').forEach((el) => {
+          el.style.opacity = o;
+        });
+      }
+      opacity.addEventListener('input', apply);
+      apply();
+      document.querySelectorAll('.ph').forEach((ph) => {
+        const img = new Image();
+        img.src = '../../public/images/home/hero.jpg';
+        img.onerror = () => ph.classList.add('fallback');
+      });
+    </script>
+  </body>
+</html>
