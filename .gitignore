@@ -1,0 +1,10 @@
+# Private runtime configuration
+.env
+.env.*
+!.env.example
+!.env.server.example
+cpanel-node-environment.txt
+wp-config-snippet.php
+
+# Local process state
+.preview-pid.txt
